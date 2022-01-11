@@ -7,7 +7,7 @@ import { useNavigate, useLocation } from 'react-router';
 
 const Search = ({ showPreloader, setShowPreloader, keyword, from, to, setSearchData }) => {
 
-    const nasaEndpoint = process.env.REACT_APP_NASA_ENDPOINT
+    const nasaEndpoint = 'https://images-api.nasa.gov/'
     // const nasaApiKey = process.env.REACT_APP_NASA_API_KEY // dirty secret
 
     const navigate = useNavigate()
