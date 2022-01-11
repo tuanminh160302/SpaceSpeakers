@@ -1,0 +1,225 @@
+.search {
+    height: 100%;
+    width: 100%;
+    padding-left: 250px;
+    padding-right: 250px;
+    padding-top: 200px;
+
+    .search {
+        width: calc(100% - 200px);
+        margin: 0 100px 0 100px;
+        padding: 70px 150px 100px 150px;
+        height: 50vh;
+        background: black;
+        display: flex;
+        flex-direction: column;
+
+        .key-input {
+            align-self: center;
+            width: 100%;
+            outline: none;
+            color: white;
+            border: 3px solid white;
+            font-size: 1rem;
+            padding: 15px 20px;
+            background: black;
+            margin-bottom: 40px;
+        }
+
+        .year-input {
+            display: flex;
+            flex-direction: row;
+            height: fit-content;
+            width: fit-content;
+            align-items: center;
+            
+            p {
+                color: white;
+                font-size: 1rem;
+                font-weight: 500;
+                margin-right: 10px;
+            }
+
+            input {
+                background: transparent;
+                outline: none;
+                border: none;
+                border-bottom: 2px solid white;
+                color: white;
+                margin-right: 20px;
+                width: 100px;
+                padding-bottom: 5px;
+                text-align: center;
+            }
+        }
+        
+        .submit {
+            width: fit-content;
+            height: fit-content;
+            color: black;
+            background: white;
+            border: none;
+            font-size: 1.3rem;
+            font-weight: 600;
+            padding: 15px 40px;
+            cursor: pointer;
+            margin-top: auto;
+        }
+    }
+
+    .results {
+        padding: 70px 100px 100px 100px;
+        height: fit-content;
+        width: 100%;
+
+        .title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 30px;
+        }
+
+        .preview-container {
+            width: 100%;
+            height: fit-content;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-between;
+
+            .preview {
+                flex-basis: calc(100% / 3 - 12px);
+                border: 1px solid black;
+                margin-bottom: 18px;
+                position: relative;
+
+                &:before {
+                    display: block;
+                    content: '';
+                    padding-top: 100%;
+                }
+
+                .preview-content {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    height: 100%;
+                    width: 100%;
+
+                    .thumbnail {
+                        object-fit: cover;
+                        height: 100%;
+                        width: 100%;
+                        user-select: none;
+                        cursor: pointer;
+                    }
+                }
+            }
+        }
+    }
+
+    .post {
+        position: fixed;
+        height: 100%;
+        width: 100%;
+        z-index: 10000;
+        background: transparent;
+        top: 0;
+        left: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .exit-post {
+            position: absolute;
+            z-index: 1;
+            height: 100%;
+            width: 100%;
+            top: 0;
+            left: 0;
+            background: rgba(0,0,0, .7);
+        }
+
+        .post-container {
+            height: fit-content;
+            max-height: 80vh;
+            overflow-y: auto;
+            width: 70vw;
+            background: white;
+            z-index: 2;
+            display: flex;
+            flex-direction: row;
+            padding: 30px 40px 20px 40px;
+
+            .img-container {
+                height: 100%;
+                width: 55%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+
+                .title {
+                    margin: 0 0 30px 0;
+                    font-size: 1.2rem;
+                    font-weight: 600;
+                }
+
+                .post-img {
+                    max-height: 65vh;
+                    max-width: 100%;
+                    height: auto;
+                    width: auto;
+                    margin-bottom: 20px;
+                }
+
+                .nasa-id {
+                    font-size: .9rem;
+                    font-weight: 500;
+                    margin-bottom: 40px;
+                }
+            }
+
+            .post-content {
+                height: fit-content;
+                width: fit-content;
+                padding-top: 30px;
+                padding-left: 50px;
+
+                .title {
+                    font-size: 1.1rem;
+                    font-weight: 600;
+                    margin-bottom: 10px;
+
+                    &.related {
+                        cursor: pointer;
+                    }
+                }
+
+                .details {
+                    font-size: .9rem;
+                    font-weight: 400;
+                    margin-bottom: 30px;
+                    max-height: 10vh;
+
+                    &.description-details {
+                        max-height: 50vh;
+                        overflow-y: auto;
+                        line-height: 30px;
+                    }
+                }
+
+                .keywords {
+                    width: 100%;
+
+                    .keyword {
+                        display: inline-block;
+                        margin: 5px 10px 5px 0;
+                        padding: 10px 20px;
+                        background: black;
+                        color: white;
+                        cursor: pointer;
+                    }
+                }
+            }
+        }
+    }
+}
