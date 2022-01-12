@@ -24,6 +24,7 @@
         justify-content: space-between;
         height: fit-content;
         width: fit-content;
+        align-items: center;
 
         .nav-item {
             font-weight: 600;
@@ -45,6 +46,53 @@
                 &::after {
                     transform: scaleX(1);
                     transition: .3s;
+                }
+            }
+        }
+
+        .user-nav-container {
+            height: calc(3vh + 4px);
+            width: calc(3vh + 4px);
+            border-radius: 50%;
+            margin-left: 30px;
+            border: 1px solid black;
+            padding: 2px;
+
+            .avt {
+                height: 100%;
+                width: 100%;
+                border-radius: 50%;
+                object-fit: cover;
+                cursor: pointer;
+            }
+
+            .user-nav {
+                position: fixed;
+                right: 0;
+                top: 0;
+                height: 100%;
+                width: 150px;
+                background: black;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                transform: translateX(150px);
+
+                .profile {
+                    height: 100px;
+                    width: 100px;
+                    border-radius: 50%;
+                    margin-top: 30px;
+                    cursor: pointer;
+                }
+
+                .signout {
+                    margin-top: auto;
+                    fill: white;
+                    height: 40px;
+                    width: 40px;
+                    margin-bottom: 50px;
+                    cursor: pointer;
                 }
             }
         }

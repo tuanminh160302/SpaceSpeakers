@@ -1,0 +1,136 @@
+.login {
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    padding: 0 250px 0 250px;
+    align-items: center;
+
+    .login-svg {
+        max-height: 50%;
+        max-width: 50%;
+    }
+
+    .login-form-container {
+        height: 50%;
+        width: 50%;
+        margin-left: 100px;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+
+        .already-signedin {
+            font-size: .9rem;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .login-form {
+            height: fit-content;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+
+            .login-title {
+                font-size: 1.3rem;
+                font-weight: 700;
+                margin-bottom: 40px;
+            }
+
+            .login-prompt {
+                font-size: .9rem;
+                font-weight: 400;
+            }
+
+            .login-input {
+                outline: none;
+                background: white;
+                color: black;
+                font-size: .9rem;
+                font-weight: 300;
+                padding: 10px 0 5px 0;
+                margin-bottom: 30px;
+                border: none;
+                border-bottom: 1px solid black;
+                width: 50%;
+            }
+
+            .login-button {
+                width: fit-content;
+                height: fit-content;
+                font-size: 1rem;
+                font-weight: 500;
+                color: white;
+                background: black;
+                border: none;
+                padding: 12px 20px;
+                cursor: pointer;
+                margin-bottom: 15px;
+            }
+        }
+
+        .signup-form {
+            height: fit-content;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+
+            .signup-title {
+                font-size: 1.3rem;
+                font-weight: 700;
+                margin-bottom: 40px;
+            }
+
+            .signup-prompt {
+                font-size: .9rem;
+                font-weight: 400;
+            }
+
+            .signup-input {
+                outline: none;
+                background: white;
+                color: black;
+                font-size: .9rem;
+                font-weight: 300;
+                padding: 10px 0 5px 0;
+                margin-bottom: 30px;
+                border: none;
+                border-bottom: 1px solid black;
+                width: 50%;
+            }
+
+            .signup-button {
+                width: fit-content;
+                height: fit-content;
+                font-size: 1rem;
+                font-weight: 500;
+                color: white;
+                background: black;
+                border: none;
+                padding: 12px 20px;
+                cursor: pointer;
+                margin-bottom: 15px;
+            }
+        }
+
+        .login-google {
+            width: fit-content;
+            height: fit-content;
+            font-size: 1rem;
+            font-weight: 500;
+            color: white;
+            background: #4285F4;
+            border: none;
+            padding: 12px 20px;
+            cursor: pointer;
+            margin-bottom: 15px;
+        }
+
+        .change-method {
+            font-size: .9rem;
+            font-weight: 400;
+            cursor: pointer;
+        }
+    }
+}
