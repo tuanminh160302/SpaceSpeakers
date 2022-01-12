@@ -174,7 +174,30 @@
                 .nasa-id {
                     font-size: .9rem;
                     font-weight: 500;
-                    margin-bottom: 40px;
+                    margin-bottom: 20px;
+                }
+
+                .interact-svg {
+                    width: 100%;
+                    height: fit-content;
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: center;
+                    align-items: flex-end;
+                    margin-bottom: 20px;
+
+                    .create-svg {
+                        cursor: pointer;
+                        width: auto;
+                        height: 3vh;
+                        margin-right: 10px;
+                    }
+                    
+                    .create-text {
+                        font-size: .9rem;
+                        font-weight: 500;
+                        cursor: pointer;
+                    }
                 }
             }
 
@@ -219,6 +242,75 @@
                         cursor: pointer;
                     }
                 }
+            }
+        }
+    }
+
+    .share-portal-container {
+        position: fixed;
+        height: 100%;
+        width: 100%;
+        z-index: 100000;
+        background: transparent;
+        top: 0;
+        left: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .exit-share-portal {
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, .7)
+        }
+
+        .share-portal {
+            height: 100%;
+            position: absolute;
+            width: 30vw;
+            background: white;
+            right: 0;
+            top: 0;
+            padding: 50px 20px 50px 20px;
+            overflow: auto;
+
+            .share-img {
+                width: auto;
+                height: auto;
+                max-height: 40%;
+                max-width: 100%;
+                margin-bottom: 30px;
+            }
+
+            .caption-prompt {
+                font-size: 1.2rem;
+                font-weight: 600;
+                margin-bottom: 15px;
+            }
+
+            .caption-input {
+                height: 200px;
+                width: 100%;
+                resize: none;
+                border: 1px solid black;
+                padding: 15px 10px;
+                font-size: .9rem;
+                font-weight: 400;
+                margin-bottom: 30px;
+            }
+
+            .share-button {
+                border: none;
+                background: black;
+                color: white;
+                padding: 12px 20px;
+                font-size: 1.1rem;
+                font-weight: 600;
+                cursor: pointer;
+                float: right;
             }
         }
     }

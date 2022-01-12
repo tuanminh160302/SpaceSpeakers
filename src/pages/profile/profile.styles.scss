@@ -1,0 +1,84 @@
+.profile-container {
+    height: 100%;
+    width: 100%;
+    padding-top: 200px;
+    padding-left: 250px;
+    padding-right: 250px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .dashboard {
+        min-height: 35vh;
+        height: fit-content;
+        width: 75%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        background: black;
+        padding: 0 50px;
+        margin-bottom: 50px;
+
+        .user-avt {
+            height: 25vh;
+            width: 25vh;
+            position: relative;
+            border-radius: 50%;
+            margin-right: 30px;
+
+            img {
+                height: 100%;
+                width: 100%;
+                border-radius: 50%;
+                object-fit: cover;
+                top: 0;
+                left: 0;
+            }
+        }
+
+        .user-details {
+            color: white;
+            width: 40%;
+            height: 25vh;
+            overflow: auto;
+            flex-grow: 1;
+            margin-right: 15px;
+
+            .username {
+                font-size: 1.3rem;
+                font-weight: 700;
+                margin-bottom: 20px;
+            }
+            
+            .email-container {
+                display: flex;
+                flex-direction: row;
+                margin-bottom: 5px;
+
+                .email-svg {
+                    fill: white;
+                    margin-right: 5px;
+                }
+
+                .email {
+                    font-size: .9rem;
+                    font-weight: 400;
+                    cursor: pointer;
+                }
+            }
+
+            .bio {
+                font-weight: 200;
+                font-size: .8rem;
+                line-height: 28px;
+            }
+        }
+
+        .user-stats {
+            height: 25vh;
+            width: 20%;
+            background: white;
+            margin-left: auto;
+        }
+    }
+}

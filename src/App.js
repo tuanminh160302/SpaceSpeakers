@@ -8,10 +8,12 @@ import Header from './components/header/header.component';
 import LandingPage from './pages/landing-page/landing-page.component';
 import Search from './pages/search/search.component';
 import Login from './pages/login/login.component'
+import Profile from './pages/profile/profile.component'
 import { showPreloader } from './redux/preloader/show-preloader.actions';
 import { setSearchData } from './redux/searchData/searchData.actions';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { setSignInState } from './redux/signInState/signInState.actions';
+import UserPost from './components/user-post/user-post.component';
 
 
 function App({ showPreloader, setShowPreloader, setSearchData, isSignedIn, setSignInState }) {
@@ -53,6 +55,7 @@ function App({ showPreloader, setShowPreloader, setSearchData, isSignedIn, setSi
         <Route path='/search' element={<Search />}></Route>
         <Route path='/search/:query' element={<Search />}></Route>
         <Route path='/login' element={<Login />}></Route>
+        <Route path='/:username' element={<Profile/>}></Route>
       </Routes>
     </div>
   );

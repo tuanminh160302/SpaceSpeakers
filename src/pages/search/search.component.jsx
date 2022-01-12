@@ -4,6 +4,10 @@ import { connect } from 'react-redux';
 import { showPreloader } from '../../redux/preloader/show-preloader.actions';
 import { setSearchData } from '../../redux/searchData/searchData.actions';
 import { useNavigate, useLocation } from 'react-router';
+import { ReactComponent as CreateSVG } from '../../assets/create.svg'
+import { ReactComponent as TickSVG } from '../../assets/tick.svg'
+import { getAuth } from 'firebase/auth'
+import { uploadUserPost } from '../../firebase/firebase.init';
 
 const Search = ({ showPreloader, setShowPreloader, keyword, from, to, setSearchData }) => {
 
@@ -20,6 +24,9 @@ const Search = ({ showPreloader, setShowPreloader, keyword, from, to, setSearchD
     const [allResults, setAllResults] = useState([])
     const [showPost, setShowPost] = useState(false)
     const [postData, setPostData] = useState(null)
+    const [showSharePortal, setShowSharePortal] = useState(false)
+    const [caption, setCaption] = useState(null)
+    const [successPost, setSuccessPost] = useState(false)
 
     useEffect(() => {
         setTimeout(() => {
@@ -82,6 +89,8 @@ const Search = ({ showPreloader, setShowPreloader, keyword, from, to, setSearchD
     const handleExitViewPost = () => {
         setShowPost(false)
         setPostData(null)
+        setShowSharePortal(false)
+        setSuccessPost(false)
         document.body.style.overflowY = 'visible'
     }
 
@@ -135,6 +144,31 @@ const Search = ({ showPreloader, setShowPreloader, keyword, from, to, setSearchD
         navigate(`/search/${query}`)
     }
 
+    const handleSharePostImg = () => {
+        setShowSharePortal(true)
+    }
+
+    const handleExitSharePortal = () => {
+        setShowSharePortal(false)
+        setCaption(null)
+    }
+
+    const handleTextAreaChange = (e) => {
+        e.preventDefault()
+        setCaption(e.target.value)
+    }
+
+    const handleSharePostAction = async () => {
+        const auth = getAuth()
+        const user = auth.currentUser
+        console.log(postData[2])
+        await uploadUserPost(user, postData[2], caption).then(() => {
+            console.log('successfully uploaded')
+            setSuccessPost(true)
+            handleExitSharePortal()
+        })
+    }
+
     return (
         <div className='search'>
             <form className='search' onSubmit={(e) => { handleSearch(e) }}>
@@ -170,6 +204,19 @@ const Search = ({ showPreloader, setShowPreloader, keyword, from, to, setSearchD
                                 <p className='title'>{postData[0].title}</p>
                                 <img className='post-img' src={postData[2]} alt="" />
                                 <p className='nasa-id'>{`Nasa ID: ${postData[0].nasa_id}`}</p>
+                                <div className='interact-svg'>
+                                    {
+                                        !successPost ?
+                                            <>
+                                                <CreateSVG className='create-svg' onClick={() => { handleSharePostImg() }} />
+                                                <p className='create-text' onClick={() => { handleSharePostImg() }} >Click here to share this to your profile</p>
+                                            </> :
+                                            <>
+                                                <TickSVG className='create-svg' />
+                                                <p className='create-text'>Succesfully posted to your profile</p>
+                                            </>
+                                    }
+                                </div>
                             </div>
                             <div className='post-content'>
                                 <p className='title'>Description</p>
@@ -182,13 +229,27 @@ const Search = ({ showPreloader, setShowPreloader, keyword, from, to, setSearchD
                                 {postData[0].keywords ? <div className='keywords'>{
                                     postData[0].keywords.map((keyword, index) => {
                                         return (
-                                            <p key={index} className='keyword' onClick={(e) => {handleRelatedSearch(e)}}>{keyword}</p>
+                                            <p key={index} className='keyword' onClick={(e) => { handleRelatedSearch(e) }}>{keyword}</p>
                                         )
                                     })
                                 }</div> : <p className='details'>None</p>}
                             </div>
                         </div>
                     </div> : null
+            }
+
+            {
+                showSharePortal ?
+                    <div className='share-portal-container'>
+                        <div className='exit-share-portal' onClick={() => { handleExitSharePortal() }}></div>
+                        <div className='share-portal'>
+                            <img className='share-img' src={postData[2]} alt="" />
+                            <p className='caption-prompt'>Say something about this image...</p>
+                            <textarea className='caption-input' name="caption-input" onChange={(e) => { handleTextAreaChange(e) }}></textarea>
+                            <button className='share-button' onClick={() => { handleSharePostAction() }}>Post</button>
+                        </div>
+                    </div> :
+                    null
             }
         </div>
     )

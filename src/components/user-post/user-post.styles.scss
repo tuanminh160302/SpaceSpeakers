@@ -1,0 +1,18 @@
+.post-component {
+    width: 75%;
+    height: 40vh;
+    border-radius: 30px;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 20px;
+
+    .post-details {
+        height: 100%;
+        width: 45%;
+    }
+
+    .comment-section {
+        width: 55%;
+    }
+}

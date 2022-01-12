@@ -6,6 +6,7 @@ import { setSignInState } from '../../redux/signInState/signInState.actions';
 import { getAuth, signOut, onAuthStateChanged } from "firebase/auth";
 import { getFirestore, doc, getDoc } from 'firebase/firestore';
 import {ReactComponent as SignOut} from '../../assets/signout.svg'
+import { getTargetUserUID } from '../../firebase/firebase.init';
 import gsap from 'gsap';
 
 const Header = ({ isSignedIn, setSignInState }) => {
@@ -18,6 +19,7 @@ const Header = ({ isSignedIn, setSignInState }) => {
     const [avatarURL, setAvatarURL] = useState(undefined)
     const userNavRef = useRef()
     const [toggleUserNav, setToggleUserNav] = useState(false)
+    const [username, setUsername] = useState(null)
 
     useEffect(() => {
         pathname = location.pathname
@@ -33,6 +35,7 @@ const Header = ({ isSignedIn, setSignInState }) => {
                     const data = snapshot.data()
                     if (data.avatarURL) {
                         setAvatarURL(data.avatarURL)
+                        setUsername(data.username)
                     }
                 })
             }
@@ -40,19 +43,48 @@ const Header = ({ isSignedIn, setSignInState }) => {
     }, [isSignedIn])
 
     const handleRedirectSearch = () => {
-        if (pathname !== '/search') navigate('/search')
+        if (pathname !== '/search') {
+            navigate('/search')
+            setToggleUserNav(false)
+            gsap.to(userNavRef.current, {duration: 0, x: '150px'})
+            console.log(toggleUserNav)
+        }
     }
 
     const handleRedirectHome = () => {
-        if (pathname !== '/') navigate('/')
+        if (pathname !== '/') {
+            navigate('/')
+            gsap.to(userNavRef.current, {duration: 0, x: '150px'})
+            setToggleUserNav(false)
+        }
     }
 
     const handleRedirectLogin = () => {
-        if (pathname !== '/login') navigate('/login')
+        if (pathname !== '/login') {
+            navigate('/login')
+            gsap.to(userNavRef.current, {duration: 0, x: '150px'})
+            setToggleUserNav(false)
+        }
     }
 
     const handleRedirectAbout = () => {
-        if (pathname !== '/about') navigate('/about')
+        if (pathname !== '/about') {
+            navigate('/about')
+            gsap.to(userNavRef.current, {duration: 0, x: '150px'})
+            setToggleUserNav(false)
+        }
+    }
+
+    const handleRedirectProfile = async () => {
+        let uid = null
+        await getTargetUserUID(username).then((res) => {
+            uid = res
+        })
+        if (pathname !== `/${username}_${uid}`) {
+            navigate(`${username}_${uid}`)
+            gsap.to(userNavRef.current, {duration: 0, x: '150px'})
+            setToggleUserNav(false)
+        }
     }
 
     const handleSignOut = () => {
@@ -64,6 +96,7 @@ const Header = ({ isSignedIn, setSignInState }) => {
             console.log(error)
         });
         setToggleUserNav(false)
+        setUsername(null)
     }
 
     const handleToggleUserNav = () => {
@@ -82,14 +115,14 @@ const Header = ({ isSignedIn, setSignInState }) => {
             <div className='nav-bar'>
                 <p className='nav-item' onClick={() => { handleRedirectHome() }}>Home</p>
                 <p className='nav-item' onClick={() => { handleRedirectSearch() }}>Search</p>
-                <p className='nav-item' onClick={() => { handleRedirectAbout() }}>About</p>
+                {/* <p className='nav-item' onClick={() => { handleRedirectAbout() }}>About</p> */}
                 {
                     !isSignedIn ?
                         <p className='nav-item' onClick={() => { handleRedirectLogin() }}>Login</p> :
                         <div className='user-nav-container'>
                             <img className='avt' src={avatarURL} alt="" onClick={() => {handleToggleUserNav()}}/>
                             <div className='user-nav' ref={userNavRef}>
-                                <img className='profile' src={avatarURL} alt="" />
+                                <img className='profile' src={avatarURL} alt="" onClick={() => [handleRedirectProfile()]}/>
                                 <SignOut className='signout' onClick={() => {handleSignOut()}}/>
                             </div>
                         </div>
