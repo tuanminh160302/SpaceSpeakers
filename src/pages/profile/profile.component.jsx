@@ -13,13 +13,26 @@ const Profile = ({setshowPreloader}) => {
     const navigate = useNavigate()
     const location = useLocation()
     const [profileDetails, setProfileDetails] = useState([])
+    const [allPosts, setAllPosts] = useState([])
 
     useEffect(() => {
         const tempUID = location.pathname.slice(location.pathname.indexOf('_') + 1)
         const userRef = doc(db, 'users', tempUID)
+        const postRef = doc(db, 'posts', tempUID)
         getDoc(userRef).then((snapshot) => {
             const data = snapshot.data()
             setProfileDetails([data.uid, data.username, data.avatarURL, data.signupemail, data.bio, data.postCount])
+        })
+        getDoc(postRef).then((snapshot) => {
+            const data = snapshot.data()
+            const allResult = []
+            const allPostKey = Object.keys(data)
+            allPostKey.map((postKey, index) => {
+                const post = {[postKey]: data[postKey]}
+                allResult.push(post)
+            })
+            allResult.sort((a, b) => (Object.keys(a) > Object.keys(b) ? -1 : 1))
+            setAllPosts(allResult)
         })
     }, [])
 
@@ -27,6 +40,14 @@ const Profile = ({setshowPreloader}) => {
         setTimeout(() => {
             setshowPreloader(false)
         }, 500)
+    })
+
+    const posts = allPosts.map((post, index) => {
+        return (
+            <Fragment key={index}>
+                <UserPost />
+            </Fragment>
+        )
     })
 
     return (
@@ -45,7 +66,7 @@ const Profile = ({setshowPreloader}) => {
                 </div>
                 <div className='user-stats'></div>
             </div>
-            {/* {posts} */}
+            {posts}
         </div>
     )
 }
