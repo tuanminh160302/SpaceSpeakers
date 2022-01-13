@@ -162,7 +162,7 @@ const Search = ({ showPreloader, setShowPreloader, keyword, from, to, setSearchD
         const auth = getAuth()
         const user = auth.currentUser
         console.log(postData[2])
-        await uploadUserPost(user, postData[2], caption).then(() => {
+        await uploadUserPost(user, postData[2], postData[0].title, caption, postData[0].keywords).then(() => {
             console.log('successfully uploaded')
             setSuccessPost(true)
             handleExitSharePortal()

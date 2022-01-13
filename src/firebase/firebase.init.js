@@ -60,8 +60,11 @@ export const getTargetUserUID = async (username) => {
     return uid
 }
 
-export const uploadUserPost = async (user, imageURL, caption) => {
+export const uploadUserPost = async (user, imageURL, imageTitle, caption, keywords) => {
     if (!user) return
+    if (!keywords) {
+        keywords = null
+    }
 
     // Get the time of upload
     const createdAt = new Date().getTime()
@@ -79,6 +82,8 @@ export const uploadUserPost = async (user, imageURL, caption) => {
             [createdAt]: {
                 imageURL,
                 caption,
+                imageTitle,
+                keywords,
             }
         }).then(() => {
             console.log('posted')
@@ -92,6 +97,8 @@ export const uploadUserPost = async (user, imageURL, caption) => {
             [createdAt]: {
                 imageURL,
                 caption,
+                imageTitle,
+                keywords,
             }
         }, {merge: true}).then(() => {
             getDoc(postRef).then((snapshot) => {
@@ -103,6 +110,23 @@ export const uploadUserPost = async (user, imageURL, caption) => {
             })
         })
         console.log('created another post and update postcount (>1)')
+    }
+}
+
+export const uploadComment = async (uidFrom, uidTo, post, [commentTimestamp, comment]) => {
+    if (!uidFrom || !uidTo) return
+    const postRef = doc(db, 'posts', uidTo)
+    try {
+        await setDoc(postRef, {
+            [post]: {
+                comment: {
+                    [commentTimestamp]: [uidFrom, comment]
+                }
+            }
+        }, {merge: true})
+        console.log('Comment posted')
+    } catch (err) {
+        console.log('err =>', err)
     }
 }
 

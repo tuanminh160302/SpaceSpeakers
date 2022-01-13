@@ -33,9 +33,9 @@ const Header = ({ isSignedIn, setSignInState }) => {
                 const userRef = doc(db, 'users', uid)
                 getDoc(userRef).then((snapshot) => {
                     const data = snapshot.data()
+                    setUsername(data.username)
                     if (data.avatarURL) {
                         setAvatarURL(data.avatarURL)
-                        setUsername(data.username)
                     }
                 })
             }
@@ -79,12 +79,14 @@ const Header = ({ isSignedIn, setSignInState }) => {
         let uid = null
         await getTargetUserUID(username).then((res) => {
             uid = res
+            return uid
+        }).then((uid) => {
+            if (pathname !== `/${username}_${uid}`) {
+                navigate(`${username}_${uid}`)
+                gsap.to(userNavRef.current, {duration: 0, x: '150px'})
+                setToggleUserNav(false)
+            }
         })
-        if (pathname !== `/${username}_${uid}`) {
-            navigate(`${username}_${uid}`)
-            gsap.to(userNavRef.current, {duration: 0, x: '150px'})
-            setToggleUserNav(false)
-        }
     }
 
     const handleSignOut = () => {
