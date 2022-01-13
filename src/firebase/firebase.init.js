@@ -2,7 +2,7 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getFirestore, QueryConstraint } from 'firebase/firestore';
-import { doc, getDoc, setDoc, collection, getDocs, where, query, } from "firebase/firestore";
+import { doc, getDoc, setDoc, collection, getDocs, where, query, deleteField } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -68,7 +68,7 @@ export const uploadUserPost = async (user, imageURL, imageTitle, caption, keywor
 
     // Get the time of upload
     const createdAt = new Date().getTime()
-    const {uid} = user
+    const { uid } = user
 
     // Get user ref
     const userRef = doc(db, 'users', uid)
@@ -89,7 +89,7 @@ export const uploadUserPost = async (user, imageURL, imageTitle, caption, keywor
             console.log('posted')
             setDoc(userRef, {
                 postCount: 1
-            }, {merge: true})
+            }, { merge: true })
         })
         console.log('created first post and update postcount to 1')
     } else {
@@ -100,13 +100,13 @@ export const uploadUserPost = async (user, imageURL, imageTitle, caption, keywor
                 imageTitle,
                 keywords,
             }
-        }, {merge: true}).then(() => {
+        }, { merge: true }).then(() => {
             getDoc(postRef).then((snapshot) => {
                 return Object.keys(snapshot.data()).length
             }).then((postCount) => {
                 setDoc(userRef, {
                     postCount
-                }, {merge: true})
+                }, { merge: true })
             })
         })
         console.log('created another post and update postcount (>1)')
@@ -123,11 +123,52 @@ export const uploadComment = async (uidFrom, uidTo, post, [commentTimestamp, com
                     [commentTimestamp]: [uidFrom, comment]
                 }
             }
-        }, {merge: true})
+        }, { merge: true })
         console.log('Comment posted')
     } catch (err) {
         console.log('err =>', err)
     }
+}
+
+export const reactPostAction = async (uidFrom, uidTo, postKey, reactionType) => {
+    if (!uidFrom || !uidTo) return
+    const postRef = doc(db, 'posts', uidTo)
+    await getDoc(postRef).then( async (snapshot) => {
+        const data = snapshot.data()
+        const post = data[postKey]
+        const reaction = post.reaction
+        if (reaction) {
+            const reactor = reaction[uidFrom]
+            if (!reactor) {
+                await setDoc(postRef,
+                    {
+                        [postKey]: {
+                            reaction: {
+                                [uidFrom]: reactionType
+                            }
+                        }
+                    }, { merge: true })
+            } else {
+                await setDoc(postRef,
+                    {
+                        [postKey]: {
+                            reaction: {
+                                [uidFrom]: deleteField()
+                            }
+                        }
+                    }, { merge: true })
+            }
+        } else {
+            await setDoc(postRef,
+                {
+                    [postKey]: {
+                        reaction: {
+                            [uidFrom]: reactionType
+                        }
+                    }
+                }, { merge: true })
+        }
+    })
 }
 
 export default firebaseApp;

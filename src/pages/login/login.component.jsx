@@ -69,8 +69,9 @@ const Login = ({ showPreloader, email, signupemail, username, password, signuppa
             .then((userCredential) => {
                 // Signed in
                 const { user } = userCredential
+                const avatarURL = 'https://i.imgur.com/OrIHeCI.jpg'
                 // Create user data
-                createUserCredentials(user, { signupemail, username })
+                createUserCredentials(user, { signupemail, username, avatarURL })
                     .then(() => {
                         console.log('user data created')
                         navigate('/')

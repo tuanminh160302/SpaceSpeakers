@@ -4,7 +4,7 @@ import { useNavigate, useLocation } from 'react-router';
 import { connect } from 'react-redux';
 import { setSignInState } from '../../redux/signInState/signInState.actions';
 import { getAuth, signOut, onAuthStateChanged } from "firebase/auth";
-import { getFirestore, doc, getDoc } from 'firebase/firestore';
+import { getFirestore, doc, getDoc, onSnapshot } from 'firebase/firestore';
 import {ReactComponent as SignOut} from '../../assets/signout.svg'
 import { getTargetUserUID } from '../../firebase/firebase.init';
 import gsap from 'gsap';
@@ -20,6 +20,7 @@ const Header = ({ isSignedIn, setSignInState }) => {
     const userNavRef = useRef()
     const [toggleUserNav, setToggleUserNav] = useState(false)
     const [username, setUsername] = useState(null)
+    // const [unsubCondition, setUnsubCondition] = useState(false)
 
     useEffect(() => {
         pathname = location.pathname
@@ -30,17 +31,27 @@ const Header = ({ isSignedIn, setSignInState }) => {
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 const {uid} = user
+                // const unsub = onSnapshot(doc(db, 'users', uid), (doc) => {
+                //     if (doc.data()) {
+                //         const data = doc.data()
+                //         setUsername(data.username)
+                //         setAvatarURL(data.avatarURL)
+                //         setUnsubCondition(true)
+                //     }
+                // })
+                // unsubCondition && unsub()
                 const userRef = doc(db, 'users', uid)
                 getDoc(userRef).then((snapshot) => {
-                    const data = snapshot.data()
-                    setUsername(data.username)
-                    if (data.avatarURL) {
+                    if (snapshot.data()) {
+                        const data = snapshot.data()
+                        console.log(data.username, data.avatarURL)
+                        setUsername(data.username)
                         setAvatarURL(data.avatarURL)
                     }
                 })
             }
         })
-    }, [isSignedIn])
+    }, [isSignedIn, auth, location])
 
     const handleRedirectSearch = () => {
         if (pathname !== '/search') {
@@ -76,11 +87,7 @@ const Header = ({ isSignedIn, setSignInState }) => {
     }
 
     const handleRedirectProfile = async () => {
-        let uid = null
-        await getTargetUserUID(username).then((res) => {
-            uid = res
-            return uid
-        }).then((uid) => {
+        await getTargetUserUID(username).then((uid) => {
             if (pathname !== `/${username}_${uid}`) {
                 navigate(`${username}_${uid}`)
                 gsap.to(userNavRef.current, {duration: 0, x: '150px'})

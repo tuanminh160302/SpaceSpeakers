@@ -4,12 +4,14 @@ import { connect } from 'react-redux'
 import { showPreloader } from '../../redux/preloader/show-preloader.actions'
 import { useNavigate, useLocation } from 'react-router'
 import { getFirestore, doc, getDoc } from 'firebase/firestore'
+import { getAuth } from 'firebase/auth'
 import { ReactComponent as EmailSVG } from '../../assets/email.svg'
 import UserPost from '../../components/user-post/user-post.component'
 
 const Profile = ({ setshowPreloader }) => {
 
     const db = getFirestore()
+    const auth = getAuth()
     const navigate = useNavigate()
     const location = useLocation()
     const [profileDetails, setProfileDetails] = useState([])
@@ -39,7 +41,7 @@ const Profile = ({ setshowPreloader }) => {
                 setAllPosts(allResult)
             }
         })
-    }, [location])
+    }, [location, auth])
 
     useEffect(() => {
         setTimeout(() => {
@@ -48,11 +50,20 @@ const Profile = ({ setshowPreloader }) => {
     })
 
     const posts = allPosts.map((post, index) => {
+        const timestamp = Object.keys(post)[0]
+        const time = new Date(parseInt(timestamp))
+        const timeNow = new Date()
+        let timeSpan = null
+        if (Math.floor((timeNow - time) / 86400000) === 0) {
+            timeSpan = String(Math.floor((timeNow - time) / 3600000)) + "h"
+        } else if (Math.floor((timeNow - time) / 86400000) !== 0) {
+            timeSpan = String(Math.floor((timeNow - time) / 86400000)) + "d"
+        }
+
         const postImgURL = Object.values(post)[0].imageURL
         const postCaption = Object.values(post)[0].caption
         const imgTitle = Object.values(post)[0].imageTitle
         const postKey = Object.keys(post)[0]
-        console.log(profileDetails[0], '=>', profileDetails[1])
         return (
             <Fragment key={index}>
                 <UserPost
@@ -62,8 +73,9 @@ const Profile = ({ setshowPreloader }) => {
                     imgTitle={imgTitle}
                     postOfUser={profileDetails[0]}
                     postKey={postKey} 
-                    userName={profileDetails[1]}
-                    showAllComment={false}/>
+                    postUserName={profileDetails[1]}
+                    showAllComment={false}
+                    timestamp={timeSpan}/>
             </Fragment>
         )
     })
