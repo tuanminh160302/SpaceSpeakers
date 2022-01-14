@@ -1,0 +1,93 @@
+.search-result {
+    height: 100%;
+    width: 100%;
+    padding-top: 200px;
+    padding-left: 250px;
+    padding-right: 250px;
+    display: flex;
+    flex-direction: column;
+
+    .user-result {
+        height: fit-content;
+        width: 100%;
+        margin-bottom: 50px;
+
+        .title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .result-container {
+            height: fit-content;
+            width: fit-content;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+
+            .no-result {
+                font-size: .9rem;
+                font-weight: 400;
+            }
+
+            .user-snippets {
+                height: fit-content;
+                width: fit-content;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                border-radius: 50%;
+                object-fit: cover;
+                margin-right: 20px;
+                margin-bottom: 20px;
+                cursor: pointer;
+
+                .user-avt {
+                    height: 60px;
+                    width: 60px;
+                    border-radius: 50%;
+                    margin-bottom: 10px;
+                }
+
+                .username {
+                    font-size: .8rem;
+                    font-weight: 500;
+                }
+            }
+        }
+    }
+
+    .post-result {
+        height: fit-content;
+        width: 100%;
+
+        .title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .result-container {
+            height: fit-content;
+            width: fit-content;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+
+            .no-result {
+                font-size: .9rem;
+                font-weight: 400;
+            }
+
+            .keyword {
+                padding: 10px 20px;
+                background: black;
+                color: white;
+                font-size: .8rem;
+                font-weight: 500;
+                margin: 0 10px 10px 0;
+                cursor: pointer;
+            }
+        }
+    }
+}

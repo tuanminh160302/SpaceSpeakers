@@ -3,6 +3,8 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getFirestore, QueryConstraint } from 'firebase/firestore';
 import { doc, getDoc, setDoc, collection, getDocs, where, query, deleteField } from "firebase/firestore";
+import { getStorage, uploadBytes, ref, getDownloadURL } from 'firebase/storage'
+import { getAuth, updateProfile } from "firebase/auth";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -23,6 +25,7 @@ const firebaseApp = initializeApp(firebaseConfig);
 const analytics = getAnalytics(firebaseApp);
 
 export const db = getFirestore();
+export const storage = getStorage()
 
 export const createUserCredentials = async (userCredentials, additionalData) => {
     const { uid } = userCredentials
@@ -133,7 +136,7 @@ export const uploadComment = async (uidFrom, uidTo, post, [commentTimestamp, com
 export const reactPostAction = async (uidFrom, uidTo, postKey, reactionType) => {
     if (!uidFrom || !uidTo) return
     const postRef = doc(db, 'posts', uidTo)
-    await getDoc(postRef).then( async (snapshot) => {
+    await getDoc(postRef).then(async (snapshot) => {
         const data = snapshot.data()
         const post = data[postKey]
         const reaction = post.reaction
@@ -169,6 +172,84 @@ export const reactPostAction = async (uidFrom, uidTo, postKey, reactionType) => 
                 }, { merge: true })
         }
     })
+}
+
+export const pullSearchResult = async (searchInput) => {
+    const userCollectionRef = collection(db, 'users')
+    let userRes = []
+    let keywordRes = []
+
+    // Query in user collection
+    const userQuery = query(userCollectionRef, where("username", ">=", searchInput), where("username", "<=", searchInput + '\uf8ff'))
+    await getDocs(userQuery).then((querySnapshot) => {
+        querySnapshot.forEach((snapshot) => {
+            const data = snapshot.data()
+            userRes.push(data)
+        })
+    })
+
+    await fetch(`https://images-api.nasa.gov/search?keywords=${searchInput}`)
+        .then(res => res.ok && res.json())
+        .then((res) => {
+            const data = res.collection.items
+            data.forEach((item) => {
+                const keywords = item.data[0].keywords
+                keywords.forEach((keyword) => {
+                    if (!keywordRes.includes(keyword)) {
+                        keywordRes.push(keyword)
+                    }
+                })
+            })
+        })
+
+    return [userRes, keywordRes]
+}
+
+export const uploadUserAvatar = async (user, file) => {
+    if (!user) {
+        return
+    }
+    // Set up file collection
+    const fileCollection = 'avatars'
+
+    // Get user data
+    const {uid} = user
+    const userRef = doc(db, "users", uid)
+    const userSnap = await getDoc(userRef)
+
+    // Get user username
+    const userName = userSnap.data().username
+    const fileName = file.name
+
+    // Set up
+    const pathToFile = `users/${userName}/${fileCollection}/${fileName}`
+    const fileRef = ref(storage, pathToFile)
+
+    // Upload the file
+    await uploadBytes(fileRef, file).then((snapshot) => {
+        console.log("Uploaded a blob or file!");
+    })
+    // Update the avatar url in the database
+    getDownloadURL(ref(storage, pathToFile))
+        .then((url) => {
+            updateProfile(user, {
+                photoURL: url
+            }).then(() => {
+                console.log("Profile updated")
+                setDoc(userRef, { avatarURL: url }, { merge: true })
+                    .then(() => {
+                        console.log("Successfully uploaded")
+                        window.location.reload()
+                    }).catch(err => console.log(err))
+            })
+        })
+        .catch((err) => {
+            console.log(err)
+        })
+}
+
+export const saveSearchHistory = async () => {
+
 }
 
 export default firebaseApp;

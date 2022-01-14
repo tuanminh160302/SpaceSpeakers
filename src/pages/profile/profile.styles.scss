@@ -8,31 +8,135 @@
     flex-direction: column;
     align-items: center;
 
+    .edit-portal-container {
+        position: fixed;
+        z-index: 1000;
+        height: 100vh;
+        width: 100vw;
+        top: 0;
+        left: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .exit-edit-portal {
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            z-index: 1;
+            background: rgba(0, 0, 0, 0.8);
+            top: 0;
+            left: 0;
+        }
+
+        .edit-portal {
+            height: fit-content;
+            width: fit-content;
+            position: relative;
+            z-index: 2;
+
+            .toolbar {
+                height: 50px;
+                width: 100%;
+                background: white;
+                border-bottom: 1px solid gray;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+
+                .tool {
+                    font-weight: 600;
+                    font-size: .9rem;
+                    cursor: pointer;
+                    user-select: none;
+
+                    &:nth-child(1) {
+                        margin-left: 30px;
+                    }
+
+                    &:nth-child(2) {
+                        margin-right: 30px;
+                    }
+                }
+            }
+
+            .drag-drop {
+                height: 600px;
+                width: 600px;
+                max-width: 80vw;
+                background: white;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                .guide {
+                    cursor: pointer;
+                    font-size: .8rem;
+                    font-weight: 500;
+                    user-select: none;
+                }
+            }
+
+            .preview-img {
+                height: 600px;
+                width: 600px;
+                padding: 30px;
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                z-index: 100;
+                border-radius: 50%;
+            }
+
+            .cropper {
+                height: 600px;
+                width: 600px;
+                position: absolute;
+                bottom: 0;
+                left: 0;
+            }
+        }
+    }
+
     .dashboard {
         min-height: 35vh;
         height: fit-content;
         width: 75%;
         display: flex;
         flex-direction: row;
-        align-items: center;
+        align-items: flex-start;
         background: black;
-        padding: 0 50px;
+        padding: 50px 50px;
         margin-bottom: 80px;
 
         .user-avt {
-            height: 25vh;
-            width: 25vh;
-            position: relative;
-            border-radius: 50%;
+            height: fit-content;
+            width: fit-content;
             margin-right: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
 
             img {
-                height: 100%;
-                width: 100%;
+                height: 25vh;
+                width: 25vh;
                 border-radius: 50%;
                 object-fit: cover;
                 top: 0;
                 left: 0;
+            }
+
+            .change-avt {
+                margin-top: 30px;
+                color: black;
+                background: white;
+                padding: 10px 20px;
+                width: fit-content;
+                cursor: pointer;
+                border-radius: 20px;
+                font-size: .8rem;
+                font-weight: 500;
             }
         }
 
@@ -43,11 +147,27 @@
             overflow: auto;
             flex-grow: 1;
             margin-right: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
 
             .username {
                 font-size: 1.3rem;
                 font-weight: 700;
                 margin-bottom: 20px;
+                height: fit-content;
+                width: fit-content;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+
+                .edit-details {
+                    fill: white;
+                    height: 3vh;
+                    width: 3vh;
+                    margin-left: 10px;
+                    cursor: pointer;
+                }
             }
             
             .email-container {

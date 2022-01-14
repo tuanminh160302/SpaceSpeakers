@@ -161,8 +161,11 @@ const Search = ({ showPreloader, setShowPreloader, keyword, from, to, setSearchD
     const handleSharePostAction = async () => {
         const auth = getAuth()
         const user = auth.currentUser
+        const keywords = postData[0].keywords.map((keyword) => {
+            return keyword.toLowerCase()
+        })
         console.log(postData[2])
-        await uploadUserPost(user, postData[2], postData[0].title, caption, postData[0].keywords).then(() => {
+        await uploadUserPost(user, postData[2], postData[0].title, caption, keywords).then(() => {
             console.log('successfully uploaded')
             setSuccessPost(true)
             handleExitSharePortal()

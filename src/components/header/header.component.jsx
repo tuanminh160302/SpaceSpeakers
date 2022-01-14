@@ -5,8 +5,9 @@ import { connect } from 'react-redux';
 import { setSignInState } from '../../redux/signInState/signInState.actions';
 import { getAuth, signOut, onAuthStateChanged } from "firebase/auth";
 import { getFirestore, doc, getDoc, onSnapshot } from 'firebase/firestore';
-import {ReactComponent as SignOut} from '../../assets/signout.svg'
+import { ReactComponent as SignOut} from '../../assets/signout.svg'
 import { getTargetUserUID } from '../../firebase/firebase.init';
+import { ReactComponent as SearchSVG } from '../../assets/search.svg' 
 import gsap from 'gsap';
 
 const Header = ({ isSignedIn, setSignInState }) => {
@@ -20,6 +21,7 @@ const Header = ({ isSignedIn, setSignInState }) => {
     const userNavRef = useRef()
     const [toggleUserNav, setToggleUserNav] = useState(false)
     const [username, setUsername] = useState(null)
+    const [searchValue, setSearchValue] = useState('')
     // const [unsubCondition, setUnsubCondition] = useState(false)
 
     useEffect(() => {
@@ -31,20 +33,10 @@ const Header = ({ isSignedIn, setSignInState }) => {
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 const {uid} = user
-                // const unsub = onSnapshot(doc(db, 'users', uid), (doc) => {
-                //     if (doc.data()) {
-                //         const data = doc.data()
-                //         setUsername(data.username)
-                //         setAvatarURL(data.avatarURL)
-                //         setUnsubCondition(true)
-                //     }
-                // })
-                // unsubCondition && unsub()
                 const userRef = doc(db, 'users', uid)
                 getDoc(userRef).then((snapshot) => {
                     if (snapshot.data()) {
                         const data = snapshot.data()
-                        console.log(data.username, data.avatarURL)
                         setUsername(data.username)
                         setAvatarURL(data.avatarURL)
                     }
@@ -54,20 +46,13 @@ const Header = ({ isSignedIn, setSignInState }) => {
     }, [isSignedIn, auth, location])
 
     const handleRedirectSearch = () => {
-        if (pathname !== '/search') {
-            navigate('/search')
-            setToggleUserNav(false)
-            gsap.to(userNavRef.current, {duration: 0, x: '150px'})
-            console.log(toggleUserNav)
-        }
+        gsap.to(userNavRef.current, {duration: 0, x: '150px'})
+        setToggleUserNav(false)
     }
 
     const handleRedirectHome = () => {
-        if (pathname !== '/') {
-            navigate('/')
-            gsap.to(userNavRef.current, {duration: 0, x: '150px'})
-            setToggleUserNav(false)
-        }
+        gsap.to(userNavRef.current, {duration: 0, x: '150px'})
+        setToggleUserNav(false)
     }
 
     const handleRedirectLogin = () => {
@@ -88,8 +73,8 @@ const Header = ({ isSignedIn, setSignInState }) => {
 
     const handleRedirectProfile = async () => {
         await getTargetUserUID(username).then((uid) => {
-            if (pathname !== `/${username}_${uid}`) {
-                navigate(`${username}_${uid}`)
+            if (pathname !== `/users/${username}_${uid}`) {
+                navigate(`/users/${username}_${uid}`)
                 gsap.to(userNavRef.current, {duration: 0, x: '150px'})
                 setToggleUserNav(false)
             }
@@ -118,12 +103,27 @@ const Header = ({ isSignedIn, setSignInState }) => {
         }
     }
 
+    const handleInputChange = (e) => {
+        e.preventDefault()
+        setSearchValue(e.target.value)
+    }
+
+    const handleHeaderSearch = (e) => {
+        e.preventDefault()
+
+        navigate(`/search-data-field=${searchValue}`)
+    }
+
     return (
         <div className='header'>
             <p className='logo'>SpaceSpeakers</p>
+            <form className='header-search-container' onSubmit={(e) => {handleHeaderSearch(e)}}>
+                <input className='header-search-input' type="text" required placeholder='Search user or keyword...' value={searchValue} onChange={(e) => {handleInputChange(e)}}/>
+                <button className='search-btn'><SearchSVG className='search-svg'/></button>
+            </form>
             <div className='nav-bar'>
-                <p className='nav-item' onClick={() => { handleRedirectHome() }}>Home</p>
-                <p className='nav-item' onClick={() => { handleRedirectSearch() }}>Search</p>
+                <a className='nav-item' onClick={() => { handleRedirectHome() }} href='/'>Home</a>
+                <a className='nav-item' onClick={() => { handleRedirectSearch() }} href='/search'>Search</a>
                 {/* <p className='nav-item' onClick={() => { handleRedirectAbout() }}>About</p> */}
                 {
                     !isSignedIn ?

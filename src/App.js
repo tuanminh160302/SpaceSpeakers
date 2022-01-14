@@ -9,6 +9,7 @@ import LandingPage from './pages/landing-page/landing-page.component';
 import Search from './pages/search/search.component';
 import Login from './pages/login/login.component'
 import Profile from './pages/profile/profile.component'
+import SearchResult from './pages/search-result/search-result.component';
 import { showPreloader } from './redux/preloader/show-preloader.actions';
 import { setSearchData } from './redux/searchData/searchData.actions';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
@@ -55,7 +56,8 @@ function App({ showPreloader, setShowPreloader, setSearchData, isSignedIn, setSi
         <Route path='/search' element={<Search />}></Route>
         <Route path='/search/:query' element={<Search />}></Route>
         <Route path='/login' element={<Login />}></Route>
-        <Route path='/:username' element={<Profile/>}></Route>
+        <Route path='/users/:username' element={<Profile/>}></Route>
+        <Route path='/search-data-field=:data' element={<SearchResult/>}></Route>
       </Routes>
     </div>
   );

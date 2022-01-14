@@ -35,6 +35,9 @@ const UserPost = ({ className, postImg, imgTitle, userAvt, postUserName, caption
         getDoc(postRef).then(async (snapshot) => {
             const data = snapshot.data()
             const allCommentObject = data[postKey].comment
+            if (!allCommentObject) {
+                setAllComment([])
+            }
             if (allCommentObject) {
                 const allCommentArray = Object.keys(allCommentObject)
                 allCommentArray.sort((a, b) => (a > b ? 1 : -1))
@@ -69,8 +72,8 @@ const UserPost = ({ className, postImg, imgTitle, userAvt, postUserName, caption
             uid = res
             return uid
         }).then((uid) => {
-            if (pathname !== `/${username}_${uid}`) {
-                navigate(`/${username}_${uid}`)
+            if (pathname !== `/users/${username}_${uid}`) {
+                navigate(`/users/${username}_${uid}`)
             }
         })
     }

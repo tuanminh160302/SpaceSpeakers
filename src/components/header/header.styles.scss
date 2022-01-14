@@ -5,7 +5,6 @@
     padding: 50px 250px 20px 250px;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
     align-items: center;
     position: fixed;
     top: 0;
@@ -18,6 +17,49 @@
         font-size: 1.4rem;
     }
 
+    .header-search-container {
+        width: fit-content;
+        height: fit-content;
+        margin-left: 50px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        position: relative;
+
+        .header-search-input {
+            border: 1px solid gray;
+            padding: 10px 50px 10px 20px;
+            outline: none;
+            border-radius: 25px;
+            width: 300px;
+            font-size: .8rem;
+            font-weight: 400;
+
+            &::placeholder {
+                font-size: .8rem;
+                color: gray;
+                font-weight: 300;
+            }
+        }
+
+        .search-btn {
+            background: none;
+            border: none;
+            height: fit-content;
+            width: fit-content;
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+
+            .search-svg {
+                height: 2vh;
+                width: 2vh;
+            }
+        }
+    }
+
     .nav-bar {
         display: flex;
         flex-direction: row;
@@ -25,12 +67,14 @@
         height: fit-content;
         width: fit-content;
         align-items: center;
+        margin-left: auto;
 
         .nav-item {
             font-weight: 600;
             font-size: 1.1rem;
             margin-left: 30px;
             cursor: pointer;
+            color: black;
 
             &::after {
                 display: block;
