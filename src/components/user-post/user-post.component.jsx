@@ -127,6 +127,7 @@ const UserPost = ({ className, postImg, imgTitle, userAvt, postUserName, caption
         const postRef = doc(db, 'posts', postOfUser)
         getDoc(postRef).then((snapshot) => {
             const data = snapshot.data()
+            if (!data) return 
             const post = data[postKey]
             if (post) {
                 const reactionObject = post.reaction
