@@ -63,6 +63,19 @@ export const getTargetUserUID = async (username) => {
     return uid
 }
 
+export const getTargetUsername = async (uid) => {
+    let username = null
+    if (!uid || uid.includes('/')) return username
+    const userRef = doc(db, 'users', uid)
+    await getDoc(userRef).then((snapshot) => {
+        const data = snapshot.data()
+        if (data) {
+            username = data.username
+        }
+    })
+    return username
+}
+
 export const uploadUserPost = async (user, imageURL, imageTitle, caption, keywords) => {
     if (!user) return
     if (!keywords) {
@@ -189,17 +202,26 @@ export const pullSearchResult = async (searchInput) => {
     })
 
     await fetch(`https://images-api.nasa.gov/search?keywords=${searchInput}`)
-        .then(res => res.ok && res.json())
+        .then(res => {
+            if (res.ok) {
+                return res.json()
+            } else {
+                return false
+            }
+        })
         .then((res) => {
-            const data = res.collection.items
-            data.forEach((item) => {
-                const keywords = item.data[0].keywords
-                keywords.forEach((keyword) => {
-                    if (!keywordRes.includes(keyword)) {
-                        keywordRes.push(keyword)
-                    }
+            console.log(res)
+            if (res) {
+                const data = res.collection.items
+                data.forEach((item) => {
+                    const keywords = item.data[0].keywords
+                    keywords.forEach((keyword) => {
+                        if (!keywordRes.includes(keyword)) {
+                            keywordRes.push(keyword)
+                        }
+                    })
                 })
-            })
+            }
         })
 
     return [userRes, keywordRes]
@@ -213,7 +235,7 @@ export const uploadUserAvatar = async (user, file) => {
     const fileCollection = 'avatars'
 
     // Get user data
-    const {uid} = user
+    const { uid } = user
     const userRef = doc(db, "users", uid)
     const userSnap = await getDoc(userRef)
 
@@ -248,8 +270,102 @@ export const uploadUserAvatar = async (user, file) => {
         })
 }
 
-export const saveSearchHistory = async () => {
+export const editUserDetails = async (user, newUsername, newBio) => {
+    if (!user) return
 
+    const {uid} = user
+    const userRef = doc(db, 'users', uid)
+    await setDoc(userRef, 
+        {
+            username: newUsername,
+            bio: newBio
+        }, {merge: true})
+    console.log('edited user details')
+}
+
+export const deleteComment = async (postOfUser, postKey, timestamp) => {
+    if (!postOfUser || !postKey || !timestamp) return
+
+    const postRef = doc(db, 'posts', postOfUser)
+    await setDoc(postRef,
+        {
+            [postKey]: {
+                comment: {
+                    [timestamp]: deleteField()
+                }
+            }
+        }, { merge: true }).then(() => {
+            console.log('deteled comment')
+        })
+}
+
+export const deletePost = async (uidFrom, postKey) => {
+    if (!uidFrom || !postKey) return
+
+    const postRef = doc(db, 'posts', uidFrom)
+    await setDoc(postRef,
+        {
+            [postKey]: deleteField()
+        }, {merge: true}).then(() => {
+            console.log('deleted post')
+        })
+}
+
+export const pushSearchHistory = async (user, searchKeyword, timestamp) => {
+    if (!user) return
+
+    const { uid } = user
+    const userRef = doc(db, 'users', uid)
+    await getDoc(userRef).then((snapshot) => {
+        const data = snapshot.data()
+        const { searchHistory } = data
+        if (searchHistory) {
+            const allSearchItems = Object.values(searchHistory)
+            if (allSearchItems.includes(searchKeyword)) {
+                const index = allSearchItems.indexOf(searchKeyword)
+                deleteSearchHistory(user, Object.keys(searchHistory)[index])
+            }
+        }
+    })
+
+    await setDoc(userRef,
+        {
+            searchHistory: {
+                [timestamp]: searchKeyword
+            }
+        }, { merge: true })
+    console.log('pushed search history')
+}
+
+export const pullSearchHistory = async (user) => {
+    if (!user) return
+
+    let result = null
+    const { uid } = user
+    const userRef = doc(db, 'users', uid)
+    await getDoc(userRef).then((snapshot) => {
+        const data = snapshot.data()
+        const { searchHistory } = data
+        if (searchHistory) {
+            result = searchHistory
+        }
+    })
+
+    return result
+}
+
+export const deleteSearchHistory = async (user, timestamp) => {
+    if (!user) return
+
+    const { uid } = user
+    const userRef = doc(db, 'users', uid)
+    await setDoc(userRef,
+        {
+            searchHistory: {
+                [timestamp]: deleteField()
+            }
+        }, { merge: true })
+    console.log('deleted search history')
 }
 
 export default firebaseApp;

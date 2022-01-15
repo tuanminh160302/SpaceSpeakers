@@ -196,7 +196,28 @@
                     .create-text {
                         font-size: .9rem;
                         font-weight: 500;
+                        line-height: 22px;
                         cursor: pointer;
+                    }
+
+                    .create-text-success {
+                        background: black;
+                        color: white;
+                        padding: 16px 24px;
+                        cursor: pointer;
+                        line-height: 22px;
+                        font-size: .9rem;
+                        font-weight: 500;
+                    }
+
+                    .unauth-create {
+                        background: black;
+                        color: white;
+                        padding: 16px 24px;
+                        cursor: pointer;
+                        line-height: 22px;
+                        font-size: .9rem;
+                        font-weight: 500;
                     }
                 }
             }

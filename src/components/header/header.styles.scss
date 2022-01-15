@@ -58,6 +58,19 @@
                 width: 2vh;
             }
         }
+
+        .search-history-container {
+            border-radius: 25px;
+            width: 100%;
+            position: absolute;
+            bottom: 0;
+            transform: translateY(100%);
+            background: white;
+            height: fit-content;
+            box-shadow: 0 2px 5px 3px rgb(0 0 0 / 25%);
+            -webkit-box-shadow: 0 2px 5px 3px rgb(0 0 0 / 25%);
+            padding: 18px 0 5px 0;
+        }
     }
 
     .nav-bar {

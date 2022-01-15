@@ -1,0 +1,114 @@
+.comment {
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+
+    .comment-timespan {
+        margin-left: calc(3vh + 15px);
+        margin-bottom: 30px;
+        font-size: .8rem;
+        font-weight: 300;
+        color: gray;
+    }
+    
+    .comment-container {
+        width: 100%;
+        height: fit-content;
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        margin-bottom: 5px;
+
+        .comment-user-avt-container {
+            height: 3vh;
+            width: 3vh;
+            min-height: 3vh;
+            min-width: 3vh;
+            border-radius: 50%;
+
+            .comment-user-avt {
+                object-fit: cover;
+                height: 100%;
+                width: 100%;
+                border-radius: 50%;
+            }
+        }
+
+        .comment-content {
+            margin-left: 15px;
+            font-size: .9rem;
+            // word-break: break-all;
+            word-wrap: break-word;
+            line-height: 20px;
+            margin-right: 15px;
+
+            .comment-by {
+                font-weight: 600;
+                margin-right: 10px;
+                cursor: pointer;
+            }
+        }
+
+        .delete-comment-svg {
+            margin-left: auto;
+            width: 2vh;
+            min-width: 2vh;
+            cursor: pointer;
+        }
+
+        .confirm-delete-comment-container {
+            position: fixed;
+            z-index: 100000;
+            height: 100vh;
+            width: 100vw;
+            top: 0;
+            left: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            .exit-confirm-delete-comment {
+                position: absolute;
+                top: 0;
+                left: 0;
+                height: 100%;
+                width: 100%;
+                background: rgba(0, 0, 0, .7);
+                z-index: 1;
+            }
+
+            .confirm-delete-comment {
+                z-index: 10;
+                background: white;
+                padding: 25px 50px;
+                display: flex;
+                flex-direction: column;
+                height: fit-content;
+                width: fit-content;
+
+                .warning {
+                    font-size: .8rem;
+                    font-weight: 500;
+                    margin-bottom: 30px;
+                }
+
+                .option-container {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-between;
+
+                    .option {
+                        font-size: .8rem;
+                        font-weight: 500;
+                        cursor: pointer;
+
+                        &:nth-child(2) {
+                            color: red;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

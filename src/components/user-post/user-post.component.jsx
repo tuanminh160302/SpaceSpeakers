@@ -6,9 +6,11 @@ import { uploadComment } from '../../firebase/firebase.init'
 import { getFirestore, doc, getDoc } from 'firebase/firestore'
 import { getTargetUserUID, reactPostAction } from '../../firebase/firebase.init'
 import { useNavigate, useLocation } from 'react-router'
+import CommentComponent from '../comment/comment.component'
+import { deletePost } from '../../firebase/firebase.init'
 import gsap from 'gsap'
 
-const UserPost = ({ className, postImg, imgTitle, userAvt, postUserName, caption, timestamp, postOfUser, postKey }) => {
+const UserPost = ({ className, postImg, imgTitle, userAvt, postUserName, caption, timestamp, postOfUser, postKey, fetchPost }) => {
 
     const db = getFirestore()
     const auth = getAuth()
@@ -21,6 +23,8 @@ const UserPost = ({ className, postImg, imgTitle, userAvt, postUserName, caption
     const [allComment, setAllComment] = useState([])
     const [showAllComment, setShowAllComment] = useState(false)
     const [numLike, setNumLike] = useState(0)
+    const [postImgZoom, setPostImgZoom] = useState(false)
+    const [confirmDeletePost, setConfirmDeletePost] = useState(false)
 
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
@@ -51,7 +55,7 @@ const UserPost = ({ className, postImg, imgTitle, userAvt, postUserName, caption
                         userAvt = snapshot.data().avatarURL
                         userName = snapshot.data().username
                     })
-                    return [userAvt, commentContent, userName, timestamp]
+                    return [userAvt, commentContent, userName, timestamp, commentByUid]
                 })
 
                 await Promise.all(resolveAllComment).then((responses) => {
@@ -63,6 +67,7 @@ const UserPost = ({ className, postImg, imgTitle, userAvt, postUserName, caption
 
     useEffect(() => {
         fetchPostComment()
+        setShowAllComment(false)
     }, [location, postKey])
 
     const handleRedirectUser = async (e) => {
@@ -78,29 +83,19 @@ const UserPost = ({ className, postImg, imgTitle, userAvt, postUserName, caption
         })
     }
 
-    const postComment = allComment.map(([userAvt, commentContent, userName, timestamp], index) => {
-        const time = new Date(parseInt(timestamp))
-        const timeNow = new Date()
-        let timeSpan = null
-        if (Math.floor((timeNow - time) / 86400000) === 0) {
-            timeSpan = String(Math.floor((timeNow - time) / 3600000)) + "h"
-        } else if (Math.floor((timeNow - time) / 86400000) !== 0) {
-            timeSpan = String(Math.floor((timeNow - time) / 86400000)) + "d"
-        }
+    const postComment = allComment.map(([userAvt, commentContent, userName, timestamp, commentByUid], index) => {
         return (
             <Fragment key={index}>
-                <div className='comment-container'>
-                    <div className='comment-user-avt-container'>
-                        <img className='comment-user-avt' src={userAvt} />
-                    </div>
-                    <p className='comment-content'>
-                        <span className='comment-by' onClick={(e) => { handleRedirectUser(e) }}>{userName}</span>
-                        {commentContent}
-                    </p>
-                </div>
-                <p className='comment-timespan'>
-                    {timeSpan}
-                </p>
+                <CommentComponent
+                    userAvt={userAvt}
+                    commentContent={commentContent}
+                    userName={userName}
+                    timestamp={timestamp}
+                    commentByUid={commentByUid}
+                    uidFrom={uidFrom}
+                    fetchPostComment={fetchPostComment}
+                    postOfUser={postOfUser}
+                    postKey={postKey} />
             </Fragment>
         )
     })
@@ -127,7 +122,7 @@ const UserPost = ({ className, postImg, imgTitle, userAvt, postUserName, caption
         const postRef = doc(db, 'posts', postOfUser)
         getDoc(postRef).then((snapshot) => {
             const data = snapshot.data()
-            if (!data) return 
+            if (!data) return
             const post = data[postKey]
             if (post) {
                 const reactionObject = post.reaction
@@ -135,9 +130,9 @@ const UserPost = ({ className, postImg, imgTitle, userAvt, postUserName, caption
                     const reactionUserList = Object.keys(reactionObject)
                     setNumLike(reactionUserList.length)
                     if (reactionUserList.includes(uidFrom)) {
-                        gsap.to(reactionBtnRef.current, {duration: 0, fill: 'red'})
+                        gsap.to(reactionBtnRef.current, { duration: 0, fill: 'red' })
                     } else {
-                        gsap.to(reactionBtnRef.current, {duration: 0, fill: 'black'})
+                        gsap.to(reactionBtnRef.current, { duration: 0, fill: 'black' })
                     }
                 }
             }
@@ -153,6 +148,12 @@ const UserPost = ({ className, postImg, imgTitle, userAvt, postUserName, caption
         reactedCheck()
     }
 
+    const handleDeletePost = async () => {
+        await deletePost(uidFrom, postKey)
+        setConfirmDeletePost(false)
+        fetchPost()
+    }
+
     return (
         <div className={`${className} post-component`}>
             <div className='post-details'>
@@ -164,10 +165,33 @@ const UserPost = ({ className, postImg, imgTitle, userAvt, postUserName, caption
                         <p className='caption'>{caption}</p>
                     </div>
                     <p className='num-like'>{numLike}</p>
-                    <HeartSVG ref={reactionBtnRef} className='like-btn' onClick={() => {handleLikeAction()}}/>
+                    <HeartSVG ref={reactionBtnRef} className='like-btn' onClick={() => { handleLikeAction() }} />
                 </div>
-                <img className='post-img' src={postImg} alt="" />
+                <img className='post-img' src={postImg} alt="" onClick={() => { setPostImgZoom(true) }} />
+                {
+                    postImgZoom ?
+                        <div className='post-img-zoom-container'>
+                            <div className='exit-post-img-zoom' onClick={() => { setPostImgZoom(false) }}></div>
+                            <img className='post-img-zoom' src={postImg} alt="" />
+                        </div> : null
+                }
                 <p className='img-title'>{imgTitle}</p>
+                {
+                    uidFrom === postOfUser ? <button className='delete-post' onClick={() => {setConfirmDeletePost(true)}}>Delete post</button> : null
+                }
+                {
+                    confirmDeletePost ?
+                        <div className='confirm-delete-post-container'>
+                            <div className='exit-confirm-delete-post' onClick={() => {setConfirmDeletePost(false)}}></div>
+                            <div className='confirm-delete-post'>
+                                <p className='warning'>This action cannot be undone</p>
+                                <div className='option-container'>
+                                    <p className='option' onClick={() => {setConfirmDeletePost(false)}}>Cancel</p>
+                                    <p className='option' onClick={() => {handleDeletePost()}}>Delete</p>
+                                </div>
+                            </div>
+                        </div> : null
+                }
             </div>
             <div className='comment-section'>
                 <p className='title'>Comment</p>
@@ -177,10 +201,10 @@ const UserPost = ({ className, postImg, imgTitle, userAvt, postUserName, caption
                     }
                 </div>
                 {
-                    showAllComment ? <p className='show-all-comment-prompt' onClick={() => {handleSeeAllComment()}}>Hide</p> :
-                    postCommentShrink.length < postComment.length ? 
-                        <p className='show-all-comment-prompt' onClick={() => {handleSeeAllComment()}}>Read {postComment.length - postCommentShrink.length} more...</p> :
-                        null
+                    showAllComment ? postComment.length <= 3 ? null : <p className='show-all-comment-prompt' onClick={() => { handleSeeAllComment() }}>Hide</p> :
+                        postCommentShrink.length < postComment.length ?
+                            <p className='show-all-comment-prompt' onClick={() => { handleSeeAllComment() }}>Read {postComment.length - postCommentShrink.length} more...</p> :
+                            null
                 }
                 <form className='add-comment-container' onSubmit={(e) => { handleSubmitComment(e) }}>
                     <input className='add-comment-input' name='comment' type="text" required placeholder='Comment here...' value={comment} onChange={(e) => { handleInputChange(e) }} />

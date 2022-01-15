@@ -6,33 +6,46 @@ import { setSearchData } from '../../redux/searchData/searchData.actions';
 import { useNavigate, useLocation } from 'react-router';
 import { ReactComponent as CreateSVG } from '../../assets/create.svg'
 import { ReactComponent as TickSVG } from '../../assets/tick.svg'
-import { getAuth } from 'firebase/auth'
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { uploadUserPost } from '../../firebase/firebase.init';
+import { getTargetUsername } from '../../firebase/firebase.init';
 
 const Search = ({ showPreloader, setShowPreloader, keyword, from, to, setSearchData }) => {
 
     const nasaEndpoint = 'https://images-api.nasa.gov/'
     // const nasaApiKey = process.env.REACT_APP_NASA_API_KEY // dirty secret
 
+    const auth = getAuth()
     const navigate = useNavigate()
     const location = useLocation()
     let locationSearch = location.search
-
-    const [showResults, setShowResults] = useState(false)
     const [searchTarget, setSearchTarget] = useState()
     const [resultsExist, setResultsExist] = useState(false)
+    const [showResult, setShowResult] = useState(false)
     const [allResults, setAllResults] = useState([])
     const [showPost, setShowPost] = useState(false)
     const [postData, setPostData] = useState(null)
     const [showSharePortal, setShowSharePortal] = useState(false)
     const [caption, setCaption] = useState(null)
     const [successPost, setSuccessPost] = useState(false)
+    const [currentUser, setCurrentUser] = useState(null)
+    const [username, setUsername] = useState(null)
 
     useEffect(() => {
-        setTimeout(() => {
-            // setShowPreloader(false)
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                setCurrentUser(auth.currentUser)
+                getTargetUsername(auth.currentUser.uid).then((res) => {
+                    setUsername(res)
+                })
+            } else {
+                setCurrentUser(null)
+            }
         })
+    }, [auth])
 
+    useEffect(() => {
+        setShowResult(false)
         if (locationSearch !== '') {
             const searchArray = locationSearch.split('')
             const queryKeyword = searchArray.slice(3, searchArray.indexOf('&')).join('')
@@ -40,7 +53,6 @@ const Search = ({ showPreloader, setShowPreloader, keyword, from, to, setSearchD
             const queryFrom = searchArray.slice(0, searchArray.indexOf('&')).join('')
             searchArray.splice(0, searchArray.indexOf('&') + 10)
             const queryTo = searchArray.slice(0, searchArray.indexOf('&')).join('')
-            console.log(queryKeyword, queryFrom, queryTo)
             setSearchTarget(queryKeyword.replaceAll("%20", " "))
 
             // Fetch Data
@@ -50,21 +62,21 @@ const Search = ({ showPreloader, setShowPreloader, keyword, from, to, setSearchD
                     setTimeout(() => {
                         setShowPreloader(false)
                     }, 500)
-                    const items = data.collection.items
-                    console.log(data)
-                    const itemsDetails = items.map((item) => {
-                        const itemData = item.data[0]
-                        const itemImgURLS = item.href
-                        const itemPreview = item.links[0].href
-                        return [itemData, itemImgURLS, itemPreview]
-                    })
-                    // console.log(itemsDetails)
-                    setShowResults(true)
-                    itemsDetails.length ? setResultsExist(true) : setResultsExist(false)
-                    itemsDetails.length ? setAllResults(itemsDetails) : setAllResults([])
+                    if (data.collection) {
+                        const items = data.collection.items
+                        const itemsDetails = items.map((item) => {
+                            const itemData = item.data[0]
+                            const itemImgURLS = item.href
+                            const itemPreview = item.links[0].href
+                            return [itemData, itemImgURLS, itemPreview]
+                        })
+                        // console.log(itemsDetails)
+                        itemsDetails.length ? setResultsExist(true) : setResultsExist(false)
+                        itemsDetails.length ? setAllResults(itemsDetails) : setAllResults([])
+                    }
                 })
+            setShowResult(true)
         } else {
-            setShowResults(false)
             setResultsExist(false)
             setAllResults([])
             setTimeout(() => {
@@ -80,7 +92,6 @@ const Search = ({ showPreloader, setShowPreloader, keyword, from, to, setSearchD
             document.body.style.overflowY = 'hidden'
             const targetIndex = e.target.id
             const targetData = allResults[targetIndex]
-            console.log(targetData)
             setPostData(targetData)
             setShowPost(true)
         }
@@ -159,13 +170,13 @@ const Search = ({ showPreloader, setShowPreloader, keyword, from, to, setSearchD
     }
 
     const handleSharePostAction = async () => {
-        const auth = getAuth()
-        const user = auth.currentUser
-        const keywords = postData[0].keywords.map((keyword) => {
-            return keyword.toLowerCase()
-        })
-        console.log(postData[2])
-        await uploadUserPost(user, postData[2], postData[0].title, caption, keywords).then(() => {
+        let keywords = null
+        if (postData[0].keywords) {
+            keywords = postData[0].keywords.map((keyword) => {
+                return keyword.toLowerCase()
+            })
+        }
+        await uploadUserPost(currentUser, postData[2], postData[0].title, caption, keywords).then(() => {
             console.log('successfully uploaded')
             setSuccessPost(true)
             handleExitSharePortal()
@@ -185,18 +196,17 @@ const Search = ({ showPreloader, setShowPreloader, keyword, from, to, setSearchD
                 <button className='submit'>Search</button>
             </form>
             {
-                showResults ?
-                    <div className='results'>
-                        {!resultsExist ?
-                            <p className='title'>No results for "{searchTarget}"</p> :
-                            <>
-                                <p className='title'>Showing {allResults.length} results for"{searchTarget}":</p>
-                                <div className='preview-container'>
-                                    {preview}
-                                </div>
-                            </>
-                        }
-                    </div> : null
+                showResult ? <div className='results'>
+                    {!resultsExist ?
+                        <p className='title'>Based on your selections, no results were found</p> :
+                        <>
+                            <p className='title'>Showing {allResults.length} results for"{searchTarget}":</p>
+                            <div className='preview-container'>
+                                {preview}
+                            </div>
+                        </>
+                    }
+                </div> : null
             }
             {
                 showPost ?
@@ -211,12 +221,17 @@ const Search = ({ showPreloader, setShowPreloader, keyword, from, to, setSearchD
                                     {
                                         !successPost ?
                                             <>
-                                                <CreateSVG className='create-svg' onClick={() => { handleSharePostImg() }} />
-                                                <p className='create-text' onClick={() => { handleSharePostImg() }} >Click here to share this to your profile</p>
+                                                {
+                                                    currentUser ?
+                                                        <>
+                                                            <CreateSVG className='create-svg' onClick={() => { handleSharePostImg() }} />
+                                                            <p className='create-text' onClick={() => { handleSharePostImg() }} >Click here to share this to your profile</p>
+                                                        </>
+                                                        : <a className='unauth-create' href='/login'>Sign in to share this photo to your profile</a>
+                                                }
                                             </> :
                                             <>
-                                                <TickSVG className='create-svg' />
-                                                <p className='create-text'>Succesfully posted to your profile</p>
+                                                <a className='create-text-success' href={`/users/${username}_${currentUser.uid}`}>Succesfully posted to your profile</a>
                                             </>
                                     }
                                 </div>
@@ -229,13 +244,14 @@ const Search = ({ showPreloader, setShowPreloader, keyword, from, to, setSearchD
                                 <p className='title'>Date Created</p>
                                 <p className='details'>{postData[0].date_created}</p>
                                 <p className='title related'>Related Keywords</p>
-                                {postData[0].keywords ? <div className='keywords'>{
-                                    postData[0].keywords.map((keyword, index) => {
-                                        return (
-                                            <p key={index} className='keyword' onClick={(e) => { handleRelatedSearch(e) }}>{keyword}</p>
-                                        )
-                                    })
-                                }</div> : <p className='details'>None</p>}
+                                {postData[0].keywords ? <div className='keywords'>
+                                    {
+                                        postData[0].keywords.map((keyword, index) => {
+                                            return (
+                                                <p key={index} className='keyword' onClick={(e) => { handleRelatedSearch(e) }}>{keyword}</p>
+                                            )
+                                        })
+                                    }</div> : <p className='details'>None</p>}
                             </div>
                         </div>
                     </div> : null

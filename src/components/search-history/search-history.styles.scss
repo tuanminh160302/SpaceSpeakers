@@ -1,0 +1,34 @@
+.search-history {
+    width: 100%;
+    height: fit-content;
+    padding: 0 0 0 20px;
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-right: 15px;
+
+    .search-history-item {
+        font-size: .8rem;
+        font-weight: 400;
+        color: #a4a4a4;
+        cursor: pointer;
+        padding: 0 10px;
+    }
+
+    .history-svg {
+        height: 15px;
+        width: 15px;
+        min-width: 15px;
+        fill: #a4a4a4;
+    }
+
+    .clear-svg {
+        height: 15px;
+        width: 15px;
+        min-width: 15px;
+        fill: #a4a4a4;
+        margin-left: auto;
+        cursor: pointer;
+    }
+}
