@@ -1,0 +1,92 @@
+.footer-container {
+    width: 100%;
+    z-index: 1000;
+    height: fit-content;
+    padding: 100px 250px 30px 250px;
+    display: flex;
+    flex-direction: column;
+    background: black;
+
+    .footer {
+        width: 100%;
+        height: fit-content;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        background: black;
+        flex-wrap: wrap;
+        margin-bottom: 50px;
+    
+        .col {
+            height: fit-content;
+            width: fit-content;
+            display: flex;
+            flex-direction: column; 
+            margin: 0 30px 30px 30px;
+    
+            .title {
+                color: white;
+                font-size: .9rem;
+                font-weight: 500;
+                margin-bottom: 25px;
+            }
+    
+            .element {
+                color: #a4a4a4;
+                font-size: .9rem;
+                font-weight: 400;
+                margin-bottom: 15px;
+            }
+        }
+    
+        .branding {
+            .footer-logo {
+                color: white;
+                font-size: 1.4rem;
+                font-weight: 900;
+                font-style: italic;
+                cursor: pointer;
+                margin-bottom: 30px;
+            }
+        
+            .footer-title {
+                color: #a4a4a4;
+                font-size: .9rem;
+                font-weight: 400;
+                line-height: 27px;
+            }
+    
+            .footer-slo {
+                color: white;
+                font-size: .9rem;
+                font-weight: 500;
+            }
+        }
+    
+        .explore {
+            .explore-title {
+    
+            }
+    
+            .explore-link {
+    
+            }
+        }
+    
+        .visit {
+            .visit-title {
+    
+            }
+            .visit-address {
+                
+            }
+        }
+    }
+
+    .copyrights {
+        font-size: .9rem;
+        font-weight: 500;
+        color: #a4a4a4;
+        margin: 0 30px 0px 30px;
+    }
+}

@@ -185,7 +185,7 @@ const Search = ({ showPreloader, setShowPreloader, keyword, from, to, setSearchD
 
     return (
         <div className='search'>
-            <form className='search' onSubmit={(e) => { handleSearch(e) }}>
+            <form className='search-form' onSubmit={(e) => { handleSearch(e) }}>
                 <input className='key-input' name='keyword' type="text" value={keyword} placeholder='What do you want to see?' required onChange={(e) => { handleInputChange(e) }} />
                 <div className='year-input'>
                     <p>From (year)</p>

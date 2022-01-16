@@ -15,6 +15,8 @@
         font-weight: 900;
         font-style: italic;
         font-size: 1.4rem;
+        cursor: pointer;
+        color: black;
     }
 
     .header-search-container {
@@ -67,6 +69,8 @@
             transform: translateY(100%);
             background: white;
             height: fit-content;
+            max-height: 30vh;
+            overflow: auto;
             box-shadow: 0 2px 5px 3px rgb(0 0 0 / 25%);
             -webkit-box-shadow: 0 2px 5px 3px rgb(0 0 0 / 25%);
             padding: 18px 0 5px 0;

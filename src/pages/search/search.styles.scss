@@ -4,8 +4,9 @@
     padding-left: 250px;
     padding-right: 250px;
     padding-top: 200px;
+    min-height: 100vh;
 
-    .search {
+    .search-form {
         width: calc(100% - 200px);
         margin: 0 100px 0 100px;
         padding: 70px 150px 100px 150px;

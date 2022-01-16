@@ -4,7 +4,7 @@ import { getAnalytics } from "firebase/analytics";
 import { getFirestore, QueryConstraint } from 'firebase/firestore';
 import { doc, getDoc, setDoc, collection, getDocs, where, query, deleteField } from "firebase/firestore";
 import { getStorage, uploadBytes, ref, getDownloadURL } from 'firebase/storage'
-import { getAuth, updateProfile } from "firebase/auth";
+import { getAuth, updateProfile, GoogleAuthProvider, signInWithRedirect, getRedirectResult } from "firebase/auth";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -26,6 +26,12 @@ const analytics = getAnalytics(firebaseApp);
 
 export const db = getFirestore();
 export const storage = getStorage()
+const auth = getAuth()
+
+export const signInWithGoogle = () => {
+    const provider = new GoogleAuthProvider()
+    signInWithRedirect(auth, provider)
+}
 
 export const createUserCredentials = async (userCredentials, additionalData) => {
     const { uid } = userCredentials
@@ -45,10 +51,24 @@ export const createUserCredentials = async (userCredentials, additionalData) => 
         } catch (err) {
             console.log('error creating user', err.message)
         }
+    } else {
+        const createdAt = new Date();
+
+        try {
+            await setDoc(doc(db, "users", uid), {
+                createdAt,
+                uid,
+                ...additionalData
+            }, {merge: true})
+
+        } catch (err) {
+            console.log('error creating user', err.message)
+        }
     }
 }
 
 export const getTargetUserUID = async (username) => {
+    if (!username) return
     let uid = null
     const userCollectionRef = collection(db, 'users');
     const queryUserToBeDisplayed = query(userCollectionRef, where("username", "==", username))
@@ -210,7 +230,6 @@ export const pullSearchResult = async (searchInput) => {
             }
         })
         .then((res) => {
-            console.log(res)
             if (res) {
                 const data = res.collection.items
                 data.forEach((item) => {
@@ -318,12 +337,14 @@ export const pushSearchHistory = async (user, searchKeyword, timestamp) => {
     const userRef = doc(db, 'users', uid)
     await getDoc(userRef).then((snapshot) => {
         const data = snapshot.data()
-        const { searchHistory } = data
-        if (searchHistory) {
-            const allSearchItems = Object.values(searchHistory)
-            if (allSearchItems.includes(searchKeyword)) {
-                const index = allSearchItems.indexOf(searchKeyword)
-                deleteSearchHistory(user, Object.keys(searchHistory)[index])
+        if (data) {
+            const { searchHistory } = data
+            if (searchHistory) {
+                const allSearchItems = Object.values(searchHistory)
+                if (allSearchItems.includes(searchKeyword)) {
+                    const index = allSearchItems.indexOf(searchKeyword)
+                    deleteSearchHistory(user, Object.keys(searchHistory)[index])
+                }
             }
         }
     })
@@ -345,9 +366,11 @@ export const pullSearchHistory = async (user) => {
     const userRef = doc(db, 'users', uid)
     await getDoc(userRef).then((snapshot) => {
         const data = snapshot.data()
-        const { searchHistory } = data
-        if (searchHistory) {
-            result = searchHistory
+        if (data) {
+            const { searchHistory } = data
+            if (searchHistory) {
+                result = searchHistory
+            }
         }
     })
 

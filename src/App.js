@@ -5,6 +5,7 @@ import { Routes, Route } from 'react-router-dom';
 import { useLocation } from 'react-router';
 import Preloader from './components/preloader/preloader.component';
 import Header from './components/header/header.component';
+import Footer from './components/footer/footer.component';
 import LandingPage from './pages/landing-page/landing-page.component';
 import Search from './pages/search/search.component';
 import Login from './pages/login/login.component'
@@ -12,9 +13,10 @@ import Profile from './pages/profile/profile.component'
 import SearchResult from './pages/search-result/search-result.component';
 import { showPreloader } from './redux/preloader/show-preloader.actions';
 import { setSearchData } from './redux/searchData/searchData.actions';
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getAuth, onAuthStateChanged, getRedirectResult, GoogleAuthProvider  } from "firebase/auth";
 import { setSignInState } from './redux/signInState/signInState.actions';
-import UserPost from './components/user-post/user-post.component';
+import { createUserCredentials } from './firebase/firebase.init';
+import { getDoc, doc, getFirestore } from 'firebase/firestore';
 
 
 function App({ showPreloader, setShowPreloader, setSearchData, isSignedIn, setSignInState }) {
@@ -22,16 +24,37 @@ function App({ showPreloader, setShowPreloader, setSearchData, isSignedIn, setSi
   const location = useLocation()
 
   const auth = getAuth();
-  onAuthStateChanged(auth, (user) => {
+  const db = getFirestore()
+
+  onAuthStateChanged(auth, async (user) => {
     if (user) {
-      // User is signed in, see docs for a list of available properties
-      // https://firebase.google.com/docs/reference/js/firebase.User
-      const uid = user.uid;
+      await getRedirectResult(auth).then(async (res) => {
+        if (res) {
+          const {user} = res
+          const avatarURL = user.photoURL
+          const username = user.email
+          const signupemail = user.email
+          const userRef = doc(db, 'users', user.uid)
+          await getDoc(userRef).then((snapshot) => {
+            const data = snapshot.data()
+            if (!data) {
+              createUserCredentials(user, { signupemail, username, avatarURL }).then(() => {
+                window.location.reload()
+              })
+            } else if (data) {
+              if (!data.uid) {
+                createUserCredentials(user, { signupemail, username, avatarURL }).then(() => {
+                  window.location.reload()
+                })
+              }
+            }
+          })
+        }
+      })      
       setSignInState(true)
       // ...
     } else {
-      // User is signed out
-      // ...
+      
     }
   });
 
@@ -59,6 +82,7 @@ function App({ showPreloader, setShowPreloader, setSearchData, isSignedIn, setSi
         <Route path='/users/:username' element={<Profile/>}></Route>
         <Route path='/search-data-field=:data' element={<SearchResult/>}></Route>
       </Routes>
+      <Footer />
     </div>
   );
 }

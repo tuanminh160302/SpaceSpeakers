@@ -155,7 +155,7 @@ const Header = ({ isSignedIn, setSignInState }) => {
 
     return (
         <div className='header'>
-            <p className='logo'>SpaceSpeakers</p>
+            <a className='logo' href='/'>SpaceSpeakers</a>
             <form className='header-search-container' onSubmit={(e) => { handleHeaderSearch(e) }}>
                 <input className='header-search-input' type="text" required placeholder='Search user or keyword...' value={searchValue} onChange={(e) => { handleInputChange(e) }}
                     onFocus={() => { searchHistory.length && setShowSearchHistory(true) }} />

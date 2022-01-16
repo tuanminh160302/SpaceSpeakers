@@ -4,16 +4,44 @@ import landingImg from '../../assets/home-img.jpg'
 import { connect } from 'react-redux';
 import { showPreloader } from '../../redux/preloader/show-preloader.actions';
 import { useNavigate } from 'react-router';
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
+import { getTargetUsername } from '../../firebase/firebase.init';
+import { getFirestore, doc, onSnapshot } from 'firebase/firestore';
 
 const LandingPage = ({showPreloader, setShowPreloader}) => {
 
+    const auth = getAuth()
     const navigate = useNavigate()
+    const db = getFirestore()
 
     useEffect(() => {
-        setTimeout(() => {
-            setShowPreloader(false)
-        }, 500)
-    })
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                await getTargetUsername(user.uid).then((res) => {
+                    if (res) {
+                        setTimeout(() => {
+                            setShowPreloader(false)
+                        }, 500)
+                    } else {
+                        const unsub = onSnapshot(doc(db, 'users', user.uid), (doc) => {
+                            const data = doc.data()
+                            if (data) {
+                                if (data.uid) {
+                                    setTimeout(() => {
+                                        setShowPreloader(false)
+                                    }, 500)
+                                }
+                            }
+                        })
+                    }
+                })
+            } else {
+                setTimeout(() => {
+                    setShowPreloader(false)
+                }, 500)
+            }
+        })
+    }, [auth])
 
     return (
         <div className='landing'>
