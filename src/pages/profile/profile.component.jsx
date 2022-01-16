@@ -13,7 +13,8 @@ import { ReactComponent as NotFoundSVG } from '../../assets/not-found.svg'
 import { ReactComponent as UnauthSVG } from '../../assets/unauth.svg'
 import CropperComponent from '../../components/cropper/cropper.component'
 import { setCropper, getCropImage } from '../../redux/cropImage/cropImage.actions'
-import { uploadUserAvatar, editUserDetails, getTargetUsername } from '../../firebase/firebase.init'
+import { uploadUserAvatar, editUserDetails, getTargetUsername, followAction } from '../../firebase/firebase.init'
+import UserSnippet from '../../components/user-snippet/user-snippet.component'
 
 const Profile = ({ setshowPreloader, cropImage, showCropper, setCropper, getCropImage }) => {
 
@@ -32,6 +33,12 @@ const Profile = ({ setshowPreloader, cropImage, showCropper, setCropper, getCrop
     const [currentUser, setCurrentUser] = useState(null)
     const [editUsernameInput, setEditUsernameInput] = useState('')
     const [editBioInput, setEditBioInput] = useState('')
+    const [follower, setFollower] = useState([])
+    const [following, setFollowing] = useState([])
+    const [isFollow, setIsFollow] = useState()
+    const [showFollower, setShowFollower] = useState(false)
+    const [showFollwing, setShowFollowing] = useState(false)
+    const [showSocial, setShowSocial] = useState(false)
 
     useEffect(() => {
         onAuthStateChanged(auth, async (user) => {
@@ -59,12 +66,14 @@ const Profile = ({ setshowPreloader, cropImage, showCropper, setCropper, getCrop
         }
 
         if (currentUser && foundProfile) {
-            fetchPost()
+            await fetchPost()
         } else {
             setTimeout(() => {
                 setshowPreloader(false)
             }, 500)
         }
+        await fetchSocialStatus()
+        setShowSocial(false)
     }, [currentUser, location, foundProfile])
 
     useEffect(() => {
@@ -108,6 +117,45 @@ const Profile = ({ setshowPreloader, cropImage, showCropper, setCropper, getCrop
         }, 500)
     }
 
+    const fetchSocialStatus = async () => {
+        let followerArray = []
+        let followingArray = []
+        const tempUID = location.pathname.slice(location.pathname.lastIndexOf('_') + 1)
+        const userRef = doc(db, 'users', tempUID)
+        await getDoc(userRef).then((snapshot) => {
+            const data = snapshot.data()
+            const { socialStatus } = data
+            // console.log(socialStatus)
+            if (socialStatus) {
+                const followerObject = socialStatus.follower
+                const followingObject = socialStatus.following
+                if (followerObject) {
+                    const followerKeyArr = Object.keys(followerObject)
+                    followerKeyArr.sort((a, b) => followerObject[a][2] > followerObject[b][2] ? -1 : 1)
+                    followerKeyArr.map((follower) => {
+                        followerArray.push([follower, followerObject[follower]])
+                        if (currentUser) {
+                            if (followerKeyArr.includes(currentUser.uid)) {
+                                setIsFollow(true)
+                            } else {
+                                setIsFollow(false)
+                            }
+                        }
+                    })
+                }
+                if (followingObject) {
+                    const followingKeyArr = Object.keys(followingObject)
+                    followingKeyArr.sort((a, b) => followingObject[a][2] > followingObject[b][2] ? -1 : 1)
+                    followingKeyArr.map((following) => {
+                        followingArray.push([following, followingObject[following]])
+                    })
+                }
+            }
+        })
+        setFollower(followerArray)
+        setFollowing(followingArray)
+    }
+
     const posts = allPosts.map((post, index) => {
         const timestamp = Object.keys(post)[0]
         const time = new Date(parseInt(timestamp))
@@ -145,6 +193,7 @@ const Profile = ({ setshowPreloader, cropImage, showCropper, setCropper, getCrop
         setCropper(false)
         setFile(null)
         getCropImage(null)
+        document.body.style.overflowY = 'visible'
     }
 
     const handleEditInputChange = (e) => {
@@ -159,12 +208,8 @@ const Profile = ({ setshowPreloader, cropImage, showCropper, setCropper, getCrop
         setShowEditProfileDetails(false)
         setEditBioInput(profileDetails[4])
         setEditUsernameInput(profileDetails[1])
+        document.body.style.overflowY = 'visible'
     }
-
-    // useEffect(() => {
-    //     console.log('username:', editUsernameInput)
-    //     console.log('bio:', editBioInput)
-    // }, [editUsernameInput, editBioInput])
 
     const onDrop = useCallback(acceptedFiles => {
         // Do things with files
@@ -216,6 +261,66 @@ const Profile = ({ setshowPreloader, cropImage, showCropper, setCropper, getCrop
             })
         }
     }
+
+    const handleFollowAction = async () => {
+        followAction(currentUser.uid, profileDetails[0], isFollow).then(() => {
+            setIsFollow(!isFollow)
+            fetchSocialStatus()
+        })
+    }
+
+    const handleShowFollower = () => {
+        setShowFollower(true)
+        setShowSocial(true)
+        document.body.style.overflowY = 'hidden'
+    }
+
+    const handleExitShowFollower = () => {
+        setShowFollower(false)
+        setShowSocial(false)
+        fetchSocialStatus()
+        document.body.style.overflowY = 'visible'
+    }
+
+    const handleShowFollowing = () => {
+        setShowFollowing(true)
+        setShowSocial(true)
+        document.body.style.overflowY = 'hidden'
+    }
+
+    const handleExitShowFollowing = () => {
+        setShowFollowing(false)
+        setShowSocial(false)
+        fetchSocialStatus()
+        document.body.style.overflowY = 'visible'
+    }
+
+    const followerComponent = follower.map((person, index) => {
+
+        return (
+            <Fragment key={index}>
+                <UserSnippet
+                    socialType='follower'
+                    person={person}
+                    handleExitShowFollower={handleExitShowFollower}
+                    handleExitShowFollowing={handleExitShowFollowing} 
+                    fetchSocialStatus={fetchSocialStatus}/>
+            </Fragment>
+        )
+    })
+
+    const followingComponent = following.map((person, index) => {
+        return (
+            <Fragment key={index}>
+                <UserSnippet
+                    socialType='follower'
+                    person={person}
+                    handleExitShowFollower={handleExitShowFollower}
+                    handleExitShowFollowing={handleExitShowFollowing} 
+                    fetchSocialStatus={fetchSocialStatus}/>
+            </Fragment>
+        )
+    })
 
     return (
         <div className='profile-container'>
@@ -275,18 +380,33 @@ const Profile = ({ setshowPreloader, cropImage, showCropper, setCropper, getCrop
                                     </div>
                                     : null
                             }
+                            {
+                                showSocial ?
+                                    <div className='social-container'>
+                                        <div className='exit-social' onClick={() => showFollower ? handleExitShowFollower() : handleExitShowFollowing()}></div>
+                                        <div className='social'>
+                                            <p className='social-type'>{showFollower ? 'Follower' : 'Following'}</p>
+                                            <div className='person-container'>
+                                                {
+                                                    showFollower ? followerComponent : followingComponent
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                    : null
+                            }
                             <div className='dashboard'>
                                 <div className='user-avt'>
                                     <img src={profileDetails[2]} alt="" />
                                     {
-                                        editProfileRights ? <p className='change-avt' onClick={() => { setShowChangeAvt(true) }}>Upload</p> : null
+                                        editProfileRights ? <p className='change-avt' onClick={() => { setShowChangeAvt(true); document.body.style.overflowY = 'hidden' }}>Upload</p> : null
                                     }
                                 </div>
                                 <div className='user-details'>
                                     <p className='username'>
                                         {profileDetails[1]}
                                         {
-                                            editProfileRights ? <EditSVG className='edit-details' onClick={() => { setShowEditProfileDetails(true) }} /> : null
+                                            editProfileRights ? <EditSVG className='edit-details' onClick={() => { setShowEditProfileDetails(true); document.body.style.overflowY = 'hidden' }} /> : null
                                         }
                                     </p>
                                     <div className='email-container'>
@@ -295,7 +415,16 @@ const Profile = ({ setshowPreloader, cropImage, showCropper, setCropper, getCrop
                                     </div>
                                     <p className='bio'>{profileDetails[4]}</p>
                                 </div>
-                                <div className='user-stats'></div>
+                                <div className='user-stats'>
+                                    <p className='stat'>{allPosts.length} Posts</p>
+                                    <p className='stat' onClick={() => { handleShowFollower() }}>{follower.length} Follower</p>
+                                    <p className='stat' onClick={() => { handleShowFollowing() }}>{following.length} Following</p>
+                                    {
+                                        currentUser.uid !== profileDetails[0] ?
+                                            <button className='follow-btn' onClick={() => { handleFollowAction() }}>{isFollow ? 'Unfollow' : 'Follow'}</button>
+                                            : null
+                                    }
+                                </div>
                             </div>
                             {posts}
                         </>

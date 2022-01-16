@@ -179,6 +179,62 @@
         }
     }
 
+    .social-container {
+        position: fixed;
+        z-index: 100000;
+        height: 100vh;
+        width: 100vw;
+        top: 0;
+        left: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .exit-social {
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            z-index: 1;
+            background: rgba(0, 0, 0, 0.8);
+            top: 0;
+            left: 0;
+        }
+
+        .social {
+            z-index: 10;
+            height: 600px;
+            width: 600px;
+            background: white;
+            max-height: 80vh;
+            max-width: 80vw;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+
+            .social-type {
+                width: 100%;
+                padding: 10px 0;
+                border-bottom: 1px solid gray;
+                text-align: center;
+                font-size: .9rem;
+                font-weight: 500;
+                position: absolute;
+                z-index: 10;
+                top: 0;
+                left: 0;
+                background: white;
+                transform: translateY(-100%);
+            }
+
+            .person-container {
+                height: 100%;
+                width: 100%;
+                overflow: auto;
+                padding: 20px 50px;
+            }
+        }
+    }
+
     .dashboard {
         min-height: 35vh;
         height: fit-content;
@@ -187,7 +243,7 @@
         flex-direction: row;
         align-items: flex-start;
         background: black;
-        padding: 50px 50px;
+        padding: 50px 75px;
         margin-bottom: 80px;
 
         .user-avt {
@@ -225,12 +281,12 @@
             color: white;
             width: 40%;
             height: 25vh;
-            overflow: auto;
+            // overflow: auto;
             flex-grow: 1;
             margin-right: 15px;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            padding-top: 30px;
 
             .username {
                 font-size: 1.3rem;
@@ -272,6 +328,9 @@
                 font-weight: 200;
                 font-size: .8rem;
                 line-height: 28px;
+                height: fit-content;
+                max-height: 50%;
+                overflow: auto;
             }
         }
 
@@ -280,6 +339,32 @@
             width: 20%;
             background: white;
             margin-left: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 25px;
+
+            .stat {
+                width: 75%;
+                text-align: left;
+                font-size: .9rem;
+                font-weight: 500;
+                margin-bottom: 15px;
+                cursor: pointer;
+            }
+
+            .follow-btn {
+                height: fit-content;
+                width: fit-content;
+                background: black;
+                color: white;
+                font-size: .9rem;
+                font-weight: 500;
+                padding: 12px 20px;
+                margin-top: auto;
+                margin-bottom: 20px;
+                cursor: pointer;
+            }
         }
     }
 }

@@ -26,6 +26,14 @@ function App({ showPreloader, setShowPreloader, setSearchData, isSignedIn, setSi
   const auth = getAuth();
   const db = getFirestore()
 
+  useEffect(() => {
+    window.scrollTo({top: 0})
+  }, [location])
+
+  useEffect(() => {
+    showPreloader ? document.body.style.overflowY = 'hidden' : document.body.style.overflowY = 'visible'
+  }, [showPreloader])
+
   onAuthStateChanged(auth, async (user) => {
     if (user) {
       await getRedirectResult(auth).then(async (res) => {

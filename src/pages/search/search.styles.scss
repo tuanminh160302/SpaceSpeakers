@@ -68,6 +68,36 @@
         }
     }
 
+    
+    .post-img-zoom-container {
+        position: fixed;
+        height: 100vh;
+        width: 100vw;
+        top: 0;
+        left: 0;
+        z-index: 100000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .exit-post-img-zoom {
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            background: rgba(0, 0, 0, .8);
+        }
+
+        .post-img-zoom {
+            z-index: 10;
+            min-height: 60%;
+            max-height: 80%;
+            width: auto;
+        }
+    }
+
     .results {
         padding: 70px 100px 100px 100px;
         height: fit-content;
@@ -170,6 +200,8 @@
                     height: auto;
                     width: auto;
                     margin-bottom: 20px;
+                    cursor: zoom-in;
+                    user-select: none;
                 }
 
                 .nasa-id {

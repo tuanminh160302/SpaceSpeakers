@@ -31,7 +31,7 @@ const Footer = () => {
             <div className='footer'>
                 <div className='branding col'>
                     <a className='footer-logo' href='/'>SpaceSpeakers</a>
-                    <p className='footer-title'>We talk bout space. We give you space. <br></br> <span className='footer-slo'>Be space.</span></p>
+                    <p className='footer-title'>We talk bout space. We write about space <br></br> <span className='footer-slo'>Be space.</span></p>
                 </div>
                 <div className='explore col'>
                     <p className='explore-title title'>Explore</p>
@@ -51,11 +51,11 @@ const Footer = () => {
                 <div className='follow col'>
                     <p className='follow-title title'>Follow</p>
                     <a className='follow-link element' href="https://www.facebook.com/tuanng1603/" target='_blank'>Facebook</a>
-                    <a className='follow-link element' href="">Instagram</a>
-                    <a className='follow-link element' href="">Linkedin</a>
+                    <a className='follow-link element' href="https://www.instagram.com/ocd.de_steve16/" target="_blank">Instagram</a>
+                    <a className='follow-link element' href="https://www.linkedin.com/in/steve-nguyen-a33607153/" target="_blank">Linkedin</a>
                 </div>
                 <div className='legal col'>
-                    <p className='legal-title title'>Visit</p>
+                    <p className='legal-title title'>Legal</p>
                     <p className='legal-link element'>Terms</p>
                     <p className='legal-link element'>Privacy</p>
                 </div>

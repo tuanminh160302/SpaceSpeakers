@@ -14,8 +14,8 @@ const Login = ({ showPreloader, email, signupemail, username, password, signuppa
 
     const [loginMethod, setLoginMethod] = useState(true)
     const [signUpInUse, setSignUpInUse] = useState(false)
-    const [alertMessage, setAlertMessage] = useState('')
     const [showResetPassword, setShowResetPassword] = useState(false)
+    const [alertMessage, setAlertMessage] = useState('')
     const [resetPasswordInput, setResetPasswordInput] = useState(null)
     const navigate = useNavigate()
     const db = getFirestore()
@@ -102,7 +102,7 @@ const Login = ({ showPreloader, email, signupemail, username, password, signuppa
                             if (err.code === 'auth/email-already-in-use') {
                                 setAlertMessage('Email elready in use')
                             } else if (err.code === 'auth/weak-password') {
-                                setAlertMessage('Password must have at least 6 characters')
+                                setAlertMessage('Password must has at least 6 characters')
                             }
                         })
                 }
@@ -120,6 +120,8 @@ const Login = ({ showPreloader, email, signupemail, username, password, signuppa
     const handleExitResetPassword = () => {
         setShowResetPassword(false)
         setResetPasswordInput(null)
+        setAlertMessage()
+        document.body.style.overflowY = 'visible'
     }
 
     const handleResetPasswordInput = (e) => {
@@ -134,9 +136,15 @@ const Login = ({ showPreloader, email, signupemail, username, password, signuppa
         const auth = getAuth()
 
         sendPasswordResetEmail(auth, resetPasswordInput).then(() => {
-            console.log('password reset email sent')
+            setAlertMessage('Password reset email sent!')
         }).catch((err) => {
-            console.log(err.code)
+            if (err.code === 'auth/invalid-email') {
+                setAlertMessage('Invalid email')
+            } else if (err.code === 'auth/missing-email') {
+                setAlertMessage('Please enter your email')
+            } else if (err.code === 'auth/user-not-found') {
+                setAlertMessage('User not found. Please re-check')
+            }
         })
     }
 
@@ -146,10 +154,11 @@ const Login = ({ showPreloader, email, signupemail, username, password, signuppa
                 showResetPassword ?
                     <div className='forgot-password-container'>
                         <div className='exit-forgot-password' onClick={() => { handleExitResetPassword() }}></div>
-                        <form className='forgot-password-form'>
-                            <p className='prompt' onSubmit={handleResetPassword}>Enter your email</p>
-                            <input className='forgot-password-input' type="email" name='forgot-email' required onChange={(e) => { handleResetPasswordInput(e) }} />
-                            <button className='handle-forgot-password-btn' onClick={(e) => { handleResetPassword(e) }}>Reset</button>
+                        <form className='forgot-password-form' onSubmit={(e) => {handleResetPassword(e)}}>
+                            <p className='prompt'>Enter your email</p>
+                            <input className='forgot-password-input' type="email" name='forgot-email' onChange={(e) => { handleResetPasswordInput(e) }} required/>
+                            <button className='handle-forgot-password-btn'>Reset</button>
+                            <p className='alert-reset'>{alertMessage}</p>
                         </form>
                     </div>
                     : null
@@ -169,7 +178,7 @@ const Login = ({ showPreloader, email, signupemail, username, password, signuppa
                                                 <input className='login-input' type="email" name='email' value={email} required onChange={(e) => { handleInputChange(e) }} />
                                                 <p className='login-prompt'>Enter your password</p>
                                                 <input className='login-input' type="password" name='password' value={password} required onChange={(e) => { handleInputChange(e) }} />
-                                                <p className='forgot-password' onClick={() => {setShowResetPassword(true)}}>Forgot pasword?</p>
+                                                <p className='forgot-password' onClick={() => {setShowResetPassword(true); setAlertMessage(); document.body.style.overflowY = 'hidden'}}>Forgot pasword?</p>
                                                 <button className='login-button'>Login</button>
                                             </form>
                                             <button className='login-google' onClick={() => { handleGoogleSignIn() }}>Login with Google</button>

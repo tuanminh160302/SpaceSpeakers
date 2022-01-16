@@ -5,24 +5,26 @@ import { connect } from 'react-redux';
 
 const Preloader = ({isSignedIn}) => {
 
-    const [renderRedirect, setRenderRedirect] = useState(false)
-    const navigate = useNavigate()
-    const location = useLocation()
+    const [errorRendering, setErrorRendering] = useState(false)
 
     useEffect(() => {
-        if (location.pathname === '/login' && isSignedIn) {
-            setRenderRedirect(true)
-        }
-    }, [location])
+        const timer = () => setTimeout(() => {
+            setErrorRendering(true)
+        }, 3000)
 
-    const handleRedirectHome = () => {
-        navigate('/')
-    }
+        const timerId = timer()
+
+        return () => {
+            clearTimeout(timerId)
+        }
+    }, [])
 
     return (
         <div className='preloader'>
             <img src="https://media.giphy.com/media/sdcIxdTkFD0g8/giphy.gif" alt="" />
-            {/* {renderRedirect ? <p className='preloader-redirect' onClick={() => {handleRedirectHome()}}>You have already signed in. Click here to go home</p> : null} */}
+            {
+                errorRendering ? <p className='error-prompt' onClick={() => {window.location.reload()}}>Waiting too long?</p> : null
+            }
         </div>
     )
 }

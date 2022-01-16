@@ -2,6 +2,11 @@
     background: rgba(0,0,0,.8)
 }
 
+.crop-area {
+  height: 100% !important;
+  width: 100% !important;
+}
+
 .cropper-container {
     z-index: 10;
 }

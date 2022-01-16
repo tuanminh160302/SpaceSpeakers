@@ -66,6 +66,14 @@
                 font-size: .9rem;
                 font-weight: 600;
                 cursor: pointer;
+                margin-bottom: 15px;
+            }
+
+            .alert-reset {
+                color: black;
+                font-size: .9rem;
+                font-weight: 600;
+                color: red;
             }
         }
     }
@@ -153,7 +161,7 @@
                     border: none;
                     padding: 12px 20px;
                     cursor: pointer;
-                    margin-bottom: 15px;
+                    margin-bottom: 20px;
                 }
             }
     

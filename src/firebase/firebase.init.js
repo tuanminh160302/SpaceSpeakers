@@ -391,4 +391,79 @@ export const deleteSearchHistory = async (user, timestamp) => {
     console.log('deleted search history')
 }
 
+export const followAction = async (uidFrom, uidTo, isFollow) => {
+    if (!uidFrom || !uidTo) {
+      return
+    }
+  
+    const createdAt = new Date().getTime()
+  
+    const userFromRef = doc(db, 'users', uidFrom)
+    const userToRef = doc(db, 'users', uidTo)
+    
+    let fromUser = null
+    let toUser = null
+    let fromAvt = null
+    let toAvt = null
+  
+    await getDoc(userFromRef).then((snapshot) => {
+      fromUser = snapshot.data().username
+      if (snapshot.data().avatarURL) {
+        fromAvt = snapshot.data().avatarURL
+      }
+    })
+  
+    await getDoc(userToRef).then((snapshot) => {
+      toUser = snapshot.data().username
+      if (snapshot.data().avatarURL) {
+        toAvt = snapshot.data().avatarURL
+      }
+    })
+  
+    try {
+      if (!isFollow) {
+        await setDoc(userFromRef, 
+          {
+            socialStatus: {
+              following: {
+                [uidTo]: [toUser, toAvt, createdAt]
+              },
+            }
+          }, {merge: true})
+  
+        await setDoc(userToRef, 
+          {
+            socialStatus: {
+              follower: {
+                [uidFrom]: [fromUser, fromAvt, createdAt]
+              }
+            }
+          }, {merge: true})
+  
+        console.log('follow action pushed')
+      } else if(isFollow) {
+        await setDoc(userFromRef, 
+          {
+            socialStatus: {
+              following: {
+                [uidTo]: deleteField()
+              }
+            }
+          }, {merge: true})
+  
+        await setDoc(userToRef, 
+          {
+            socialStatus: {
+              follower: {
+                [uidFrom]: deleteField() 
+              }
+            }
+          }, {merge: true})
+        console.log('unfollow action pushed')
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
 export default firebaseApp;

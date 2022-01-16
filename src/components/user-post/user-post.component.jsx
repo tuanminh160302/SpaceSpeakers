@@ -177,16 +177,16 @@ const UserPost = ({ className, postImg, imgTitle, userAvt, postUserName, caption
                 }
                 <p className='img-title'>{imgTitle}</p>
                 {
-                    uidFrom === postOfUser ? <button className='delete-post' onClick={() => {setConfirmDeletePost(true)}}>Delete post</button> : null
+                    uidFrom === postOfUser ? <button className='delete-post' onClick={() => {setConfirmDeletePost(true); document.body.style.overflowY = 'hidden'}}>Delete post</button> : null
                 }
                 {
                     confirmDeletePost ?
                         <div className='confirm-delete-post-container'>
-                            <div className='exit-confirm-delete-post' onClick={() => {setConfirmDeletePost(false)}}></div>
+                            <div className='exit-confirm-delete-post' onClick={() => {setConfirmDeletePost(false); document.body.style.overflowY = 'visible'}}></div>
                             <div className='confirm-delete-post'>
                                 <p className='warning'>This action cannot be undone</p>
                                 <div className='option-container'>
-                                    <p className='option' onClick={() => {setConfirmDeletePost(false)}}>Cancel</p>
+                                    <p className='option' onClick={() => {setConfirmDeletePost(false); document.body.style.overflowY = 'visible'}}>Cancel</p>
                                     <p className='option' onClick={() => {handleDeletePost()}}>Delete</p>
                                 </div>
                             </div>

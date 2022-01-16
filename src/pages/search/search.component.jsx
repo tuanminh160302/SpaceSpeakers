@@ -30,6 +30,8 @@ const Search = ({ showPreloader, setShowPreloader, keyword, from, to, setSearchD
     const [successPost, setSuccessPost] = useState(false)
     const [currentUser, setCurrentUser] = useState(null)
     const [username, setUsername] = useState(null)
+    const [postImgZoom, setPostImgZoom] = useState(false)
+    const [zoomedImg, setZoomedImg] = useState()
 
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
@@ -183,6 +185,13 @@ const Search = ({ showPreloader, setShowPreloader, keyword, from, to, setSearchD
         })
     }
 
+    const handleZoomImg = (e) => {
+        e.preventDefault()
+
+        setZoomedImg(e.target.src)
+        setPostImgZoom(true)
+    }
+
     return (
         <div className='search'>
             <form className='search-form' onSubmit={(e) => { handleSearch(e) }}>
@@ -195,6 +204,13 @@ const Search = ({ showPreloader, setShowPreloader, keyword, from, to, setSearchD
                 </div>
                 <button className='submit'>Search</button>
             </form>
+            {
+                    postImgZoom ?
+                        <div className='post-img-zoom-container'>
+                            <div className='exit-post-img-zoom' onClick={() => { setPostImgZoom(false); setZoomedImg() }}></div>
+                            <img className='post-img-zoom' src={zoomedImg} alt="" />
+                        </div> : null
+            }
             {
                 showResult ? <div className='results'>
                     {!resultsExist ?
@@ -215,7 +231,7 @@ const Search = ({ showPreloader, setShowPreloader, keyword, from, to, setSearchD
                         <div className='post-container'>
                             <div className='img-container'>
                                 <p className='title'>{postData[0].title}</p>
-                                <img className='post-img' src={postData[2]} alt="" />
+                                <img className='post-img' src={postData[2]} alt="" onClick={(e) => {handleZoomImg(e)}}/>
                                 <p className='nasa-id'>{`Nasa ID: ${postData[0].nasa_id}`}</p>
                                 <div className='interact-svg'>
                                     {

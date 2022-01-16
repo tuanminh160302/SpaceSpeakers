@@ -1,0 +1,62 @@
+.person {
+    display: flex;
+    flex-direction: row;
+    height: fit-content;
+    width: 100%;
+    align-items: center;
+    margin-bottom: 20px;
+
+    .progress {
+        background: rgba(255,255,255,0.1);
+        justify-content: flex-start;
+        align-items: center;
+        position: relative;
+        padding: 0 5px;
+        display: flex;
+        height: 5vh;
+        width: 100%;
+      }
+      
+      .progress-value {
+        animation: load 1s normal forwards;
+        box-shadow: 0 10px 40px -10px #000;
+        background: #eaeaea;
+        height: 10px;
+        width: 0;
+      }
+      
+      @keyframes load {
+        0% { width: 0; }
+        40% {width: 20%; }
+        100% { width: 100%; }
+      }
+
+    .person-avt {
+        height: 5vh;
+        width: 5vh;
+        object-fit: cover;
+        min-width: 3vh;
+        margin-right: 15px;
+        border-radius: 50%;
+        user-select: none;
+        cursor: pointer;
+    }
+
+    .person-username {
+        font-size: .9rem;
+        font-weight: 500;
+        cursor: pointer;
+    }
+
+    .person-follow {
+        margin-left: auto;
+        background: black;
+        color: white;
+        font-size: .9rem;
+        font-weight: 500;
+        height: fit-content;
+        width: fit-content;
+        padding: 10px 15px;
+        cursor: pointer;
+    }
+}

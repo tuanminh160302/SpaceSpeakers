@@ -50,12 +50,12 @@ const CommentComponent = ({ userAvt, commentContent, userName, timestamp, commen
                     {commentContent}
                 </p>
                 {
-                    commentByUid === uidFrom ? <DeleteSVG className='delete-comment-svg' onClick={() => { setConfirmDeleteComment(true) }} /> : null
+                    commentByUid === uidFrom ? <DeleteSVG className='delete-comment-svg' onClick={() => { setConfirmDeleteComment(true); document.body.style.overflowY = 'hidden' }} /> : null
                 }
                 {
                     confirmDeleteComment ?
                         <div className='confirm-delete-comment-container'>
-                            <div className='exit-confirm-delete-comment' onClick={() => {setConfirmDeleteComment(false)}}></div>
+                            <div className='exit-confirm-delete-comment' onClick={() => {setConfirmDeleteComment(false); document.body.style.overflowY = 'visible'}}></div>
                             <div className='confirm-delete-comment'>
                                 <p className='warning'>This action cannot be undone</p>
                                 <div className='option-container'>
