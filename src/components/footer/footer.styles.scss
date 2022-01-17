@@ -1,17 +1,20 @@
 @import '../../assets/responsive/footer/footer.s.scss';
 
-@media (min-width: 1920px) {
+@media (min-width: 1400px) {
     .footer-container {
-        width: 100%;
+        width: 100vw;
         z-index: 1000;
         height: fit-content;
-        padding: 100px 250px 30px 250px;
+        padding: 100px 0 30px 0;
         display: flex;
         flex-direction: column;
         background: black;
+        position: relative;
+        left: calc((500px - 50vw));
     
         .footer {
-            width: 100%;
+            max-width: 1000px;
+            margin: 0 calc(50vw - 500px);
             height: fit-content;
             display: flex;
             flex-direction: row;
@@ -29,14 +32,14 @@
         
                 .title {
                     color: white;
-                    font-size: .9rem;
+                    font-size: .8rem;
                     font-weight: 500;
                     margin-bottom: 25px;
                 }
         
                 .element {
                     color: #a4a4a4;
-                    font-size: .9rem;
+                    font-size: .7rem;
                     font-weight: 400;
                     margin-bottom: 15px;
                 }
@@ -45,7 +48,7 @@
             .branding {
                 .footer-logo {
                     color: white;
-                    font-size: 1.4rem;
+                    font-size: 1.2rem;
                     font-weight: 900;
                     font-style: italic;
                     cursor: pointer;
@@ -54,14 +57,14 @@
             
                 .footer-title {
                     color: #a4a4a4;
-                    font-size: .9rem;
+                    font-size: .8rem;
                     font-weight: 400;
                     line-height: 27px;
                 }
         
                 .footer-slo {
                     color: white;
-                    font-size: .9rem;
+                    font-size: .8rem;
                     font-weight: 500;
                 }
             }
@@ -87,10 +90,10 @@
         }
     
         .copyrights {
-            font-size: .9rem;
+            font-size: .7rem;
             font-weight: 500;
             color: #a4a4a4;
-            margin: 0 30px 0px 30px;
+            margin: 0 calc(50vw - 470px);
         }
     }
 }

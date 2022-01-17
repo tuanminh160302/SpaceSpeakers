@@ -1,13 +1,15 @@
-@media(min-width: 320px) {
+@media only screen and (max-width : 576px) {
 
     .footer-container {
-        width: 100%;
+        width: 100vw;
         z-index: 1000;
         height: fit-content;
         padding: 50px 20px 20px 20px;
         display: flex;
         flex-direction: column;
         background: black;
+        position: relative;
+        left: -20px;
     
         .footer {
             width: 100%;
@@ -42,6 +44,107 @@
         
             .branding {
                 margin-bottom: 30px;
+                width: 100%;
+
+                .footer-logo {
+                    color: white;
+                    font-size: 1rem;
+                    font-weight: 900;
+                    font-style: italic;
+                    cursor: pointer;
+                    margin-bottom: 15px;
+                }
+            
+                .footer-title {
+                    color: #a4a4a4;
+                    font-size: .7rem;
+                    font-weight: 400;
+                    line-height: 20px;
+                }
+        
+                .footer-slo {
+                    color: white;
+                    font-size: .7rem;
+                    font-weight: 400;
+                }
+            }
+        
+            .explore {
+                .explore-title {
+        
+                }
+        
+                .explore-link {
+        
+                }
+            }
+        
+            .visit {
+                .visit-title {
+        
+                }
+                .visit-address {
+                    
+                }
+            }
+        }
+    
+        .copyrights {
+            font-size: .65rem;
+            font-weight: 500;
+            color: #a4a4a4;
+            margin: 0 20px 0px 20px;
+        }
+    }
+}
+
+@media only screen and (min-width : 576px) {
+    .footer-container {
+        width: 100vw;
+        z-index: 1000;
+        height: fit-content;
+        padding: 50px 40px 20px 40px;
+        display: flex;
+        flex-direction: column;
+        background: black;
+        position: relative;
+        left: -40px;
+    
+        .footer {
+            width: 100%;
+            height: fit-content;
+            display: flex;
+            flex-direction: row;
+            background: black;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        
+            .col {
+                height: fit-content;
+                width: fit-content;
+                display: flex;
+                flex-direction: column; 
+                margin: 0 15px 15px 20px;
+        
+                .title {
+                    color: white;
+                    font-size: .8rem;
+                    font-weight: 500;
+                    margin-bottom: 20px;
+                }
+        
+                .element {
+                    color: #a4a4a4;
+                    font-size: .7rem;
+                    font-weight: 400;
+                    margin-bottom: 15px;
+                }
+            }
+        
+            .branding {
+                margin-bottom: 30px;
+                width: 100%;
+
                 .footer-logo {
                     color: white;
                     font-size: 1rem;
@@ -90,6 +193,144 @@
             font-weight: 500;
             color: #a4a4a4;
             margin: 0 20px 0px 20px;
+        }
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 991px) {
+    .footer-container {
+        width: 100vw;
+        z-index: 1000;
+        height: fit-content;
+        padding: 50px 60px 20px 60px;
+        display: flex;
+        flex-direction: column;
+        background: black;
+        position: relative;
+        left: -60px;
+    
+        .footer {
+            .branding {
+                width: fit-content;
+            }
+        }
+    }
+}
+
+@media screen and (min-width: 992px) and (max-width: 1199px) {
+    .footer-container {
+        width: 100vw;
+        z-index: 1000;
+        height: fit-content;
+        padding: 50px calc(50vw - 450px) 20px calc(50vw - 450px);
+        display: flex;
+        flex-direction: column;
+        background: black;
+        position: relative;
+        left: calc(450px - 50vw);
+    
+        .footer {
+            .branding {
+                width: fit-content;
+            }
+        }
+    }
+}
+
+@media (min-width: 1200px) {
+    .footer-container {
+        width: 100vw;
+        z-index: 1000;
+        height: fit-content;
+        padding: 50px 0 30px 0;
+        display: flex;
+        flex-direction: column;
+        background: black;
+        position: relative;
+        left: calc((500px - 50vw));
+    
+        .footer {
+            max-width: 1000px;
+            margin: 0 calc(50vw - 500px);
+            height: fit-content;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            background: black;
+            flex-wrap: wrap;
+            margin-bottom: 50px;
+        
+            .col {
+                height: fit-content;
+                width: fit-content;
+                display: flex;
+                flex-direction: column; 
+                margin: 0 30px 30px 30px;
+        
+                .title {
+                    color: white;
+                    font-size: .8rem;
+                    font-weight: 500;
+                    margin-bottom: 25px;
+                }
+        
+                .element {
+                    color: #a4a4a4;
+                    font-size: .7rem;
+                    font-weight: 400;
+                    margin-bottom: 15px;
+                }
+            }
+        
+            .branding {
+                .footer-logo {
+                    color: white;
+                    font-size: 1.2rem;
+                    font-weight: 900;
+                    font-style: italic;
+                    cursor: pointer;
+                    margin-bottom: 30px;
+                }
+            
+                .footer-title {
+                    color: #a4a4a4;
+                    font-size: .8rem;
+                    font-weight: 400;
+                    line-height: 27px;
+                }
+        
+                .footer-slo {
+                    color: white;
+                    font-size: .8rem;
+                    font-weight: 500;
+                }
+            }
+        
+            .explore {
+                .explore-title {
+        
+                }
+        
+                .explore-link {
+        
+                }
+            }
+        
+            .visit {
+                .visit-title {
+        
+                }
+                .visit-address {
+                    
+                }
+            }
+        }
+    
+        .copyrights {
+            font-size: .7rem;
+            font-weight: 500;
+            color: #a4a4a4;
+            margin: 0 calc(50vw - 470px);
         }
     }
 }

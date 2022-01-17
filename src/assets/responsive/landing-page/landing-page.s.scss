@@ -1,31 +1,28 @@
-// Small devices (landscape phones, 576px and up)
-@media only screen and (min-width: 320px) and (max-width: 600px) {
-
+// X-Small Devices (portrait phones, less than 576 px)
+@media only screen and (max-width : 576px) {
     .landing {
         height: 100%;
         min-height: 100vh;
         width: 100%;
         padding-left: 20px;
         padding-right: 20px;
-        padding-top: 20px;
+        padding-top: 10vh;
     
         .intro {
             height: fit-content;
             width: 100%;
             display: flex;
             flex-direction: column;
-            margin-top: 75px;
+            margin-top: 10px;
             align-items: center;
+            justify-content: flex-start;
     
             .intro-svg {
                 height: auto;
                 min-width: 80%;
                 max-width: 80%;
                 margin-top: 50px;
-
-                &.hrzt {
-                    display: none;
-                }
+                margin-bottom: 50px;
             }
     
             .intro-content {
@@ -33,9 +30,11 @@
                 flex-direction: column;
                 justify-content: flex-start;
                 width: 80%;
+                margin-right: 0;
     
                 .title {
-                    font-size: 1.4rem;
+                    margin-top: 25px;
+                    font-size: 1.3rem;
                     font-weight: 800;
                     width: fit-content;
                 }
@@ -51,11 +50,84 @@
     
                 .explore {
                     width: fit-content;
-                    padding: 16px 24px;
+                    padding: 12px 18px;
                     border: 1px solid black;
                     background: black;
                     color: white;
-                    font-size: 1rem;
+                    font-size: .8rem;
+                    font-weight: 600;
+                    cursor: pointer;
+                    transition: .3s;
+    
+                    &:hover {
+                        transition: .3s;
+                        background: white;
+                        color: black;
+                        border: 1px solid black;
+                    }
+                }
+            }
+        }
+    }
+}
+    
+// Small devices (landscape phones, 576px and up)
+@media only screen and (min-width : 576px) and (max-width: 767px) {
+    .landing {
+        height: 100%;
+        min-height: 100vh;
+        width: 100%;
+        padding-left: 50px;
+        padding-right: 50px;
+        padding-top: 10vh;
+    
+        .intro {
+            height: fit-content;
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            margin-top: 10px;
+            align-items: center;
+            justify-content: center;
+    
+            .intro-svg {
+                height: auto;
+                min-width: 35%;
+                max-width: 35%;
+                margin-top: 50px;
+                margin-bottom: 50px;
+            }
+    
+            .intro-content {
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                width: 45%;
+                margin-right: 25px;
+    
+                .title {
+                    margin-top: 25px;
+                    font-size: 1.3rem;
+                    font-weight: 800;
+                    width: fit-content;
+                }
+    
+                .description {
+                    max-width: 100%;
+                    font-size: .7rem;
+                    line-height: 21px;
+                    font-weight: 400;
+                    margin-top: 10px;
+                    margin-bottom: 20px;
+                }
+    
+                .explore {
+                    width: fit-content;
+                    padding: 12px 18px;
+                    border: 1px solid black;
+                    background: black;
+                    color: white;
+                    font-size: .8rem;
                     font-weight: 600;
                     cursor: pointer;
                     transition: .3s;
@@ -72,15 +144,219 @@
     }
 }
 
-@media (min-width: 576px) { 
-
+@media only screen and (min-width : 768px) and (max-width: 991px) {
+    .landing {
+        height: 100%;
+        min-height: 100vh;
+        width: 100%;
+        padding-left: 50px;
+        padding-right: 50px;
+        padding-top: 10vh;
+    
+        .intro {
+            height: fit-content;
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            margin-top: 10px;
+            align-items: center;
+            justify-content: center;
+    
+            .intro-svg {
+                height: auto;
+                min-width: 35%;
+                max-width: 35%;
+                margin-top: 50px;
+                margin-bottom: 50px;
+            }
+    
+            .intro-content {
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                width: 45%;
+                margin-right: 25px;
+    
+                .title {
+                    margin-top: 25px;
+                    font-size: 1.3rem;
+                    font-weight: 800;
+                    width: fit-content;
+                }
+    
+                .description {
+                    max-width: 100%;
+                    font-size: .7rem;
+                    line-height: 21px;
+                    font-weight: 400;
+                    margin-top: 10px;
+                    margin-bottom: 20px;
+                }
+    
+                .explore {
+                    width: fit-content;
+                    padding: 12px 18px;
+                    border: 1px solid black;
+                    background: black;
+                    color: white;
+                    font-size: .8rem;
+                    font-weight: 600;
+                    cursor: pointer;
+                    transition: .3s;
+    
+                    &:hover {
+                        transition: .3s;
+                        background: white;
+                        color: black;
+                        border: 1px solid black;
+                    }
+                }
+            }
+        }
+    }
 }
 
-// Medium devices (tablets, 768px and up)
-@media (min-width: 768px) { }
+@media only screen and (min-width : 992px) and (max-width: 1199px) {
+    .landing {
+        height: 100%;
+        min-height: 100vh;
+        width: 100%;
+        padding-left: 50px;
+        padding-right: 50px;
+        padding-top: 10vh;
+    
+        .intro {
+            height: fit-content;
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            margin-top: 10px;
+            align-items: center;
+            justify-content: center;
+    
+            .intro-svg {
+                height: auto;
+                min-width: 35%;
+                max-width: 35%;
+                margin-top: 50px;
+                margin-bottom: 50px;
+            }
+    
+            .intro-content {
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                width: 45%;
+                margin-right: 25px;
+    
+                .title {
+                    margin-top: 25px;
+                    font-size: 1.3rem;
+                    font-weight: 800;
+                    width: fit-content;
+                }
+    
+                .description {
+                    max-width: 100%;
+                    font-size: .7rem;
+                    line-height: 21px;
+                    font-weight: 400;
+                    margin-top: 10px;
+                    margin-bottom: 20px;
+                }
+    
+                .explore {
+                    width: fit-content;
+                    padding: 12px 18px;
+                    border: 1px solid black;
+                    background: black;
+                    color: white;
+                    font-size: .8rem;
+                    font-weight: 600;
+                    cursor: pointer;
+                    transition: .3s;
+    
+                    &:hover {
+                        transition: .3s;
+                        background: white;
+                        color: black;
+                        border: 1px solid black;
+                    }
+                }
+            }
+        }
+    }
+}
 
-// Large devices (desktops, 992px and up)
-@media (min-width: 992px) { }
+@media screen and (min-width: 1200px) and (max-width: 1399px) {
+    .landing {
+        height: 100%;
+        min-height: 100vh;
+        width: 100%;
+        padding-left: 200px;
+        padding-right: 200px;
+        padding-top: 150px;
+    
+        .intro {
+            height: fit-content;
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            margin-top: 100px;
+            align-items: center;
+    
+            .intro-svg {
+                height: auto;
+                min-width: 40%;
+                max-width: 40%;
+                margin-right: 5%;
 
-// Extra large devices (large desktops, 1200px and up)
-@media (min-width: 1200px) { }
+                &.vrtc {
+                    display: none;
+                }
+            }
+    
+            .intro-content {
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                width: 40%;
+    
+                .title {
+                    font-size: 1.5rem;
+                    font-weight: 800;
+                    width: fit-content;
+                }
+    
+                .description {
+                    max-width: 100%;
+                    font-size: .75rem;
+                    line-height: 24px;
+                    font-weight: 400;
+                    margin-top: 15px;
+                    margin-bottom: 30px;
+                }
+    
+                .explore {
+                    width: fit-content;
+                    padding: 12px 18px;
+                    border: 1px solid black;
+                    background: black;
+                    color: white;
+                    font-size: .9rem;
+                    font-weight: 600;
+                    cursor: pointer;
+                    transition: .3s;
+    
+                    &:hover {
+                        transition: .3s;
+                        background: white;
+                        color: black;
+                        border: 1px solid black;
+                    }
+                }
+            }
+        }
+    }
+}

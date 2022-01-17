@@ -101,7 +101,7 @@ const Header = ({ isSignedIn, setSignInState, setShowPreloader }) => {
 
             <div className='header-else' ref={menuRef}>
                 <form className='header-search-container' onSubmit={(e) => { handleHeaderSearch(e) }}>
-                    <input className='header-search-input' type="text" name='header-search' required placeholder='Search for users or keywords...'
+                    <input className='header-search-input' type="text" name='header-search' required placeholder='users/keywords'
                         value={searchValue} onChange={(e) => { handleInputChange(e) }}
                         onFocus={() => { searchHistory.length && setShowSearchHistory(true) }}
                         autoComplete="off" />
@@ -123,7 +123,7 @@ const Header = ({ isSignedIn, setSignInState, setShowPreloader }) => {
                             <div className='user-nav-container'>
                                 <img className='avt' src={avatarURL} alt="" onClick={() => { handleToggleUserNav(); setShowSettings(false); setShowMenuIcon(!showMenuIcon) }} />
                                 <div className='user-nav' ref={userNavRef}>
-                                    <img className='profile' src={avatarURL} alt="" onClick={() => [handleRedirectProfile()]} />
+                                    <img className='profile' src={avatarURL} alt="" onClick={() => {handleRedirectProfile(); setShowMenuIcon(true)}} />
                                     <div className='settings-container'>
                                         <SettingsSVG className='settings-svg' onClick={() => { setShowSettings(!showSettings) }} />
                                         {

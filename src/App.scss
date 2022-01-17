@@ -1,7 +1,53 @@
 html, body {
     height: 100%;
     width: 100vw;
-    margin: 0;
-    padding: 0;
     overflow-x: hidden;
 }
+
+.App {
+    width: 100%;
+    min-height: 100vh;
+}
+
+@media screen and (max-width: 576px) {
+    #root {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+}
+
+@media screen and (min-width: 576px) and (max-width: 767px) {
+    #root {
+        padding-left: 40px;
+        padding-right: 40px;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 991px) {
+    #root {
+        padding-left: 60px;
+        padding-right: 60px;
+    }
+}
+
+@media screen and (min-width: 992px) and (max-width: 1199px) {
+    #root {
+        padding-left: calc(50vw - 450px);
+        padding-right: calc(50vw - 450px);
+    }
+}
+
+@media screen and (min-width: 1200px) {
+    #root {
+        padding-left: calc(50vw - 500px);
+        padding-right: calc(50vw - 500px);
+    }
+}
+
+// @media screen and (min-width: 1400px) {
+
+//     #root {
+//         padding-left: calc(50vw - 500px);
+//         padding-right: calc(50vw - 500px);
+//     }
+// }

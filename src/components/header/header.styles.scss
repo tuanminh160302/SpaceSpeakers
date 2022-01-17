@@ -1,17 +1,16 @@
 @import '../../assets/responsive/header/header.s.scss';
 
-@media (min-width: 1920px) {
+@media (min-width: 1400px) {
     .header {
         width: 100%;
         z-index: 1000;
         height: fit-content;
-        padding: 50px 250px 20px 250px;
+        padding: 40px 0 20px 0;
         display: flex;
         flex-direction: row;
         align-items: center;
-        position: fixed;
+        position: sticky;
         top: 0;
-        left: 0;
         background: white;
     
         .reset-password-container {
@@ -168,13 +167,14 @@
         }
 
         .header-menu {
-            display: none;
+            display: none !important;
         }
     
         .header-else {
             display: flex;
             flex-direction: row;
             flex-grow: 1;
+            transform: none !important;
 
             .header-search-container {
                 width: fit-content;
@@ -187,7 +187,7 @@
         
                 .header-search-input {
                     border: 1px solid gray;
-                    padding: 10px 50px 10px 20px;
+                    padding: 10px 40px 10px 20px;
                     outline: none;
                     border-radius: 25px;
                     width: 300px;
@@ -213,8 +213,8 @@
                     cursor: pointer;
         
                     .search-svg {
-                        height: 2vh;
-                        width: 2vh;
+                        height: 15px;
+                        width: 15px;
                     }
                 }
         
@@ -245,8 +245,8 @@
         
                 .nav-item {
                     font-weight: 600;
-                    font-size: 1.1rem;
-                    margin-left: 30px;
+                    font-size: .9rem;
+                    margin-left: 20px;
                     cursor: pointer;
                     color: black;
         
@@ -269,8 +269,8 @@
                 }
         
                 .user-nav-container {
-                    height: calc(3vh + 4px);
-                    width: calc(3vh + 4px);
+                    height: 30px;
+                    width: 30px;
                     border-radius: 50%;
                     margin-left: 30px;
                     border: 1px solid black;
@@ -297,8 +297,8 @@
                         transform: translateX(150px);
         
                         .profile {
-                            height: 100px;
-                            width: 100px;
+                            height: 80px;
+                            width: 80px;
                             border-radius: 50%;
                             margin-top: 30px;
                             margin-bottom: 50px;
@@ -312,8 +312,8 @@
         
                             .settings-svg {
                                 fill: white;
-                                height: 40px;
-                                width: 40px;
+                                height: 30px;
+                                width: 30px;
                                 cursor: pointer;
                                 transition: .7s ease-out;
             
@@ -349,8 +349,8 @@
                         .signout {
                             margin-top: auto;
                             fill: white;
-                            height: 40px;
-                            width: 40px;
+                            height: 30px;
+                            width: 30px;
                             margin-bottom: 50px;
                             cursor: pointer;
                         }
