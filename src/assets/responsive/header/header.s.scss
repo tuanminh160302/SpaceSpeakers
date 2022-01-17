@@ -1,11 +1,9 @@
-@import '../../assets/responsive/header/header.s.scss';
-
-@media (min-width: 1920px) {
+@media only screen and (min-width: 320px) and (max-width: 600px) {
     .header {
         width: 100%;
         z-index: 1000;
         height: fit-content;
-        padding: 50px 250px 20px 250px;
+        padding: 30px 25px 20px 25px;
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -162,40 +160,52 @@
         .logo {
             font-weight: 900;
             font-style: italic;
-            font-size: 1.4rem;
+            font-size: 1rem;
             cursor: pointer;
             color: black;
         }
 
         .header-menu {
-            display: none;
+            margin-left: auto;
+            height: 100%;
+            width: auto;
+            z-index: 1000000;
+            fill: black;
         }
     
         .header-else {
+            position: absolute;
+            z-index: 100000;
+            height: 100vh;
+            width: 100vw;
+            background: black;
+            top: 0;
+            left: 0;
             display: flex;
-            flex-direction: row;
-            flex-grow: 1;
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 30px 50px 50px 50px;
+            transform: translateX(100%);
 
             .header-search-container {
-                width: fit-content;
+                width: 100%;
                 height: fit-content;
-                margin-left: 50px;
                 display: flex;
                 flex-direction: row;
                 align-items: center;
                 position: relative;
-        
+                margin-top: 70vh;
+
                 .header-search-input {
-                    border: 1px solid gray;
                     padding: 10px 50px 10px 20px;
                     outline: none;
                     border-radius: 25px;
-                    width: 300px;
-                    font-size: .8rem;
+                    width: 100%;
+                    font-size: .65rem;
                     font-weight: 400;
         
                     &::placeholder {
-                        font-size: .8rem;
+                        font-size: .65rem;
                         color: gray;
                         font-weight: 300;
                     }
@@ -207,7 +217,7 @@
                     height: fit-content;
                     width: fit-content;
                     position: absolute;
-                    right: 20px;
+                    right: 15px;
                     top: 50%;
                     transform: translateY(-50%);
                     cursor: pointer;
@@ -222,11 +232,11 @@
                     border-radius: 25px;
                     width: 100%;
                     position: absolute;
-                    bottom: 0;
-                    transform: translateY(100%);
+                    top: 0;
+                    transform: translateY(-100%);
                     background: white;
                     height: fit-content;
-                    max-height: 30vh;
+                    max-height: 20vh;
                     overflow: auto;
                     box-shadow: 0 2px 5px 3px rgb(0 0 0 / 25%);
                     -webkit-box-shadow: 0 2px 5px 3px rgb(0 0 0 / 25%);
@@ -236,19 +246,23 @@
         
             .nav-bar {
                 display: flex;
-                flex-direction: row;
+                flex-direction: column;
                 justify-content: space-between;
                 height: fit-content;
                 width: fit-content;
-                align-items: center;
-                margin-left: auto;
+                align-items: flex-start;
+                position: absolute;
         
                 .nav-item {
-                    font-weight: 600;
-                    font-size: 1.1rem;
-                    margin-left: 30px;
+                    font-weight: 400;
+                    font-size: .7rem;
+                    margin-bottom: 15px;
                     cursor: pointer;
-                    color: black;
+                    color: white;
+
+                    &:nth-child(1) {
+                        margin-top: 8vh;
+                    }
         
                     &::after {
                         display: block;
@@ -269,12 +283,12 @@
                 }
         
                 .user-nav-container {
-                    height: calc(3vh + 4px);
-                    width: calc(3vh + 4px);
+                    height: 5vh;
+                    width: 5vh;
                     border-radius: 50%;
-                    margin-left: 30px;
                     border: 1px solid black;
-                    padding: 2px;
+                    position: absolute;
+                    top: 0;
         
                     .avt {
                         height: 100%;
@@ -290,15 +304,15 @@
                         top: 0;
                         height: 100%;
                         width: 150px;
-                        background: black;
+                        background: white;
                         display: flex;
                         flex-direction: column;
                         align-items: center;
                         transform: translateX(150px);
         
                         .profile {
-                            height: 100px;
-                            width: 100px;
+                            height: 80px;
+                            width: 80px;
                             border-radius: 50%;
                             margin-top: 30px;
                             margin-bottom: 50px;
@@ -311,16 +325,10 @@
                             position: relative;
         
                             .settings-svg {
-                                fill: white;
+                                fill: black;
                                 height: 40px;
                                 width: 40px;
                                 cursor: pointer;
-                                transition: .7s ease-out;
-            
-                                &:hover {
-                                    transform: rotate(360deg);
-                                    transition: .7s ease-out;
-                                }
                             }
         
                             .settings {
@@ -328,7 +336,7 @@
                                 height: fit-content;
                                 width: 250px;
                                 padding: 30px 30px;
-                                background: black;
+                                background: white;
                                 top: 0;
                                 left: -55px;
                                 transform: translateX(-100%);
@@ -348,7 +356,7 @@
         
                         .signout {
                             margin-top: auto;
-                            fill: white;
+                            fill: black;
                             height: 40px;
                             width: 40px;
                             margin-bottom: 50px;

@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from 'react';
+import { useCropper } from './cropper.utils';
 import getCroppedImg from './cropImage';
 import { connect } from 'react-redux';
 import { getCropImage } from '../../redux/cropImage/cropImage.actions';
@@ -8,31 +8,9 @@ import './cropper.styles.scss';
 import Cropper from 'react-easy-crop';
 
 const CropperComponent = ({ src, getCropImage, setCropper }) => {
-    const [crop, setCrop] = useState({ x: 0, y: 0 })
-    const [zoom, setZoom] = useState(1)
-    const [verticalOrientation, setVerticalOrientation] = useState(null)
-    const [croppedAreaPixels, setCroppedAreaPixels] = useState(null)
 
-    const onCropComplete = useCallback((croppedArea, croppedAreaPixels) => {
-        setCroppedAreaPixels(croppedAreaPixels)
-    }, [])
-
-    const showCroppedImage = useCallback(async () => {
-        try {
-            const croppedImage = await getCroppedImg(
-                src,
-                croppedAreaPixels,
-            )
-            getCropImage(croppedImage)
-            setCropper(false)
-        } catch (e) {
-            console.error(e)
-        }
-    }, [croppedAreaPixels])
-
-    const cancelCropImage = () => {
-        setCropper(false)
-    }
+    const [crop, zoom, verticalOrientation, onCropComplete, showCroppedImage, cancelCropImage, setCrop, setZoom
+        , setVerticalOrientation] = useCropper(getCropImage, setCropper, src, getCroppedImg)
 
     const image = new Image()
     image.src = src

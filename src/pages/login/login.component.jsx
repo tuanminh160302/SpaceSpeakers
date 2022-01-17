@@ -48,6 +48,7 @@ const Login = ({ showPreloader, email, signupemail, username, password, signuppa
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 // Signed in 
+                showPreloader(true)
                 const user = userCredential.user;
                 console.log('signed in successfully')
                 navigate('/')
@@ -80,10 +81,11 @@ const Login = ({ showPreloader, email, signupemail, username, password, signuppa
                 } else {
                     const auth = getAuth();
                     createUserWithEmailAndPassword(auth, signupemail, signuppassword)
-                        .then((userCredential) => {
-                            // Signed in
-                            const { user } = userCredential
-                            const avatarURL = 'https://i.imgur.com/OrIHeCI.jpg'
+                    .then((userCredential) => {
+                        // Signed in
+                        showPreloader(true)
+                        const { user } = userCredential
+                        const avatarURL = 'https://i.imgur.com/OrIHeCI.jpg'
                             // Create user data
                             createUserCredentials(user, { signupemail, username, avatarURL })
                                 .then(() => {
@@ -181,7 +183,7 @@ const Login = ({ showPreloader, email, signupemail, username, password, signuppa
                                                 <p className='forgot-password' onClick={() => {setShowResetPassword(true); setAlertMessage(); document.body.style.overflowY = 'hidden'}}>Forgot pasword?</p>
                                                 <button className='login-button'>Login</button>
                                             </form>
-                                            <button className='login-google' onClick={() => { handleGoogleSignIn() }}>Login with Google</button>
+                                            <button className='login-google' onClick={() => { handleGoogleSignIn() }}>Continue with Google</button>
                                         </> :
                                         <form className='signup-form' onSubmit={(e) => { handleSubmitSignup(e) }}>
                                             <p className='signup-title'>Sign up for a new account</p>

@@ -11,6 +11,7 @@ import Search from './pages/search/search.component';
 import Login from './pages/login/login.component'
 import Profile from './pages/profile/profile.component'
 import SearchResult from './pages/search-result/search-result.component';
+import SimilarPost from './pages/similar-post/similar-post.component';
 import { showPreloader } from './redux/preloader/show-preloader.actions';
 import { setSearchData } from './redux/searchData/searchData.actions';
 import { getAuth, onAuthStateChanged, getRedirectResult, GoogleAuthProvider  } from "firebase/auth";
@@ -89,6 +90,7 @@ function App({ showPreloader, setShowPreloader, setSearchData, isSignedIn, setSi
         <Route path='/login' element={<Login />}></Route>
         <Route path='/users/:username' element={<Profile/>}></Route>
         <Route path='/search-data-field=:data' element={<SearchResult/>}></Route>
+        <Route path='/posts/:key' element={<SimilarPost/>}></Route>
       </Routes>
       <Footer />
     </div>

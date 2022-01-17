@@ -1,0 +1,111 @@
+.similar-post-container {
+    height: 100%;
+    width: 100%;
+    min-height: 100vh;
+    padding: 200px 250px 0 250px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .original-post {
+        width: 75%;
+        height: fit-content;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .original {
+            margin-bottom: 30px;
+            max-width: 80%;
+        }
+
+        .original-hr {
+            width: 75%;
+            background: #eaeaea;
+            margin-bottom: 25px;
+        }
+
+        .title {
+            font-size: .9rem;
+            font-weight: 500;
+            color: gray;
+            margin-bottom: 20px;
+        }
+    }
+
+    .similar-posts {
+        width: 100%;
+        height: fit-content;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        margin-bottom: 20px;
+
+        .preview {
+            flex-basis: calc(100% / 3 - 12px);
+            border: 1px solid black;
+            margin-bottom: 18px;
+            position: relative;
+
+            &:before {
+                display: block;
+                content: '';
+                padding-top: 100%;
+            }
+
+            .preview-content {
+                position: absolute;
+                top: 0;
+                left: 0;
+                height: 100%;
+                width: 100%;
+
+                .thumbnail {
+                    object-fit: cover;
+                    height: 100%;
+                    width: 100%;
+                    user-select: none;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+
+    .keywords {
+        width: 75%;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        margin-bottom: 50px;
+
+        .keyword {
+            padding: 10px 20px;
+            background: black;
+            color: white;
+            font-size: .8rem;
+            font-weight: 500;
+            margin: 0 10px 10px 0;
+            cursor: pointer;
+        }
+    }
+
+    .post-not-found-container {
+        width: 100%;
+        height: fit-content;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .post-not-found-svg {
+            height: 30vh;
+            width: auto;
+            margin-bottom: 50px;
+        }
+
+        .post-not-found {
+            font-size: .9rem;
+            font-weight: 600;
+        }
+    }
+}

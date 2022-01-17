@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import './comment.styles.scss'
+import { useComment } from './comment.utils'
 import { ReactComponent as DeleteSVG } from '../../assets/delete.svg'
 import { deleteComment, getTargetUserUID } from '../../firebase/firebase.init'
 import { useNavigate, useLocation } from 'react-router'
@@ -9,26 +10,8 @@ const CommentComponent = ({ userAvt, commentContent, userName, timestamp, commen
     const navigate = useNavigate()
     const location = useLocation()
     const pathname = location.pathname
-    const [confirmDeleteComment, setConfirmDeleteComment] = useState(false)
-
-    const handleRedirectUser = async (e) => {
-        const username = e.target.innerText
-        let uid = null
-        await getTargetUserUID(username).then((res) => {
-            uid = res
-            return uid
-        }).then((uid) => {
-            if (pathname !== `/users/${username}_${uid}`) {
-                navigate(`/users/${username}_${uid}`)
-            }
-        })
-    }
-
-    const handleDeleteComment = async () => {
-        await deleteComment(postOfUser, postKey, timestamp)
-        setConfirmDeleteComment(false)
-        fetchPostComment()
-    }
+    const [confirmDeleteComment, handleRedirectUser, handleDeleteComment, setConfirmDeleteComment] 
+    = useComment(getTargetUserUID, pathname, navigate, deleteComment, postOfUser, postKey, timestamp, fetchPostComment)
 
     const time = new Date(parseInt(timestamp))
     const timeNow = new Date()

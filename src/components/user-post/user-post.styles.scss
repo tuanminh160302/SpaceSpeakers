@@ -8,9 +8,11 @@
     margin-bottom: 40px;
 
     .post-details {
-        height: 100%;
+        height: fit-content;
         width: 45%;
         padding: 25px 30px 25px 30px;
+        display: flex;
+        flex-direction: column;
 
         .user-content {
             display: flex;
@@ -113,8 +115,7 @@
             line-height: 22px;
         }
 
-        .delete-post {
-            background: black;
+        .post-btn {
             height: fit-content;
             width: fit-content;
             border: none;
@@ -124,6 +125,14 @@
             font-weight: 500;
             cursor: pointer;
             margin-top: 20px;
+
+            &.delete-post {
+                background: #C70000;
+            }
+
+            &.view-more {
+                background: black;
+            }
         }
 
         .confirm-delete-post-container {

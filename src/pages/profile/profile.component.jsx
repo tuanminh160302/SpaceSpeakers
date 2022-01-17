@@ -166,7 +166,7 @@ const Profile = ({ setshowPreloader, cropImage, showCropper, setCropper, getCrop
         } else if (Math.floor((timeNow - time) / 86400000) !== 0) {
             timeSpan = String(Math.floor((timeNow - time) / 86400000)) + "d"
         }
-
+        
         const postImgURL = Object.values(post)[0].imageURL
         const postCaption = Object.values(post)[0].caption
         const imgTitle = Object.values(post)[0].imageTitle
@@ -417,8 +417,8 @@ const Profile = ({ setshowPreloader, cropImage, showCropper, setCropper, getCrop
                                 </div>
                                 <div className='user-stats'>
                                     <p className='stat'>{allPosts.length} Posts</p>
-                                    <p className='stat' onClick={() => { handleShowFollower() }}>{follower.length} Follower</p>
                                     <p className='stat' onClick={() => { handleShowFollowing() }}>{following.length} Following</p>
+                                    <p className='stat' onClick={() => { handleShowFollower() }}>{follower.length} Follower</p>
                                     {
                                         currentUser.uid !== profileDetails[0] ?
                                             <button className='follow-btn' onClick={() => { handleFollowAction() }}>{isFollow ? 'Unfollow' : 'Follow'}</button>

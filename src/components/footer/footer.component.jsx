@@ -1,30 +1,12 @@
-import { useEffect, useState } from 'react'
 import './footer.styles.scss'
+import { useFooter } from './footer.utils'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { getTargetUsername } from '../../firebase/firebase.init'
 
 const Footer = () => {
 
     const auth = getAuth()
-    const [currentUser, setCurrentUser] = useState(null)
-    const [username, setusername] = useState(null)
-
-    useEffect(() => {
-        onAuthStateChanged(auth, async (user) => {
-            if (user) {
-                setCurrentUser(auth.currentUser)
-                if (currentUser) {
-                    await getTargetUsername(currentUser.uid).then((res) => {
-                        setusername(res)
-                    })
-                }
-            } else {
-                setCurrentUser(null)
-            }
-        })
-    }, [auth, currentUser])
-
-    // `/users/${username}_${uid}`
+    const [currentUser, username] = useFooter(auth, onAuthStateChanged, getTargetUsername)
 
     return (
         <div className='footer-container'>
