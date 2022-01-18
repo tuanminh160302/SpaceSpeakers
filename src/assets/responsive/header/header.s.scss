@@ -1,15 +1,16 @@
 @media only screen and (max-width : 576px) {
     .header {
-        width: 100%;
-        z-index: 1000;
+        width: 100vw;
+        z-index: 2000;
         max-height: 10vh;
-        padding: 30px 0 20px 0;
+        padding: 30px 20px 20px 20px;
         display: flex;
         flex-direction: row;
         align-items: center;
         position: sticky;
         top: 0;
         background: white;
+        transform: translateX(-20px);
     
         .reset-password-container {
             position: fixed;
@@ -353,7 +354,7 @@
 @media only screen and (min-width : 576px) and (max-width: 767px) {
     .header {
         width: 100%;
-        z-index: 1000;
+        z-index: 2000;
         max-height: 10vh;
         padding: 30px 0 20px 0;
         display: flex;
@@ -705,7 +706,7 @@
 @media only screen and (min-width : 768px) and (max-width: 991px) {
     .header {
         width: 100%;
-        z-index: 1000;
+        z-index: 2000;
         max-height: 10vh;
         padding: 30px 0 20px 0;
         display: flex;
@@ -1057,7 +1058,7 @@
 @media only screen and (min-width : 992px) and (max-width: 1199px) {
     .header {
         width: 100%;
-        z-index: 1000;
+        z-index: 2000;
         height: fit-content;
         padding: 30px 70px 20px 70px;
         display: flex;
@@ -1401,7 +1402,7 @@
 @media screen and (min-width: 1200px) and (max-width: 1399px) {
     .header {
         width: 100%;
-        z-index: 1000;
+        z-index: 2000;
         height: fit-content;
         padding: 30px 70px 20px 70px;
         display: flex;

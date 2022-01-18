@@ -32,18 +32,18 @@
       }
 
     .person-avt {
-        height: 5vh;
-        width: 5vh;
+        height: 30px;
+        width: 30px;
         object-fit: cover;
         min-width: 3vh;
-        margin-right: 15px;
+        margin-right: 10px;
         border-radius: 50%;
         user-select: none;
         cursor: pointer;
     }
 
     .person-username {
-        font-size: .9rem;
+        font-size: .75rem;
         font-weight: 500;
         cursor: pointer;
     }
@@ -52,11 +52,11 @@
         margin-left: auto;
         background: black;
         color: white;
-        font-size: .9rem;
+        font-size: .65rem;
         font-weight: 500;
         height: fit-content;
         width: fit-content;
-        padding: 10px 15px;
+        padding: 8px 15px;
         cursor: pointer;
     }
 }

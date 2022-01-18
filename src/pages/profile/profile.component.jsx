@@ -39,6 +39,8 @@ const Profile = ({ setshowPreloader, cropImage, showCropper, setCropper, getCrop
     const [showFollower, setShowFollower] = useState(false)
     const [showFollwing, setShowFollowing] = useState(false)
     const [showSocial, setShowSocial] = useState(false)
+    const [viewFullPost, setViewFullPost] = useState(false)
+    const [fullPost, setFullPost] = useState(null)
 
     useEffect(() => {
         onAuthStateChanged(auth, async (user) => {
@@ -50,6 +52,10 @@ const Profile = ({ setshowPreloader, cropImage, showCropper, setCropper, getCrop
             }
         })
     }, [auth])
+
+    useEffect(() => {
+        setViewFullPost(false)
+    }, [location])
 
     //get profile data
     useEffect(async () => {
@@ -166,7 +172,7 @@ const Profile = ({ setshowPreloader, cropImage, showCropper, setCropper, getCrop
         } else if (Math.floor((timeNow - time) / 86400000) !== 0) {
             timeSpan = String(Math.floor((timeNow - time) / 86400000)) + "d"
         }
-        
+
         const postImgURL = Object.values(post)[0].imageURL
         const postCaption = Object.values(post)[0].caption
         const imgTitle = Object.values(post)[0].imageTitle
@@ -187,6 +193,51 @@ const Profile = ({ setshowPreloader, cropImage, showCropper, setCropper, getCrop
             </Fragment>
         )
     })
+
+    const postSnippet = allPosts.map((post, index) => {
+
+        const postImgURL = Object.values(post)[0].imageURL
+        return (
+            <div className='post-snippet' key={index}>
+                <img className='post-snippet-img' src={postImgURL} alt="" name={index} onClick={(e) => { handleViewFullPost(e) }} />
+            </div>
+        )
+    })
+
+    const handleViewFullPost = (e) => {
+        e.preventDefault()
+        console.log(e.target.name)
+        setViewFullPost(true)
+        const post = allPosts[e.target.name]
+
+        const timestamp = Object.keys(post)[0]
+        const time = new Date(parseInt(timestamp))
+        const timeNow = new Date()
+        let timeSpan = null
+        if (Math.floor((timeNow - time) / 86400000) === 0) {
+            timeSpan = String(Math.floor((timeNow - time) / 3600000)) + "h"
+        } else if (Math.floor((timeNow - time) / 86400000) !== 0) {
+            timeSpan = String(Math.floor((timeNow - time) / 86400000)) + "d"
+        }
+
+        const postImgURL = Object.values(post)[0].imageURL
+        const postCaption = Object.values(post)[0].caption
+        const imgTitle = Object.values(post)[0].imageTitle
+        const postKey = Object.keys(post)[0]
+
+        const res = <UserPost
+                    postImg={postImgURL}
+                    userAvt={profileDetails[2]}
+                    caption={postCaption}
+                    imgTitle={imgTitle}
+                    postOfUser={profileDetails[0]}
+                    postKey={postKey}
+                    postUserName={profileDetails[1]}
+                    showAllComment={false}
+                    timestamp={timeSpan}
+                    fetchPost={fetchPost} />
+        setFullPost(res)
+    }
 
     const handleExitChangeAvt = () => {
         setShowChangeAvt(false)
@@ -303,8 +354,8 @@ const Profile = ({ setshowPreloader, cropImage, showCropper, setCropper, getCrop
                     socialType='follower'
                     person={person}
                     handleExitShowFollower={handleExitShowFollower}
-                    handleExitShowFollowing={handleExitShowFollowing} 
-                    fetchSocialStatus={fetchSocialStatus}/>
+                    handleExitShowFollowing={handleExitShowFollowing}
+                    fetchSocialStatus={fetchSocialStatus} />
             </Fragment>
         )
     })
@@ -316,8 +367,8 @@ const Profile = ({ setshowPreloader, cropImage, showCropper, setCropper, getCrop
                     socialType='follower'
                     person={person}
                     handleExitShowFollower={handleExitShowFollower}
-                    handleExitShowFollowing={handleExitShowFollowing} 
-                    fetchSocialStatus={fetchSocialStatus}/>
+                    handleExitShowFollowing={handleExitShowFollowing}
+                    fetchSocialStatus={fetchSocialStatus} />
             </Fragment>
         )
     })
@@ -409,24 +460,41 @@ const Profile = ({ setshowPreloader, cropImage, showCropper, setCropper, getCrop
                                             editProfileRights ? <EditSVG className='edit-details' onClick={() => { setShowEditProfileDetails(true); document.body.style.overflowY = 'hidden' }} /> : null
                                         }
                                     </p>
+
+                                    <div className='user-stats'>
+                                        <p className='stat'>{allPosts.length} Posts</p>
+                                        <p className='stat' onClick={() => { handleShowFollowing() }}>{following.length} Following</p>
+                                        <p className='stat' onClick={() => { handleShowFollower() }}>{follower.length} Follower</p>
+                                        {
+                                            currentUser.uid !== profileDetails[0] ?
+                                                <button className='follow-btn' onClick={() => { handleFollowAction() }}>{isFollow ? 'Unfollow' : 'Follow'}</button>
+                                                : null
+                                        }
+                                    </div>
+
                                     <div className='email-container'>
                                         <EmailSVG className='email-svg' />
                                         <p className='email'>{profileDetails[3]}</p>
                                     </div>
                                     <p className='bio'>{profileDetails[4]}</p>
                                 </div>
-                                <div className='user-stats'>
-                                    <p className='stat'>{allPosts.length} Posts</p>
-                                    <p className='stat' onClick={() => { handleShowFollowing() }}>{following.length} Following</p>
-                                    <p className='stat' onClick={() => { handleShowFollower() }}>{follower.length} Follower</p>
-                                    {
-                                        currentUser.uid !== profileDetails[0] ?
-                                            <button className='follow-btn' onClick={() => { handleFollowAction() }}>{isFollow ? 'Unfollow' : 'Follow'}</button>
-                                            : null
-                                    }
-                                </div>
                             </div>
-                            {posts}
+                            <hr className='dashboard-hr' />
+                            {/* {posts} */}
+                            <div className='post-snippet-container'>
+                                {postSnippet}
+                            </div>
+
+                            {
+                                viewFullPost ?
+                                    <div className='full-post-container'>
+                                        <div className='exit-full-post' onClick={() => {setViewFullPost(false)}}></div>
+                                        <div className='full-post'>
+                                            {fullPost}
+                                        </div>
+                                    </div>
+                                    : null
+                            }
                         </>
                         :
                         <div className='user-not-found'>

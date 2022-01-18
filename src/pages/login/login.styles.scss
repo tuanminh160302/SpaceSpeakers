@@ -1,8 +1,6 @@
 .login-container {
     width: 100%;
-    padding-top: 200px;
-    padding-left: 300px;
-    padding-right: 300px;
+    padding-top: 30px;
     height: fit-content;
     min-height: 100vh;
     overflow: hidden;
@@ -102,14 +100,14 @@
             background: black;
             height: 50%;
             width: fit-content;
-            padding: 50px 100px 50px 70px;
+            padding: 30px 70px 30px 70px;
             display: flex;
             justify-content: center;
             flex-direction: column;
             color: white;
     
             .already-signedin {
-                font-size: .9rem;
+                font-size: .7rem;
                 font-weight: 500;
                 cursor: pointer;
             }
@@ -121,13 +119,13 @@
                 flex-direction: column;
     
                 .login-title {
-                    font-size: 1.3rem;
+                    font-size: .8rem;
                     font-weight: 700;
-                    margin-bottom: 40px;
+                    margin-bottom: 30px;
                 }
     
                 .login-prompt {
-                    font-size: .9rem;
+                    font-size: .7rem;
                     font-weight: 400;
                 }
     
@@ -135,9 +133,9 @@
                     outline: none;
                     background: black;
                     color: white;
-                    font-size: .9rem;
+                    font-size: .7rem;
                     font-weight: 300;
-                    padding: 10px 0 5px 0;
+                    padding: 8px 0 5px 0;
                     margin-bottom: 30px;
                     border: none;
                     border-bottom: 1px solid white;
@@ -146,22 +144,22 @@
 
                 .forgot-password {
                     color: white;
-                    font-size: .9rem;
-                    margin-bottom: 20px;
+                    font-size: .7rem;
+                    margin-bottom: 15px;
                     cursor: pointer;
                 }
     
                 .login-button {
                     width: fit-content;
                     height: fit-content;
-                    font-size: 1rem;
+                    font-size: .7rem;
                     font-weight: 500;
                     color: black;
                     background: white;
                     border: none;
-                    padding: 12px 20px;
+                    padding: 8px 12px;
                     cursor: pointer;
-                    margin-bottom: 20px;
+                    margin-bottom: 15px;
                 }
             }
     
@@ -172,13 +170,13 @@
                 flex-direction: column;
     
                 .signup-title {
-                    font-size: 1.3rem;
+                    font-size: .8rem;
                     font-weight: 700;
-                    margin-bottom: 40px;
+                    margin-bottom: 30px;
                 }
     
                 .signup-prompt {
-                    font-size: .9rem;
+                    font-size: .7rem;
                     font-weight: 400;
                 }
     
@@ -188,7 +186,7 @@
                     color: white;
                     font-size: .9rem;
                     font-weight: 300;
-                    padding: 10px 0 5px 0;
+                    padding: 5px 0 5px 0;
                     margin-bottom: 30px;
                     border: none;
                     border-bottom: 1px solid white;
@@ -198,12 +196,12 @@
                 .signup-button {
                     width: fit-content;
                     height: fit-content;
-                    font-size: 1rem;
+                    font-size: .7rem;
                     font-weight: 500;
                     color: black;
                     background: white;
                     border: none;
-                    padding: 12px 20px;
+                    padding: 8px 12px;
                     cursor: pointer;
                     margin-bottom: 15px;
                 }
@@ -212,21 +210,33 @@
             .login-google {
                 width: fit-content;
                 height: fit-content;
-                font-size: 1rem;
+                font-size: .7rem;
                 font-weight: 500;
                 color: white;
                 background: #4285F4;
                 border: none;
-                padding: 12px 20px;
+                padding: 8px 12px;
                 cursor: pointer;
                 margin-bottom: 15px;
             }
     
             .change-method {
-                font-size: .9rem;
+                font-size: .7rem;
                 font-weight: 400;
                 cursor: pointer;
             }
         }
+    }
+}
+
+@media screen and (max-width: 991px) {
+    .login-svg {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 350px) {
+    .login-form-container {
+        padding: 30px 25px 30px 25px !important;
     }
 }

@@ -2,9 +2,7 @@
     height: 100%;
     min-height: 100vh;
     width: 100%;
-    padding-top: 200px;
-    padding-left: 250px;
-    padding-right: 250px;
+    padding-top: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -51,7 +49,7 @@
 
     .edit-portal-container {
         position: fixed;
-        z-index: 1000;
+        z-index: 100000;
         height: 100vh;
         width: 100vw;
         top: 0;
@@ -79,7 +77,6 @@
             .edit-details {
                 height: 600px;
                 width: 600px;
-                max-width: 80vw;
                 background: white;
                 display: flex;
                 flex-direction: column;
@@ -144,7 +141,6 @@
             .drag-drop {
                 height: 600px;
                 width: 600px;
-                max-width: 80vw;
                 background: white;
                 display: flex;
                 justify-content: center;
@@ -230,68 +226,61 @@
                 height: 100%;
                 width: 100%;
                 overflow: auto;
-                padding: 20px 50px;
+                padding: 20px 100px;
             }
         }
     }
 
     .dashboard {
-        min-height: 35vh;
         height: fit-content;
-        width: 75%;
+        width: 100%;
         display: flex;
         flex-direction: row;
         align-items: flex-start;
-        background: black;
-        padding: 50px 75px;
-        margin-bottom: 80px;
+        justify-content: center;
+        margin-bottom: 30px;
 
         .user-avt {
             height: fit-content;
             width: fit-content;
-            margin-right: 30px;
+            margin-right: 35px;
             display: flex;
             flex-direction: column;
             align-items: center;
             user-select: none;
 
             img {
-                height: 25vh;
-                width: 25vh;
+                height: 15vh;
+                width: 15vh;
                 border-radius: 50%;
                 object-fit: cover;
-                top: 0;
-                left: 0;
             }
 
             .change-avt {
-                margin-top: 30px;
-                color: black;
-                background: white;
-                padding: 10px 20px;
+                margin-top: 15px;
+                color: white;
+                background: black;
+                padding: 10px 18px;
                 width: fit-content;
                 cursor: pointer;
                 border-radius: 20px;
-                font-size: .8rem;
+                font-size: .7rem;
                 font-weight: 500;
             }
         }
 
         .user-details {
-            color: white;
-            width: 40%;
-            height: 25vh;
-            // overflow: auto;
-            flex-grow: 1;
+            color: black;
+            height: fit-content;
             margin-right: 15px;
             display: flex;
             flex-direction: column;
-            padding-top: 30px;
+            padding-top: 20px;
 
             .username {
-                font-size: 1.3rem;
+                font-size: 1rem;
                 font-weight: 700;
-                margin-bottom: 20px;
+                margin-bottom: 10px;
                 height: fit-content;
                 width: fit-content;
                 display: flex;
@@ -299,9 +288,9 @@
                 align-items: center;
 
                 .edit-details {
-                    fill: white;
-                    height: 3vh;
-                    width: 3vh;
+                    fill: black;
+                    height: 20px;
+                    width: 20px;
                     margin-left: 10px;
                     cursor: pointer;
                 }
@@ -311,21 +300,27 @@
                 display: flex;
                 flex-direction: row;
                 margin-bottom: 5px;
+                margin-bottom: 15px;
 
                 .email-svg {
-                    fill: white;
+                    height: 18px;
+                    width: 18px;
+                    fill: black;
                     margin-right: 5px;
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
                 }
 
                 .email {
-                    font-size: .9rem;
+                    font-size: .8rem;
                     font-weight: 400;
                     cursor: pointer;
                 }
             }
 
             .bio {
-                font-weight: 200;
+                font-weight: 400;
                 font-size: .8rem;
                 line-height: 28px;
                 height: fit-content;
@@ -335,21 +330,19 @@
         }
 
         .user-stats {
-            height: 25vh;
-            width: 20%;
-            background: white;
-            margin-left: auto;
+            height: fit-content;
+            width: fit-content;
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
             align-items: center;
-            padding-top: 25px;
+            color: black;
+            margin-bottom: 15px;
 
             .stat {
-                width: 75%;
-                text-align: left;
-                font-size: .9rem;
+                width: fit-content;
+                font-size: .7rem;
                 font-weight: 500;
-                margin-bottom: 15px;
+                margin-right: 15px;
                 cursor: pointer;
             }
 
@@ -358,12 +351,380 @@
                 width: fit-content;
                 background: black;
                 color: white;
-                font-size: .9rem;
+                font-size: .7rem;
                 font-weight: 500;
-                padding: 12px 20px;
-                margin-top: auto;
-                margin-bottom: 20px;
+                padding: 10px 18px;
                 cursor: pointer;
+                border: none;
+            }
+        }
+    }
+
+    .dashboard-hr {
+        width: 50%;
+        margin-bottom: 30px;
+    }
+
+    .post-snippet-container {
+        width: 75%;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+
+        .post-snippet {
+            width: calc((100% - 16px) / 3);
+            position: relative;
+            margin-bottom: 10px;
+
+            &:nth-child(3n + 2) {
+                margin-left: 8px;
+                margin-right: 8px;
+            }
+
+            &::before {
+                display: block;
+                content: '';
+                padding-bottom: 100%;
+            }
+
+            .post-snippet-img {
+                height: 100%;
+                width: 100%;
+                object-fit: cover;
+                position: absolute;
+                top: 0;
+                left: 0;
+                cursor: pointer;
+            }
+        }
+    }
+
+    .full-post-container {
+        position: fixed;
+        height: 100vh;
+        width: 100vw;
+        z-index: 100000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        top: 0;
+        left: 0;
+
+        .exit-full-post {
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            background: rgba(0, 0, 0, 0.8);
+            top: 0;
+            left: 0;
+            cursor: pointer;
+            z-index: 1;
+        }
+
+        .full-post {
+            background: white;
+            height: fit-content;
+            width: fit-content;
+            z-index: 10;
+        }
+    }
+}
+
+@media screen and (max-width: 991px) {
+    .post-snippet-container {
+        width: 100% !important;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .full-post {
+        width: 100% !important;
+    }
+
+    .person-container {
+        padding: 20px 15px !important;
+    }
+}
+
+@media screen and (min-width: 415px) and (max-width: 525px) {
+    .dashboard {
+        margin-bottom: 15px !important;
+
+        .user-avt {
+            margin-right: 20px !important;
+
+            img {
+                height: 10vh !important;
+                width: 10vh !important;
+            }
+
+            .change-avt {
+                font-size: .6rem !important;
+                padding: 8px 12px !important;
+            }
+        }
+
+        .user-details {
+            padding-top: 5px !important;
+
+            .username {
+                font-size: .9rem !important;
+            }
+    
+            .stat {
+                font-size: .6rem !important;
+                margin-right: 8px !important;
+            }
+
+            .email-container {
+                margin-bottom: 10px !important;
+                .email {
+                    font-size: .7rem !important;
+                }
+            }
+
+            .bio {
+                font-size: .7rem !important;
+            }
+        }
+    }
+
+    .dashboard-hr {
+        margin-bottom: 20px !important; 
+    }
+}
+
+@media screen and (max-width: 414px) {
+    .dashboard {
+        margin-bottom: 15px !important;
+
+        .user-avt {
+            margin-right: 20px !important;
+
+            img {
+                height: 7vh !important;
+                width: 7vh !important;
+            }
+
+            .change-avt {
+                font-size: .6rem !important;
+                padding: 8px 12px !important;
+            }
+        }
+
+        .user-details {
+            padding-top: 5px !important;
+
+            .username {
+                font-size: .8rem !important;
+            }
+    
+            .user-stats {
+                flex-wrap: wrap;
+                margin-bottom: 10px !important;
+                .stat {
+                    font-size: .6rem !important;
+                    margin-right: 8px !important;
+                    margin-bottom: 10px;
+                }
+    
+                .follow-btn {
+                    font-size: .65rem !important;
+                    padding: 8px 12px !important;
+                }
+            }
+
+            .email-container {
+                margin-bottom: 10px !important;
+                .email {
+                    font-size: .7rem !important;
+                }
+            }
+
+            .bio {
+                font-size: .7rem !important;
+            }
+        }
+    }
+
+    .dashboard-hr {
+        margin-bottom: 20px !important; 
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .edit-portal-container {
+        position: fixed;
+        z-index: 100000;
+        height: 100vh;
+        width: 100vw;
+        top: 0;
+        left: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .exit-edit-portal {
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            z-index: 1;
+            background: rgba(0, 0, 0, 0.8);
+            top: 0;
+            left: 0;
+        }
+
+        .edit-portal {
+            width: 90% !important;
+            z-index: 2;
+            position: relative;
+
+            &::before {
+                display: block;
+                content: '';
+                padding-bottom: 100%;
+            }
+
+            .edit-details {
+                height: 100% !important;
+                width: 100% !important;
+                background: white;
+                display: flex;
+                flex-direction: column;
+                padding: 15px 20px !important;
+                position: absolute;
+                top: 0;
+                left: 0;
+
+                .edit-title {
+                    font-size: .8rem !important;
+                    font-weight: 600;
+                    margin-bottom: 10px !important;
+                }
+
+                .username-input {
+                    border: 1px solid black;
+                    height: fit-content;
+                    width: 100%;
+                    padding: 8px 12px !important;
+                    color: black;
+                    font-size: .7rem !important;
+                    font-weight: 400;
+                    margin-bottom: 20px !important;
+                }
+
+                .bio-input {
+                    height: 200px !important;
+                    width: 100%;
+                    padding: 8px 12px !important;
+                    resize: none;
+                    border: 1px solid black;
+                    color: black;
+                    font-size: .7rem !important;
+                    font-weight: 400;
+                }
+            }
+
+            .toolbar {
+                height: 40px !important;
+                width: 100%;
+                background: white;
+                border-bottom: 1px solid gray;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+                position: absolute;
+                transform: translateY(-100%);
+                top: 0;
+                left: 0;
+
+                .tool {
+                    font-weight: 500 !important;
+                    font-size: .7rem !important;
+                    cursor: pointer;
+                    user-select: none;
+
+                    &:nth-child(1) {
+                        margin-left: 30px;
+                    }
+
+                    &:nth-child(2) {
+                        margin-right: 30px;
+                        color: #278bff;
+                    }
+                }
+            }
+
+            .drag-drop {
+                position: absolute;
+                top: 0;
+                left: 0;
+                height: 100% !important;
+                width: 100% !important;
+                background: white;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                .guide {
+                    cursor: pointer;
+                    font-size: .65rem !important;
+                    font-weight: 400 !important; 
+                    user-select: none;
+                }
+            }
+
+            .preview-img {
+                height: 100% !important;
+                width: 100% !important;
+                padding: 10px !important;
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                z-index: 100;
+                border-radius: 50%;
+                background: white;
+            }
+
+            .cropper {
+                height: 100% !important;
+                width: 100% !important;
+                position: absolute;
+                bottom: 0;
+                left: 0;
+            }
+        }
+
+    }
+
+    .social-container {
+
+        .social {
+            z-index: 10;
+            width: 90% !important;
+            background: white;
+            max-height: 80vh;
+            max-width: 80vw;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            height: auto !important;
+
+            &::before {
+                display: block;
+                content: '';
+                padding-bottom: 100%;
+            }
+
+            .social-type {
+                font-size: .7rem !important;
+            }
+
+            .person-container {
+                position: absolute;
+                top: 0;
+                left: 0;
             }
         }
     }

@@ -222,7 +222,6 @@ export const useShowMenu = (location, menuRef, menuIconRef, userNavRef, setToggl
         gsap.to(menuRef.current, {duration: .7, x: '100%', ease: 'power4.inOut'})
         gsap.to(menuIconRef.current, {duration: .3, fill: 'black'})
         setShowMenu(false)
-        console.log('hide menu')
     }, [location])
 
     const handleShowMenu = () => {

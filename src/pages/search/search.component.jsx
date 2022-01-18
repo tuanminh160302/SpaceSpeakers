@@ -278,10 +278,10 @@ const Search = ({ showPreloader, setShowPreloader, keyword, from, to, setSearchD
                     <div className='share-portal-container'>
                         <div className='exit-share-portal' onClick={() => { handleExitSharePortal() }}></div>
                         <div className='share-portal'>
-                            <img className='share-img' src={postData[2]} alt="" />
                             <p className='caption-prompt'>Say something about this image...</p>
                             <textarea className='caption-input' name="caption-input" onChange={(e) => { handleTextAreaChange(e) }}></textarea>
-                            <button className='share-button' onClick={() => { handleSharePostAction() }}>Post</button>
+                            <button className='share-button' onClick={() => { handleExitSharePortal() }}>Cancel</button>
+                            <button className='share-button share' onClick={() => { handleSharePostAction() }}>Post</button>
                         </div>
                     </div> :
                     null

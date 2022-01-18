@@ -110,7 +110,7 @@ const UserPost = ({ className, postImg, imgTitle, userAvt, postUserName, caption
                             null
                 }
                 <form className='add-comment-container' onSubmit={(e) => { handleSubmitComment(e) }}>
-                    <input className='add-comment-input' name='comment' type="text" required placeholder='Comment here...' value={comment} onChange={(e) => { handleInputChange(e) }} />
+                    <input className='add-comment-input' name='comment' type="text" required placeholder={`${postComment.length ? 'Comment here...' : 'Be the first to comment'}`} value={comment} onChange={(e) => { handleInputChange(e) }} />
                     <button className='add-comment-btn'>Post</button>
                 </form>
             </div>
