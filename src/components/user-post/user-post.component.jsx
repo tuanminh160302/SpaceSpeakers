@@ -1,6 +1,7 @@
 import { useState, useRef, Fragment } from 'react'
 import './user-post.styles.scss'
 import { useUidFrom, useFetchPostComment, useInputChange, useReactedCheck, useDeletePost, useLikeAction, useRedirectUser } from './user-post.utils'
+import { useViewFullPost } from '../../pages/profile/profile.utils'
 import { useLocationControl } from './user-post.utils'
 import { ReactComponent as HeartSVG } from '../../assets/heart.svg'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
@@ -22,14 +23,15 @@ const UserPost = ({ className, postImg, imgTitle, userAvt, postUserName, caption
     let pathname = location.pathname
     const reactionBtnRef = useRef()
     const [postImgZoom, setPostImgZoom] = useState(false)
-
+    
+    const [viewFullPost, setViewFullPost] = useViewFullPost(location)
     const uidFrom = useUidFrom(auth, onAuthStateChanged)
     const isInProfile = useLocationControl(location, pathname)
     const [fetchPostComment, comment, allComment, showAllComment, handleSubmitComment, handleSeeAllComment, setComment] = useFetchPostComment(location, postKey, db, doc, getDoc, postOfUser, uploadComment, uidFrom)
     const handleInputChange = useInputChange(setComment)
     const [numLike, fetchReaction] = useReactedCheck(db, doc, getDoc, postOfUser, postKey, uidFrom, reactionBtnRef)
     const [confirmDeletePost, setConfirmDeletePost, handleDeletePost] 
-    = useDeletePost(deletePost, uidFrom, postKey, fetchPost, setShowPreloader, navigate, isInProfile, postUserName, postOfUser)
+    = useDeletePost(deletePost, uidFrom, postKey, fetchPost, setShowPreloader, navigate, isInProfile, postUserName, postOfUser, setViewFullPost)
     const handleLikeAction = useLikeAction(reactPostAction, fetchReaction, uidFrom, postOfUser, postKey)
     const handleRedirectUser = useRedirectUser(getTargetUserUID, pathname, navigate)
 

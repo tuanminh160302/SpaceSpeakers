@@ -13,6 +13,8 @@ export const useComment = (getTargetUserUID, pathname, navigate, deleteComment, 
         }).then((uid) => {
             if (pathname !== `/users/${username}_${uid}`) {
                 navigate(`/users/${username}_${uid}`)
+            } else {
+                window.location.reload()
             }
         })
     }

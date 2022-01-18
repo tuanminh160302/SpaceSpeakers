@@ -13,6 +13,7 @@ import { ReactComponent as NotFoundSVG } from '../../assets/not-found.svg'
 import { ReactComponent as UnauthSVG } from '../../assets/unauth.svg'
 import CropperComponent from '../../components/cropper/cropper.component'
 import { setCropper, getCropImage } from '../../redux/cropImage/cropImage.actions'
+import { useHandleViewFullPost, useViewFullPost } from './profile.utils'
 import { uploadUserAvatar, editUserDetails, getTargetUsername, followAction } from '../../firebase/firebase.init'
 import UserSnippet from '../../components/user-snippet/user-snippet.component'
 
@@ -39,8 +40,9 @@ const Profile = ({ setshowPreloader, cropImage, showCropper, setCropper, getCrop
     const [showFollower, setShowFollower] = useState(false)
     const [showFollwing, setShowFollowing] = useState(false)
     const [showSocial, setShowSocial] = useState(false)
-    const [viewFullPost, setViewFullPost] = useState(false)
     const [fullPost, setFullPost] = useState(null)
+
+    const [viewFullPost, setViewFullPost] = useViewFullPost(location)
 
     useEffect(() => {
         onAuthStateChanged(auth, async (user) => {
@@ -52,10 +54,6 @@ const Profile = ({ setshowPreloader, cropImage, showCropper, setCropper, getCrop
             }
         })
     }, [auth])
-
-    useEffect(() => {
-        setViewFullPost(false)
-    }, [location])
 
     //get profile data
     useEffect(async () => {
@@ -122,6 +120,7 @@ const Profile = ({ setshowPreloader, cropImage, showCropper, setCropper, getCrop
             setshowPreloader(false)
         }, 500)
     }
+    const handleViewFullPost = useHandleViewFullPost(allPosts, UserPost, profileDetails, fetchPost, setFullPost, setViewFullPost)
 
     const fetchSocialStatus = async () => {
         let followerArray = []
@@ -203,41 +202,6 @@ const Profile = ({ setshowPreloader, cropImage, showCropper, setCropper, getCrop
             </div>
         )
     })
-
-    const handleViewFullPost = (e) => {
-        e.preventDefault()
-        console.log(e.target.name)
-        setViewFullPost(true)
-        const post = allPosts[e.target.name]
-
-        const timestamp = Object.keys(post)[0]
-        const time = new Date(parseInt(timestamp))
-        const timeNow = new Date()
-        let timeSpan = null
-        if (Math.floor((timeNow - time) / 86400000) === 0) {
-            timeSpan = String(Math.floor((timeNow - time) / 3600000)) + "h"
-        } else if (Math.floor((timeNow - time) / 86400000) !== 0) {
-            timeSpan = String(Math.floor((timeNow - time) / 86400000)) + "d"
-        }
-
-        const postImgURL = Object.values(post)[0].imageURL
-        const postCaption = Object.values(post)[0].caption
-        const imgTitle = Object.values(post)[0].imageTitle
-        const postKey = Object.keys(post)[0]
-
-        const res = <UserPost
-                    postImg={postImgURL}
-                    userAvt={profileDetails[2]}
-                    caption={postCaption}
-                    imgTitle={imgTitle}
-                    postOfUser={profileDetails[0]}
-                    postKey={postKey}
-                    postUserName={profileDetails[1]}
-                    showAllComment={false}
-                    timestamp={timeSpan}
-                    fetchPost={fetchPost} />
-        setFullPost(res)
-    }
 
     const handleExitChangeAvt = () => {
         setShowChangeAvt(false)

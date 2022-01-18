@@ -133,6 +133,8 @@ export const useRedirectProfile = (setShowSettings, getTargetUserUID, pathname, 
             if (pathname !== `/users/${username}_${uid}`) {
                 navigate(`/users/${username}_${uid}`)
                 gsap.to(userNavRef.current, { duration: 0, x: '150px' })
+            } else {
+                window.location.reload()
             }
         })
     }

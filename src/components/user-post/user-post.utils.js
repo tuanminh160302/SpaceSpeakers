@@ -120,17 +120,19 @@ export const useReactedCheck = (db, doc, getDoc, postOfUser, postKey, uidFrom, r
     return [numLike, fetchReaction]
 }
 
-export const useDeletePost = (deletePost, uidFrom, postKey, fetchPost, setShowPreloader, navigate, isInProfile, postUserName, postOfUser) => {
+export const useDeletePost = (deletePost, uidFrom, postKey, fetchPost, setShowPreloader, navigate, isInProfile, postUserName, postOfUser, setViewFullPost) => {
     const [confirmDeletePost, setConfirmDeletePost] = useState(false)
 
     const handleDeletePost = async () => {
         setShowPreloader(true)
         await deletePost(uidFrom, postKey)
         setConfirmDeletePost(false)
+        setViewFullPost(false)
         document.body.style.overflowY = 'visible'
         if (isInProfile) {
             await fetchPost()
-            setShowPreloader(false)
+            // setShowPreloader(false)
+            window.location.reload()
         } else if (!isInProfile) {
             navigate(`/users/${postUserName}_${postOfUser}`)
         }
@@ -158,6 +160,8 @@ export const useRedirectUser = (getTargetUserUID, pathname, navigate) => {
         }).then((uid) => {
             if (pathname !== `/users/${username}_${uid}`) {
                 navigate(`/users/${username}_${uid}`)
+            } else {
+                window.location.reload()
             }
         })
     }
