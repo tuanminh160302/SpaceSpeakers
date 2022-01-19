@@ -62,7 +62,7 @@ const LandingPage = ({showPreloader, setShowPreloader}) => {
             </div>
             <div className='content-container'>
                 <div className='panel'>
-                    <p className='panel-text'>Search for images across the universe (brougt to you by Nasa's Image API)</p>
+                    <p className='panel-text'>Search for images across the universe (brougt to you by NASA Image and Video Library)</p>
                     <LaunchSVG className='panel-svg'/>
                     <a className='panel-button' href='/search'>Search</a>
                 </div>

@@ -16,7 +16,7 @@ const About = ({setShowPreloader}) => {
             <h1>🌟 About SpaceSpeakers 🌟</h1>
             <ul>
                 <p>🚀 Features</p>
-                <li><a href="/search" target='_blank'>Search</a> for images directly from <a href='https://api.nasa.gov/' target='_blank'>NASA's Image API</a></li>
+                <li><a href="/search" target='_blank'>Search</a> for images directly from <a href='https://api.nasa.gov/' target='_blank'>NASA Image and Video Library</a></li>
                 <li>Find other users or keywords to search for <a href="/search-data-field=nasa" target='_blank'>here.</a>(For mobile devices: Click on menu icon to get access to search bar)</li>
                 <li><a href="/login" target='_blank'>Login/Create/Edit </a>your account</li>
                 <li>Follow/Unfollow other users</li>
