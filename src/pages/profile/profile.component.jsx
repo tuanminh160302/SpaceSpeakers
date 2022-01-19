@@ -262,17 +262,20 @@ const Profile = ({ setshowPreloader, cropImage, showCropper, setCropper, getCrop
     }
 
     const handleEditDetails = async () => {
-        setshowPreloader(true)
-        console.log(editUsernameInput === '')
         if (editUsernameInput === '') {
             await editUserDetails(currentUser, profileDetails[1], editBioInput).then(() => {
                 navigate(`/users/${profileDetails[1]}_${currentUser.uid}`)
                 window.location.reload()
             })
         } else {
-            await editUserDetails(currentUser, editUsernameInput, editBioInput).then(() => {
-                navigate(`/users/${editUsernameInput}_${currentUser.uid}`)
-                window.location.reload()
+            await editUserDetails(currentUser, editUsernameInput, editBioInput).then((res) => {
+                if (res === true) {
+                    setshowPreloader(true)
+                    navigate(`/users/${editUsernameInput}_${currentUser.uid}`)
+                    window.location.reload()
+                } else {
+                    alert('Username has been taken')
+                }
             })
         }
     }
@@ -311,7 +314,6 @@ const Profile = ({ setshowPreloader, cropImage, showCropper, setCropper, getCrop
     }
 
     const followerComponent = follower.map((person, index) => {
-
         return (
             <Fragment key={index}>
                 <UserSnippet

@@ -96,6 +96,19 @@ export const getTargetUsername = async (uid) => {
     return username
 }
 
+export const getTargetUserAvt = async (uid) => {
+    let url = null
+    if (!uid || uid.includes('/')) return url
+    const userRef = doc(db, 'users', uid)
+    await getDoc(userRef).then((snapshot) => {
+        const data = snapshot.data()
+        if (data) {
+            url = data.avatarURL
+        }
+    })
+    return url
+}
+
 export const uploadUserPost = async (user, imageURL, imageTitle, caption, keywords) => {
     if (!user) return
     if (!keywords) {
@@ -291,15 +304,25 @@ export const uploadUserAvatar = async (user, file) => {
 
 export const editUserDetails = async (user, newUsername, newBio) => {
     if (!user) return
-
+    let res = null
     const {uid} = user
     const userRef = doc(db, 'users', uid)
-    await setDoc(userRef, 
-        {
-            username: newUsername,
-            bio: newBio
-        }, {merge: true})
-    console.log('edited user details')
+    const userCollection = collection(db, 'users')
+    const userQuery = query(userCollection, where('username', '==', newUsername))
+    await getDocs(userQuery).then(async(querySnapshot) => {
+        if (querySnapshot.size === 0) {
+            await setDoc(userRef, 
+                {
+                    username: newUsername,
+                    bio: newBio
+                }, {merge: true})
+            console.log('edited user details')
+            res = true
+        } else {
+            res = false
+        }
+    })
+    return res
 }
 
 export const deleteComment = async (postOfUser, postKey, timestamp) => {
@@ -400,25 +423,6 @@ export const followAction = async (uidFrom, uidTo, isFollow) => {
   
     const userFromRef = doc(db, 'users', uidFrom)
     const userToRef = doc(db, 'users', uidTo)
-    
-    let fromUser = null
-    let toUser = null
-    let fromAvt = null
-    let toAvt = null
-  
-    await getDoc(userFromRef).then((snapshot) => {
-      fromUser = snapshot.data().username
-      if (snapshot.data().avatarURL) {
-        fromAvt = snapshot.data().avatarURL
-      }
-    })
-  
-    await getDoc(userToRef).then((snapshot) => {
-      toUser = snapshot.data().username
-      if (snapshot.data().avatarURL) {
-        toAvt = snapshot.data().avatarURL
-      }
-    })
   
     try {
       if (!isFollow) {
@@ -426,7 +430,7 @@ export const followAction = async (uidFrom, uidTo, isFollow) => {
           {
             socialStatus: {
               following: {
-                [uidTo]: [toUser, toAvt, createdAt]
+                [uidTo]: [createdAt]
               },
             }
           }, {merge: true})
@@ -435,7 +439,7 @@ export const followAction = async (uidFrom, uidTo, isFollow) => {
           {
             socialStatus: {
               follower: {
-                [uidFrom]: [fromUser, fromAvt, createdAt]
+                [uidFrom]: [createdAt]
               }
             }
           }, {merge: true})

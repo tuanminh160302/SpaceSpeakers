@@ -7,6 +7,7 @@ import Preloader from './components/preloader/preloader.component';
 import Header from './components/header/header.component';
 import Footer from './components/footer/footer.component';
 import LandingPage from './pages/landing-page/landing-page.component';
+import About from './pages/about/about.component'
 import Search from './pages/search/search.component';
 import Login from './pages/login/login.component'
 import Profile from './pages/profile/profile.component'
@@ -85,6 +86,7 @@ function App({ showPreloader, setShowPreloader, setSearchData, isSignedIn, setSi
       <Header />
       <Routes>
         <Route path='/' element={<LandingPage />}></Route>
+        <Route path='/about' element={<About />}></Route>
         <Route path='/search' element={<Search />}></Route>
         <Route path='/search/:query' element={<Search />}></Route>
         <Route path='/login' element={<Login />}></Route>

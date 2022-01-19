@@ -105,12 +105,13 @@ export const useInputChange = (setSearchValue, setResetPasswordInput, setResetRe
     return handleInputChange
 }
 
-export const useSignOut = (auth, setSignInState, setUsername, signOut) => {
+export const useSignOut = (auth, setSignInState, setUsername, signOut, setShowMenuIcon) => {
 
     const handleSignOut = () => {
         signOut(auth).then(() => {
             // Sign-out successful.
             setSignInState(false)
+            setShowMenuIcon(true)
         }).catch((error) => {
             console.log(error)
         });

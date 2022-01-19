@@ -26,6 +26,7 @@ const Header = ({ isSignedIn, setSignInState, setShowPreloader }) => {
     const menuIconRef = useRef()
 
     // Custom Hooks
+    const [showMenuIcon, setShowMenuIcon] = useShowMenuIcon(menuIconRef)
     const [handleToggleUserNav, setToggleUserNav] = useUserNav(location, userNavRef)
     const [currentUser, avatarURL, username, setUsername] = useCurrentUser(isSignedIn, auth, onAuthStateChanged, db, doc, getDoc, location)
     const [searchValue, searchHistory, showSearchHistory, fetchSearchHistory, handleHeaderSearch, setShowSearchHistory, setSearchValue]
@@ -36,11 +37,10 @@ const Header = ({ isSignedIn, setSignInState, setShowPreloader }) => {
         = useResetPassword(updatePassword, reauthenticateWithCredential, currentUser, setShowPreloader, EmailAuthProvider, setToggleUserNav, handleToggleUserNav)
     const handleInputChange
         = useInputChange(setSearchValue, setResetPasswordInput, setResetRepasswordInput, setReauthenticateEmail, setReauthenticatePassword)
-    const handleSignOut = useSignOut(auth, setSignInState, setUsername, signOut)
+    const handleSignOut = useSignOut(auth, setSignInState, setUsername, signOut, setShowMenuIcon)
     const [showSettings, setShowSettings] = useSettings()
     const handleRedirectProfile = useRedirectProfile(setShowSettings, getTargetUserUID, pathname, username, userNavRef, navigate)
     const handleShowMenu = useShowMenu(location, menuRef, menuIconRef, userNavRef, setToggleUserNav)
-    const [showMenuIcon, setShowMenuIcon] = useShowMenuIcon(menuIconRef)
 
     const searchHistoryComponent = searchHistory.map(([timestamp, searchItem], index) => {
         return (

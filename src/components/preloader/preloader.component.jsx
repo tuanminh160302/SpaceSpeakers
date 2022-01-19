@@ -3,7 +3,7 @@ import './preloader.styles.scss';
 import { useNavigate, useLocation } from 'react-router';
 import { connect } from 'react-redux';
 
-const Preloader = ({isSignedIn}) => {
+const Preloader = ({ isSignedIn }) => {
 
     const [errorRendering, setErrorRendering] = useState(false)
 
@@ -23,13 +23,17 @@ const Preloader = ({isSignedIn}) => {
         <div className='preloader'>
             <img src="https://media.giphy.com/media/sdcIxdTkFD0g8/giphy.gif" alt="" />
             {
-                errorRendering ? <p className='error-prompt' onClick={() => {window.location.reload()}}>Waiting too long?</p> : null
+                errorRendering
+                    ? <>
+                        <p className='error-prompt' onClick={() => { window.location.reload() }}>Waiting too long? Refresh now</p>
+                        <a className='error-prompt' href='/'>Or go back home</a>
+                    </> : null
             }
         </div>
     )
 }
 
-const mapStateToProps = ({isSignedIn}) => ({
+const mapStateToProps = ({ isSignedIn }) => ({
     isSignedIn: isSignedIn.isSignedIn
 })
 
