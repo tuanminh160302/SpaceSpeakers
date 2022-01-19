@@ -49,6 +49,12 @@ const About = ({setShowPreloader}) => {
                 <li>🔗 <a href="https://www.linkedin.com/in/steve-nguyen-a33607153/" target='_blank'>Linkedin</a></li>
                 <li>🔗 <a href="mailto:canhtuan09@gmail.com" >Email: canhtuan09@gmail.com</a></li>
             </ul>
+            <ul>
+                <p>✍ Test account</p>
+                <li>Username: jedi123</li>
+                <li>Password: jedi123</li>
+            </ul>
+            <a className='login-now' href="/login">Log in</a>
         </div>
     )
 }
