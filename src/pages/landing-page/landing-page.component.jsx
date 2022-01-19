@@ -54,25 +54,25 @@ const LandingPage = ({showPreloader, setShowPreloader}) => {
         <div className='landing'>
             <div className='intro'>
                 <div className='intro-content'>
-                    <p className='title'>Let's be honest</p>
-                    <p className='description'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+                    <p className='title'>SpaceSpeakers</p>
+                    <p className='description'>A place for space lovers. You can see all images from NASA. You can tell your friends what you think about an image that you love. You can do so much more...</p>
                     <button className='explore' onClick={() => {navigate('/search')}}>Explore</button>
                 </div>
                 <LandingSVG className='intro-svg'/>
             </div>
             <div className='content-container'>
                 <div className='panel'>
-                    <p className='panel-text'>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                    <p className='panel-text'>Search for images across the universe (brougt to you by Nasa's Image API)</p>
                     <LaunchSVG className='panel-svg'/>
                     <a className='panel-button' href='/search'>Search</a>
                 </div>
                 <div className='panel'>
-                    <p className='panel-text'>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                    <p className='panel-text'>You can find other users/keywords to search for. (For mobile device: Access to search bar by open menu)</p>
                     <StarsSVG className='panel-svg'/>
                     <a className='panel-button' href='/search-data-field=nasa'>Find</a>
                 </div>
                 <div className='panel'>
-                    <p className='panel-text'>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                    <p className='panel-text'>Share an image and let your friends know what you think</p>
                     <MySpaceSVG className='panel-svg'/>
                     <a className='panel-button' href={`/users/${username}_${uid}`}>{uid ? 'My Profile' : 'Sign In'}</a>
                 </div>

@@ -302,7 +302,7 @@ export const uploadUserAvatar = async (user, file) => {
         })
 }
 
-export const editUserDetails = async (user, newUsername, newBio) => {
+export const editUserDetails = async (user, oldUsername, newUsername, newBio) => {
     if (!user) return
     let res = null
     const {uid} = user
@@ -310,7 +310,7 @@ export const editUserDetails = async (user, newUsername, newBio) => {
     const userCollection = collection(db, 'users')
     const userQuery = query(userCollection, where('username', '==', newUsername))
     await getDocs(userQuery).then(async(querySnapshot) => {
-        if (querySnapshot.size === 0) {
+        if (querySnapshot.size === 0 || (querySnapshot.size === 1 && oldUsername === newUsername)) {
             await setDoc(userRef, 
                 {
                     username: newUsername,
@@ -469,5 +469,21 @@ export const followAction = async (uidFrom, uidTo, isFollow) => {
       console.log(err)
     }
   }
+
+export const fetchSuggestedUser = async () => {
+    let userRes = []
+
+    // Query in user collection
+    const userQuery = query(collection(db, 'users'))
+    await getDocs(userQuery).then((querySnapshot) => {
+        querySnapshot.forEach((snapshot) => {
+            const data = snapshot.data()
+            userRes.push(data)
+        })
+    })
+
+    userRes.sort(() => Math.random() - 0.5);
+    return userRes
+}
 
 export default firebaseApp;

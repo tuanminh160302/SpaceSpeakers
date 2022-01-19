@@ -268,7 +268,7 @@ const Profile = ({ setshowPreloader, cropImage, showCropper, setCropper, getCrop
                 window.location.reload()
             })
         } else {
-            await editUserDetails(currentUser, editUsernameInput, editBioInput).then((res) => {
+            await editUserDetails(currentUser, profileDetails[1], editUsernameInput, editBioInput).then((res) => {
                 if (res === true) {
                     setshowPreloader(true)
                     navigate(`/users/${editUsernameInput}_${currentUser.uid}`)

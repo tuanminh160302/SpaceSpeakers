@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { showPreloader } from '../../redux/preloader/show-preloader.actions'
 import { useNavigate, useLocation } from 'react-router'
 import { pullSearchResult } from '../../firebase/firebase.init'
+import { fetchSuggestedUser } from '../../firebase/firebase.init'
 
 const SearchResult = ({setShowPreloader}) => {
 
@@ -13,6 +14,7 @@ const SearchResult = ({setShowPreloader}) => {
     const [searchInput, setSearchInput] = useState()
     const [userRes, setUserRes] = useState([])
     const [keywordRes, setKeywordRes] = useState([])
+    const [suggestedUser, setSuggestedUser] = useState([])
 
     useEffect(() => {
         setSearchInput(pathname.slice([pathname.indexOf('=') + 1]))
@@ -29,6 +31,12 @@ const SearchResult = ({setShowPreloader}) => {
             })
         }
     }, [searchInput, location])
+
+    useEffect( async () => {
+        await fetchSuggestedUser().then((res) => {
+            setSuggestedUser(res.slice(0, 3))
+        })
+    }, [])
 
     const handleRedirectUser = async (username, uid) => {
         navigate(`/users/${username}_${uid}`)
@@ -53,6 +61,16 @@ const SearchResult = ({setShowPreloader}) => {
         )
     })
 
+    const suggestedUserComponent = suggestedUser.map((user, index) => {
+        const {avatarURL, username, uid} = user
+        return (
+            <div key={index} className='user-snippets' onClick={() => {handleRedirectUser(username, uid)}}>
+                <img className='user-avt' src={avatarURL} alt="" />
+                <p className='username'>{username}</p>
+            </div>
+        )
+    })
+
     const keywordResComponent = keywordRes.map((keyword, index) => {
         return (
             <Fragment key={index}>
@@ -64,6 +82,10 @@ const SearchResult = ({setShowPreloader}) => {
     return (
         <div className='search-result'>
             <div className='user-result'>
+                <p className='title'>Suggested users</p>
+                <div className='result-container'>
+                    {suggestedUserComponent}
+                </div>
                 <p className='title'>Users</p>
                 <div className='result-container'>
                 {

@@ -13,7 +13,6 @@ export const useViewFullPost = (location) => {
 export const useHandleViewFullPost = (allPosts, UserPost, profileDetails, fetchPost, setFullPost, setViewFullPost) => {
     const handleViewFullPost = (e) => {
         e.preventDefault()
-        console.log(e.target.name)
         setViewFullPost(true)
         const post = allPosts[e.target.name]
 
