@@ -51,7 +51,7 @@ const About = ({setShowPreloader}) => {
             </ul>
             <ul>
                 <p>✍ Test account</p>
-                <li>Username: jedi123</li>
+                <li>Email: tester@test.com</li>
                 <li>Password: jedi123</li>
             </ul>
             <a className='login-now' href="/login">Log in</a>
