@@ -2,7 +2,7 @@
 
 <p align="left">
     <a href="https://github.com/tuanminh160302/shopify-front-end-22" title="Repo">📂 Repo</a>
-    <a href="https://spacespeakers.netlify.app/" title="Repo">💻 Demo</a>
+    <a href="https://spacespeakers.netlify.app/" title="Repo">💻 Live Site</a>
 </p>
 
 ## 🚀 Features
