@@ -1,5 +1,4 @@
 <h1 align="center">🌟 SpaceSpeakers 🌟</h1>
-<p align="center">Front End Developer Intern Challenge - Summer 2022</p>
 
 <p align="left">
     <a href="https://github.com/tuanminh160302/shopify-front-end-22" title="Repo">📂 Repo</a>
